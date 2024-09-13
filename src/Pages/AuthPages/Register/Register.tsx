@@ -2,24 +2,18 @@ import {
   Box,
   Button,
   FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-  InputAdornment,
-  InputLabel,
   Link,
   Stack,
-  TextField,
   Typography,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import { useState } from "react";
-import { FiEye } from "react-icons/fi";
 import { IoEye, IoEyeOff } from "react-icons/io5";
-import { DropzoneArea } from "material-ui-dropzone";
 import { FileUploader } from "react-drag-drop-files";
 import { useForm } from "react-hook-form";
 import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS.TS";
-import axios from "axios";
+import { useFetch } from "../../../Context/FetchContext";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -30,6 +24,7 @@ export default function Register() {
     setValue,
     formState: { errors },
   } = useForm();
+  const { fetchData, loading } = useFetch();
 
   const onSubmit = async (data: any) => {
     console.log(data);
@@ -42,19 +37,28 @@ export default function Register() {
     formData.append("confirmPassword", data.confirmPassword);
     formData.append("profileImage", data.profileImage ? data.profileImage : "");
     formData.append("role", "user");
+
     console.log(formData);
 
     try {
-      let response = await axios.post(AUTHENTICATION_URLS.regitser, formData);
-
-      conole.log(response);
+      console.log("fetched");
+      const response = await fetchData({
+        method: "POST",
+        url: AUTHENTICATION_URLS.regitser,
+        showToastify: true,
+        ToastifyMsg: "Registration successful",
+        data: formData,
+      });
+      console.log(response);
     } catch (error) {
-      conole.log(error);
+      console.error("Failed to fetch data", error);
     }
   };
+
   const handleChange = (file) => {
     setValue("profileImage", file);
   };
+
   return (
     <>
       <Box className="form-head">
@@ -90,9 +94,7 @@ export default function Register() {
                 errors={errors.userName}
                 name="userName"
                 register={register}
-                rules={{
-                  required: "Username is required",
-                }}
+                rules={{ required: "Username is required" }}
               />
 
               <Stack
@@ -130,9 +132,7 @@ export default function Register() {
                       errors={errors.country}
                       name="country"
                       register={register}
-                      rules={{
-                        required: "Country is required",
-                      }}
+                      rules={{ required: "Country is required" }}
                     />
                   </Box>
                 </Box>
@@ -149,7 +149,7 @@ export default function Register() {
                   required: "Email is required",
                   pattern: {
                     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: "Invalid email name",
+                    message: "Invalid email address",
                   },
                 }}
               />
@@ -172,18 +172,15 @@ export default function Register() {
                 }
                 name="password"
                 register={register}
-                rules={{
-                  required: "Password is required",
-                }}
+                rules={{ required: "Password is required" }}
               />
 
               <Typography variant="body1" sx={{ marginTop: "15px" }}>
                 Confirm Password
               </Typography>
-
               <FormTextField
                 placeholder="Please write password"
-                errors={errors.password}
+                errors={errors.confirmPassword}
                 type={showPassword ? "text" : "password"}
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}
@@ -196,9 +193,7 @@ export default function Register() {
                 }
                 name="confirmPassword"
                 register={register}
-                rules={{
-                  required: "Confirm password is required",
-                }}
+                rules={{ required: "Confirm password is required" }}
               />
               <Box sx={{ marginTop: "15px" }}>
                 <FileUploader
@@ -211,7 +206,8 @@ export default function Register() {
                 type="submit"
                 variant="contained"
                 color="primary"
-                sx={{ marginTop: "10px" }}>
+                sx={{ marginTop: "10px" }}
+                disabled={loading}>
                 Submit
               </Button>
             </FormControl>
@@ -246,11 +242,10 @@ export const FormTextField = ({
             padding: "12px 16px",
           },
         },
-
         endAdornment: icon ? (
           <InputAdornment
             sx={{ cursor: "pointer" }}
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={() => setShowPassword && setShowPassword(!showPassword)}
             onMouseUp={(e) => e.preventDefault()}
             onMouseDown={(e) => e.preventDefault()}
             position="end">

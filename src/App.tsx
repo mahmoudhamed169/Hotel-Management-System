@@ -27,6 +27,7 @@ import FaclilitesData from "./Pages/AdminPages/Facilities/FaclilitesData/Faclili
 import AdsList from "./Pages/AdminPages/Ads/AdsList/AdsList";
 import AdsData from "./Pages/AdminPages/Ads/AdsData/AdsData";
 import { Toaster } from "react-hot-toast";
+import { FetchProvider } from "./Context/FetchContext";
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -45,7 +46,11 @@ export default function App() {
     },
     {
       path: "auth",
-      element: <AuthLayout />,
+      element: (
+        <FetchProvider>
+          <AuthLayout />
+        </FetchProvider>
+      ),
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Login /> },
