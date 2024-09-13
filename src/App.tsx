@@ -26,6 +26,7 @@ import FaclilitesList from "./Pages/AdminPages/Facilities/FaclilitesList/Faclili
 import FaclilitesData from "./Pages/AdminPages/Facilities/FaclilitesData/FaclilitesData";
 import AdsList from "./Pages/AdminPages/Ads/AdsList/AdsList";
 import AdsData from "./Pages/AdminPages/Ads/AdsData/AdsData";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -85,6 +86,7 @@ export default function App() {
   return (
     <>
       <RouterProvider router={routes} />
+      <Toaster position="bottom-center" reverseOrder={true} />
     </>
   );
 }

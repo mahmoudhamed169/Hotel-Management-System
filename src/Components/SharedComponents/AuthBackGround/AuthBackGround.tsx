@@ -40,16 +40,15 @@ export default function AuthBackground() {
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "start",
-        height: "100vh",
+        height: "100%",
         position: "relative",
         overflow: "hidden",
         color: "white",
         borderRadius: "1rem",
-        width: "100%",
       }}
     >
       <img
-        className="py-2 pe-3"
+        className="py-2 px-3 "
         src={backgroundImage}
         alt="Background"
         style={{
@@ -59,10 +58,16 @@ export default function AuthBackground() {
           width: "100%",
           height: "100%",
           objectFit: "cover",
+          objectPosition: "center",
           zIndex: -1,
         }}
       />
-      <Box sx={{ p: { xs: 2, lg: 9 }, marginLeft: 4 }}>
+      <Box
+        sx={{
+          p: { xs: 2, sm: 4, lg: 9 },
+          ml: { xs: 1, sm: 3, lg: 4 },
+        }}
+      >
         <Typography variant="h3" sx={{ fontWeight: "bold" }}>
           {sectionTitle}
         </Typography>
