@@ -40,8 +40,7 @@ export default function AuthBackground() {
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "start",
-
-        height: { xs: "auto", sm: "24", lg: "100%" },
+        height: "100%",
         position: "relative",
         overflow: "hidden",
         color: "white",
@@ -49,7 +48,7 @@ export default function AuthBackground() {
       }}
     >
       <img
-        className="py-2 px-3"
+        className="py-2 px-3 "
         src={backgroundImage}
         alt="Background"
         style={{

@@ -4,6 +4,7 @@ import {
   Typography,
   Button,
   CircularProgress,
+  InputAdornment,
 } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useEffect } from "react";
@@ -12,6 +13,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AUTHENTICATION_URLS } from "./../../../Api/END_POINTS";
 import toast from "react-hot-toast";
+import { AlternateEmail } from "@mui/icons-material";
 
 interface IFormData {
   email: string;
@@ -69,7 +71,7 @@ export default function ForgetPassword() {
       </Typography>
 
       <form
-        className="mt-14 text-[#152C5B] font-normal text-base w-2/3 "
+        className="mt-14 text-[#152C5B] font-normal text-base md:w-4/5 w-full "
         onSubmit={handleSubmit(onSubmit)}
       >
         <label htmlFor="email " className=" sr-only">
@@ -89,6 +91,15 @@ export default function ForgetPassword() {
           fullWidth
           error={!!errors.email}
           helperText={errors.email ? errors.email.message : ""}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <AlternateEmail />
+                </InputAdornment>
+              ),
+            },
+          }}
         />
         <Button
           variant="contained"
