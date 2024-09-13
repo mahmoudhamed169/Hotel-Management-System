@@ -8,7 +8,7 @@ export default function AuthLayout() {
   AuthPageTitle();
   return (
     <>
-      <Grid container spacing={2} className=" h-screen">
+      <Grid container spacing={2} sx={{ height: { xs: "auto", md: "100vh" } }}>
         <Grid item md={6} sm={12}>
           <Box className="mt-5 ms-8">
             <MainTitle />
