@@ -1,42 +1,48 @@
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   Link,
   Stack,
   Typography,
-  TextField,
-  InputAdornment,
 } from "@mui/material";
-import { ReactNode, useState } from "react";
-import { IoEye, IoEyeOff } from "react-icons/io5";
+import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
-import {
-  FieldError,
-  FieldErrors,
-  FieldValues,
-  RegisterOptions,
-  useForm,
-  UseFormRegister,
-} from "react-hook-form";
-import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS.TS";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS.tsx";
 import { useFetch } from "../../../Context/FetchContext";
-import { FormTextField } from "../Shared/FormTextField";
+import { FormTextField } from "../../../Components/SharedComponents/FormTextField/FormTextField";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const fileTypes = ["JPG", "PNG", "GIF"];
   const {
     register,
     handleSubmit,
     setValue,
+
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm();
+
   const { fetchData, loading } = useFetch();
 
-  const onSubmit = async (data: any) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const formData = new FormData();
+
+    if (data.profileImage === undefined) {
+      setError("profileImage", {
+        type: "manual",
+      });
+
+      return;
+    }
+    clearErrors("profileImage");
     formData.append("userName", data.userName);
     formData.append("email", data.email);
     formData.append("country", data.country);
@@ -46,24 +52,22 @@ export default function Register() {
     formData.append("profileImage", data.profileImage ? data.profileImage : "");
     formData.append("role", "user");
 
-    console.log(formData);
-
-    try {
-      console.log("fetched");
-      const response = await fetchData({
-        method: "POST",
-        url: AUTHENTICATION_URLS.regitser,
-        showToastify: true,
-        ToastifyMsg: "Registration successful",
-        data: formData,
-      });
-      console.log(response);
-    } catch (error) {
-      console.error("Failed to fetch data", error);
-    }
+    fetchData({
+      method: "POST",
+      url: AUTHENTICATION_URLS.regitser,
+      showToastify: true,
+      data: formData,
+    });
   };
 
-  const handleChange = (file) => {
+  const handleChange = (file: {
+    lastModified: number;
+    lastModifiedDate: string;
+    name: string;
+    size: number;
+    type: string;
+    webkitRelativePath: string;
+  }) => {
     setValue("profileImage", file);
   };
 
@@ -118,6 +122,7 @@ export default function Register() {
                     <FormTextField
                       placeholder="Please write phone number"
                       errors={errors.phoneNumber}
+                      type="number"
                       name="phoneNumber"
                       register={register}
                       rules={{
@@ -172,11 +177,24 @@ export default function Register() {
                 setShowPassword={setShowPassword}
                 type={showPassword ? "text" : "password"}
                 icon={
-                  showPassword ? (
-                    <IoEyeOff style={{ fontSize: "17px" }} />
-                  ) : (
-                    <IoEye style={{ fontSize: "17px" }} />
-                  )
+                  <Button
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                    sx={{
+                      minWidth: "auto",
+                      padding: 0,
+                      background: "none",
+
+                      cursor: "pointer",
+                    }}>
+                    {showPassword ? (
+                      <VisibilityIcon style={{ fontSize: "17px" }} />
+                    ) : (
+                      <VisibilityOffIcon style={{ fontSize: "17px" }} />
+                    )}
+                  </Button>
                 }
                 name="password"
                 register={register}
@@ -193,11 +211,24 @@ export default function Register() {
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}
                 icon={
-                  showPassword ? (
-                    <IoEyeOff style={{ fontSize: "17px" }} />
-                  ) : (
-                    <IoEye style={{ fontSize: "17px" }} />
-                  )
+                  <Button
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                    sx={{
+                      minWidth: "auto",
+                      padding: 0,
+                      background: "none",
+
+                      cursor: "pointer",
+                    }}>
+                    {showPassword ? (
+                      <VisibilityIcon style={{ fontSize: "17px" }} />
+                    ) : (
+                      <VisibilityOffIcon style={{ fontSize: "17px" }} />
+                    )}
+                  </Button>
                 }
                 name="confirmPassword"
                 register={register}
@@ -206,17 +237,48 @@ export default function Register() {
               <Box sx={{ marginTop: "15px" }}>
                 <FileUploader
                   handleChange={handleChange}
-                  name="file"
+                  onSelect={() => clearErrors("profileImage")}
+                  name="Photo"
+                  hoverTitle="Drop Here"
                   types={fileTypes}
                 />
+                {errors.profileImage && (
+                  <Typography
+                    sx={{
+                      marginLeft: "14px",
+                      marginTop: "3px",
+                      fontSize: "0.75rem",
+                      color: "#d32f2f",
+                    }}
+                    variant="body1">
+                    Photo is required
+                  </Typography>
+                )}
               </Box>
               <Button
-                type="submit"
                 variant="contained"
-                color="primary"
-                sx={{ marginTop: "10px" }}
-                disabled={loading}>
-                Submit
+                type="submit"
+                fullWidth
+                sx={{
+                  backgroundColor: "#3252DF",
+                  textTransform: "none",
+                  marginTop: "12px",
+                  boxShadow: "0px 8px 15px 0px #3252DF4D",
+                  "&:hover": {
+                    backgroundColor: "#0039CB",
+                  },
+                  "&:disabled": {
+                    backgroundColor: "#0039CB",
+                    color: "#ffff",
+                  },
+                }}
+                disabled={loading}
+                startIcon={
+                  loading ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : null
+                }>
+                {loading ? "Loading..." : "Register"}
               </Button>
             </FormControl>
           </form>

@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Link, useNavigate } from "react-router-dom";
-import { AUTHENTICATION_URLS } from "./../../../Api/END_POINTS";
+import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS";
 import toast from "react-hot-toast";
 import { AlternateEmail } from "@mui/icons-material";
 
@@ -55,14 +55,12 @@ export default function ForgetPassword() {
       <Typography
         variant="h5"
         component={"h2"}
-        sx={{ fontFamily: "500", fontSize: "2rem", lineHeight: "3rem" }}
-      >
+        sx={{ fontFamily: "500", fontSize: "2rem", lineHeight: "3rem" }}>
         Forgot password
       </Typography>
       <Typography
         component={"p"}
-        sx={{ mt: "22px", fontWeight: "450", lineHeight: "24px" }}
-      >
+        sx={{ mt: "22px", fontWeight: "450", lineHeight: "24px" }}>
         If you already have an account register <br />
         You can{" "}
         <Link to={"/auth/login"} className="ms-2 text-[#eb5148] font-semibold">
@@ -72,8 +70,7 @@ export default function ForgetPassword() {
 
       <form
         className="mt-14 text-[#152C5B] font-normal text-base md:w-4/5 w-full "
-        onSubmit={handleSubmit(onSubmit)}
-      >
+        onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="email " className=" sr-only">
           Email
         </label>
@@ -121,8 +118,7 @@ export default function ForgetPassword() {
           disabled={isSubmitting}
           startIcon={
             isSubmitting ? <CircularProgress size={20} color="inherit" /> : null
-          }
-        >
+          }>
           {isSubmitting ? "Sending..." : "Send mail"}
         </Button>
       </form>
