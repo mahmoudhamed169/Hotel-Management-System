@@ -8,10 +8,17 @@ import {
   TextField,
   InputAdornment,
 } from "@mui/material";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { FileUploader } from "react-drag-drop-files";
-import { useForm } from "react-hook-form";
+import {
+  FieldError,
+  FieldErrors,
+  FieldValues,
+  RegisterOptions,
+  useForm,
+  UseFormRegister,
+} from "react-hook-form";
 import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS.TS";
 import { useFetch } from "../../../Context/FetchContext";
 
@@ -217,7 +224,17 @@ export default function Register() {
     </>
   );
 }
-
+interface FormTextFieldType {
+  placeholder: string;
+  errors: any;
+  name: string;
+  register: UseFormRegister<FieldValues>;
+  rules?: RegisterOptions;
+  icon?: ReactNode;
+  type?: string;
+  setShowPassword?: (show: boolean) => void;
+  showPassword?: boolean;
+}
 export const FormTextField = ({
   placeholder,
   errors,
@@ -228,7 +245,7 @@ export const FormTextField = ({
   type = "text",
   setShowPassword,
   showPassword,
-}) => {
+}: FormTextFieldType) => {
   return (
     <TextField
       placeholder={placeholder}
