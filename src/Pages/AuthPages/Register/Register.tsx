@@ -8,12 +8,20 @@ import {
   TextField,
   InputAdornment,
 } from "@mui/material";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { FileUploader } from "react-drag-drop-files";
-import { useForm } from "react-hook-form";
+import {
+  FieldError,
+  FieldErrors,
+  FieldValues,
+  RegisterOptions,
+  useForm,
+  UseFormRegister,
+} from "react-hook-form";
 import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS.TS";
 import { useFetch } from "../../../Context/FetchContext";
+import { FormTextField } from "../Shared/FormTextField";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -217,47 +225,3 @@ export default function Register() {
     </>
   );
 }
-
-export const FormTextField = ({
-  placeholder,
-  errors,
-  name,
-  register,
-  rules,
-  icon = null,
-  type = "text",
-  setShowPassword,
-  showPassword,
-}) => {
-  return (
-    <TextField
-      placeholder={placeholder}
-      type={type}
-      error={!!errors}
-      helperText={errors ? errors.message : ""}
-      InputProps={{
-        sx: {
-          backgroundColor: "rgba(245, 246, 248, 1)",
-          "& input": {
-            padding: "12px 16px",
-          },
-        },
-        endAdornment: icon ? (
-          <InputAdornment
-            sx={{ cursor: "pointer" }}
-            onClick={() => setShowPassword && setShowPassword(!showPassword)}
-            onMouseUp={(e) => e.preventDefault()}
-            onMouseDown={(e) => e.preventDefault()}
-            position="end">
-            {icon}
-          </InputAdornment>
-        ) : null,
-      }}
-      sx={{
-        marginTop: "3px",
-        width: "100%",
-      }}
-      {...register(name, rules)}
-    />
-  );
-};
