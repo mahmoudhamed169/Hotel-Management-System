@@ -28,6 +28,7 @@ import AdsList from "./Pages/AdminPages/Ads/AdsList/AdsList";
 import AdsData from "./Pages/AdminPages/Ads/AdsData/AdsData";
 import { Toaster } from "react-hot-toast";
 import { FetchProvider } from "./Context/FetchContext";
+import ProtectedRoute from "./Components/SharedComponents/ProtectedRoute/ProtectedRoute";
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -62,7 +63,7 @@ export default function App() {
     },
     {
       path: "dashboard",
-      element: <MasterLayout />,
+      element: <ProtectedRoute> <MasterLayout /></ProtectedRoute>,
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Home /> },

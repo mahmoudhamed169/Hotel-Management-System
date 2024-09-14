@@ -1,11 +1,44 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
-import axios, { AxiosError } from "axios";
+import { createContext, useContext, useState, ReactNode } from "react";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
+interface fetchType {
+  url: string;
+  method: "GET" | "POST" | "PUT" | "DELETE";
+  data?: any;
+  params?:
+    | {
+        pageSize: string;
+        pageNumber: string;
+      }
+    | undefined;
+  showToastify?: boolean;
+  ToastifyMsg?: string;
+  headers?: AxiosRequestConfig["headers"];
+}
+interface FetchContextType {
+  fetchData: (options: fetchType) => Promise<any>;
+  loading: boolean;
+  response: [];
+}
+const FetchContext = createContext<FetchContextType | undefined>(undefined);
 
-const FetchContext = createContext(undefined);
-
-export const FetchProvider = ({ children }) => {
+interface fetchType {
+  url: string;
+  method: "GET" | "POST" | "PUT" | "DELETE";
+  data?: any;
+  params?:
+    | {
+        pageSize: string;
+        pageNumber: string;
+      }
+    | undefined;
+  showToastify?: boolean;
+  ToastifyMsg?: string;
+  headers?: AxiosRequestConfig["headers"];
+}
+export const FetchProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [response, setResponse] = useState<AxiosResponse[]>([]);
 
   const fetchData = async ({
     method,
@@ -15,17 +48,18 @@ export const FetchProvider = ({ children }) => {
     ToastifyMsg,
     headers,
     url,
-  }) => {
+  }: fetchType) => {
     setLoading(true);
-    console.log("data");
+
     try {
       const response = await axios({ url, method, data, params, headers });
       if (showToastify) {
-        toast.success(ToastifyMsg);
+        toast.success(response?.data?.message || ToastifyMsg);
       }
-      console.log(response);
+
+      setResponse([response]);
       setLoading(false);
-      console.log(response);
+
       return response?.data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -36,7 +70,7 @@ export const FetchProvider = ({ children }) => {
   };
 
   return (
-    <FetchContext.Provider value={{ fetchData, loading }}>
+    <FetchContext.Provider value={{ fetchData, loading, response }}>
       {children}
     </FetchContext.Provider>
   );
@@ -44,6 +78,10 @@ export const FetchProvider = ({ children }) => {
 
 export const useFetch = () => {
   const context = useContext(FetchContext);
+
+  if (!context) {
+    throw new Error("useFetch must be used within a FetchProvider");
+  }
 
   return context;
 };
