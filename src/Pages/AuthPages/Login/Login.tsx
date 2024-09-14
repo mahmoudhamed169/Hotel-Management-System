@@ -5,6 +5,7 @@ import {
   ButtonBase,
   FilledInput,
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -12,15 +13,23 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { indigo } from "@mui/material/colors";
+import { indigo, red } from "@mui/material/colors";
 import { useState } from "react";
-import { FormTextField } from "../Shared/FormTextField";
+
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS";
 import { useNavigate } from "react-router-dom";
+import {LoadingButton} from '@mui/lab/';
 
+import SendIcon from '@mui/icons-material/Send';
+import toast from "react-hot-toast";
 export default function Login() {
+  const [loading, setLoading] = useState(true);
+  function handleClick() {
+    setLoading(true);
+  }
+  const color = red[700];
   const navigate = useNavigate()
   const colorLoginPage = indigo[900];
   const [showPassword, setShowPassword] = useState(false);
@@ -37,6 +46,7 @@ export default function Login() {
   ) => {
     event.preventDefault();
   };
+
   interface IFormInput {
     email: string;
     password: string;
@@ -44,7 +54,7 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors , isSubmitting},
   } = useForm<IFormInput>();
 
 
@@ -57,9 +67,11 @@ export default function Login() {
       console.log(response.data.data.token);
       const { token } = response.data.data;
       localStorage.setItem("token", token);
+      toast.success(response.data.message)
       navigate("/dashboard")
     } catch (error) {
     console.log(error);
+    toast.error(error.response.data.message) 
     
     }
   };
@@ -96,9 +108,10 @@ export default function Login() {
             
           >
             You can{" "}
-            <Stack color={colorLoginPage} ml={1} onClick={()=>{navigate("/auth/register")}} >
+            <Typography variant="Button" sx={{"&:hover": { cursor:"pointer"}
+          }} color={colorLoginPage} ml={1} onClick={()=>{navigate("/auth/register")}} >
               Register here !
-            </Stack>
+            </Typography>
           </Typography>
         </Stack>
       </Box>
@@ -141,12 +154,15 @@ export default function Login() {
             </Typography>
 
           <FormControl sx={{ width:"429px" }} variant="filled">
-            
           <InputLabel htmlFor="filled-adornment-password">Please type here ...</InputLabel>
           <FilledInput
+          //  variant="filled"
+            // label="Please type here ..."
             id="filled-adornment-password"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? 'text' : 'password'}         
             endAdornment={
+              
+              
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
@@ -154,6 +170,7 @@ export default function Login() {
                   onMouseDown={handleMouseDownPassword}
                   onMouseUp={handleMouseUpPassword}
                   edge="end"
+
                 >
                   
                   {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -162,28 +179,31 @@ export default function Login() {
             }
             {...register("password", {
               required: "Password is required",
-              // pattern: {
-              //   value: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/,
-              //   message: "Invalid password",
-              // },
+              pattern: {
+                value: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/,
+                message: 'password must be at least 8 characters'
+              }
               
             })}
             error={!!errors.password}
-            helperText={errors.password? errors.password.message : ""}
-        
+           
+
           />
-            <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{ marginTop: "10px" }}
-  
-                >
-                Login
-                
-              </Button>
+          <FormHelperText id="component-error-text" sx={{color}} >{errors.password ? errors.password.message : ""}</FormHelperText>
            
         </FormControl>
+
+        <LoadingButton
+          sx={{width:"429px" , marginTop:"50px",backgroundColor:"#3252DF"}}
+          onClick={handleClick}
+          loading={isSubmitting}
+          loadingPosition="center"
+          variant="contained"
+          disabled={false}
+          type="submit"
+        >
+          Login
+        </LoadingButton>
               
           </form>
         
