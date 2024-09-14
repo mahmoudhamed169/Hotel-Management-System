@@ -19,7 +19,7 @@ import {
   useForm,
   UseFormRegister,
 } from "react-hook-form";
-import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS.TS";
+import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS.ts";
 import { useFetch } from "../../../Context/FetchContext";
 import { FormTextField } from "../Shared/FormTextField";
 
@@ -69,19 +69,21 @@ export default function Register() {
 
   return (
     <>
-      <Box className="form-head">
+      <Box className="form-head ">
         <Stack>
-          <Typography variant="h3" sx={{ fontSize: "30px", fontWeight: "500" }}>
+          <Typography variant="h5" sx={{ fontSize: "30px", fontWeight: "500" }}>
             Sign Up
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}
+          >
             If you already have an account register
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}
+          >
             You Can{" "}
             <Link href="#" color="red" underline="none">
               Login Here !
@@ -94,7 +96,11 @@ export default function Register() {
         <Stack>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
-              <Typography variant="body1" sx={{ marginTop: "20px" }}>
+              <Typography
+                variant="body1"
+                component={"label"}
+                sx={{ marginTop: "20px" }}
+              >
                 User Name
               </Typography>
               <FormTextField
@@ -109,7 +115,8 @@ export default function Register() {
                 justifyContent="space-between"
                 direction={{ md: "row" }}
                 useFlexGap
-                spacing={0}>
+                spacing={0}
+              >
                 <Box>
                   <Typography variant="body1" sx={{ marginTop: "15px" }}>
                     Phone Number
@@ -215,7 +222,8 @@ export default function Register() {
                 variant="contained"
                 color="primary"
                 sx={{ marginTop: "10px" }}
-                disabled={loading}>
+                disabled={loading}
+              >
                 Submit
               </Button>
             </FormControl>

@@ -74,10 +74,19 @@ export default function ForgetPassword() {
         className="mt-14 text-[#152C5B] font-normal text-base md:w-4/5 w-full "
         onSubmit={handleSubmit(onSubmit)}
       >
-        <label htmlFor="email " className=" sr-only">
+        <Typography
+          component={"label"}
+          variant="subtitle2"
+          htmlFor="email "
+          sx={{ fontWeight: "500", fontSize: "1.1rem" }}
+        >
           Email
-        </label>
+        </Typography>
         <TextField
+          sx={{
+            marginTop: "1rem",
+          }}
+          placeholder="Please type here ..."
           {...register("email", {
             required: "Email is required",
             pattern: {
@@ -86,8 +95,6 @@ export default function ForgetPassword() {
             },
           })}
           id="outlined-basic"
-          label="Email"
-          variant="outlined"
           fullWidth
           error={!!errors.email}
           helperText={errors.email ? errors.email.message : ""}
