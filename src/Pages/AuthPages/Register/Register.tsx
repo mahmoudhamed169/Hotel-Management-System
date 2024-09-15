@@ -61,14 +61,7 @@ export default function Register() {
     });
   };
 
-  const handleChange = (file: {
-    lastModified: number;
-    lastModifiedDate: string;
-    name: string;
-    size: number;
-    type: string;
-    webkitRelativePath: string;
-  }) => {
+  const handleChange = (file: File) => {
     setValue("profileImage", file);
   };
 
@@ -81,14 +74,12 @@ export default function Register() {
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}
-          >
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}>
             If you already have an account register
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}
-          >
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
             You Can
             <Link
               to={"/auth/login"}
@@ -98,8 +89,7 @@ export default function Register() {
                 textDecoration: "none",
                 fontWeight: "bold",
                 fontSize: "1rem",
-              }}
-            >
+              }}>
               Login here !
             </Link>
           </Typography>
@@ -117,8 +107,7 @@ export default function Register() {
               xs: "100%",
               md: "90%",
             },
-          }}
-        >
+          }}>
           <Stack spacing={2}>
             <Box>
               <Typography variant="body1" component="label" htmlFor="userName">
@@ -137,14 +126,12 @@ export default function Register() {
             <Stack
               direction={{ xs: "column", md: "row" }}
               spacing={2}
-              useFlexGap
-            >
+              useFlexGap>
               <Box flex={1}>
                 <Typography
                   variant="body1"
                   component="label"
-                  htmlFor="phoneNumber"
-                >
+                  htmlFor="phoneNumber">
                   Phone Number
                 </Typography>
                 <FormTextField
@@ -202,14 +189,12 @@ export default function Register() {
             <Stack
               direction={{ xs: "column", md: "row" }}
               spacing={2}
-              useFlexGap
-            >
+              useFlexGap>
               <Box>
                 <Typography
                   variant="body1"
                   component="label"
-                  htmlFor="password"
-                >
+                  htmlFor="password">
                   Password
                 </Typography>
                 <PasswordTextField
@@ -233,8 +218,7 @@ export default function Register() {
                 <Typography
                   variant="body1"
                   component="label"
-                  htmlFor="confirmPassword"
-                >
+                  htmlFor="confirmPassword">
                   Confirm Password
                 </Typography>
                 <PasswordTextField
@@ -270,8 +254,7 @@ export default function Register() {
                       fontSize: "0.75rem",
                       color: "#d32f2f",
                     }}
-                    variant="body2"
-                  >
+                    variant="body2">
                     Photo is required
                   </Typography>
                 )}

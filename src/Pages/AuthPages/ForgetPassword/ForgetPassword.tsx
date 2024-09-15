@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AlternateEmail } from "@mui/icons-material";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS.tsx";
+import { apiClient, AUTHENTICATION_URLS } from "../../../Api/END_POINTS.tsx";
 import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonForm.tsx";
 import { FormTextField } from "../../../Components/SharedComponents/FormTextField/FormTextField.tsx";
 
@@ -33,7 +33,7 @@ export default function ForgetPassword() {
   const onSubmit: SubmitHandler<IFormData> = async (data) => {
     const toastId = toast.loading("Processing...");
     try {
-      const response = await axios.post<IResponse>(
+      const response = await apiClient.post<IResponse>(
         AUTHENTICATION_URLS.forgetPassword,
         data
       );
@@ -50,14 +50,12 @@ export default function ForgetPassword() {
       <Typography
         variant="h5"
         component={"h2"}
-        sx={{ fontFamily: "500", fontSize: "2rem", lineHeight: "3rem" }}
-      >
+        sx={{ fontFamily: "500", fontSize: "2rem", lineHeight: "3rem" }}>
         Forgot password
       </Typography>
       <Typography
         component={"p"}
-        sx={{ mt: "22px", fontWeight: "450", lineHeight: "24px" }}
-      >
+        sx={{ mt: "22px", fontWeight: "450", lineHeight: "24px" }}>
         If you already have an account register <br />
         You can{" "}
         <Link
@@ -68,8 +66,7 @@ export default function ForgetPassword() {
             textDecoration: "none",
             fontWeight: "bold",
             fontSize: "1rem",
-          }}
-        >
+          }}>
           Login here !
         </Link>
       </Typography>
@@ -85,8 +82,7 @@ export default function ForgetPassword() {
               xs: "100%",
               md: "90%",
             },
-          }}
-        >
+          }}>
           <Stack spacing={3}>
             <Box>
               <Typography variant="body1" component="label" htmlFor="email ">
@@ -106,8 +102,7 @@ export default function ForgetPassword() {
                     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                     message: "Invalid email address",
                   },
-                }}
-              ></FormTextField>
+                }}></FormTextField>
             </Box>
             <ButtonForm name="Send Email" isSubmitting={isSubmitting} />
           </Stack>

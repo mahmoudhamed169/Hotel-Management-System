@@ -1,11 +1,22 @@
-const BASE_URL = "https://upskilling-egypt.com:3000/api/v0";
+import axios from "axios";
 
-const BASE_ADMIN_URL = `${BASE_URL}/admin`;
+export const apiClient = axios.create({
+  baseURL: "https://upskilling-egypt.com:3000/api/v0",
+});
+
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    config.headers.Authorization = `${token}`;
+  }
+  return config;
+});
 
 export const AUTHENTICATION_URLS = {
-  regitser: `${BASE_ADMIN_URL}/users`,
-  login: `${BASE_ADMIN_URL}/users/login`,
-  forgetPassword: `${BASE_ADMIN_URL}/users/forgot-password`,
-  changePassword: `${BASE_ADMIN_URL}/users/change-password`,
-  resetPassword: `${BASE_ADMIN_URL}/users/reset-password`,
+  regitser: `admin/users`,
+  login: `admin/users/login`,
+  forgetPassword: `admin/users/forgot-password`,
+  changePassword: `admin/users/change-password`,
+  resetPassword: `admin/users/reset-password`,
 };
