@@ -1,11 +1,29 @@
+import { Box, Grid2 } from "@mui/material";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import AuthPageTitle from "../../Utils/AuthPageTitle";
-import MainTitle from "../../Components/SharedComponents/MainTitle/MainTitle";
-import { Box, Grid, Grid2 } from "@mui/material";
 import AuthBackGround from "../../Components/SharedComponents/AuthBackGround/AuthBackGround";
+import MainTitle from "../../Components/SharedComponents/MainTitle/MainTitle";
+import AuthPageTitle from "../../Utils/AuthPageTitle";
+
+import MainLoading from "../../Components/SharedComponents/MainLoading/MainLoading";
+import { useLoading } from "../../Contexts/LoadingContext/LoadingContext";
 
 export default function AuthLayout() {
+  const { loading, setLoading } = useLoading();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => {
+      clearTimeout(timer);
+      setLoading(true);
+    };
+  }, [setLoading]);
   AuthPageTitle();
+
+  if (loading) {
+    return <MainLoading />;
+  }
   return (
     <>
       <Grid2 container spacing={3} sx={{ height: { xs: "auto", md: "100vh" } }}>
