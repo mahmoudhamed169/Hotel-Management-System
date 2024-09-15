@@ -10,9 +10,15 @@ import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonFo
 import { PasswordTextField } from "../../../Components/SharedComponents/PasswordTextField/PasswordTextField";
 import { FormTextField } from "./../../../Components/SharedComponents/FormTextField/FormTextField";
 
-interface IFormInput {
-  email: string;
-  password: string;
+// interface IFormInput {
+//   email: string;
+//   password: string;
+// }
+interface responseType {
+  data: {
+    token: string;
+  };
+  message: string;
 }
 export default function Login() {
   const navigate = useNavigate();
@@ -27,17 +33,25 @@ export default function Login() {
     setFocus("email");
   }, [setFocus]);
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Processing...");
     try {
-      const response = await axios.post(AUTHENTICATION_URLS.login, data);
+      const response = await axios.post<responseType>(
+        AUTHENTICATION_URLS.login,
+        data
+      );
       const { token } = response.data.data;
+      console.log(response.data.data.token);
       localStorage.setItem("token", token);
-      toast.success("Login Successfully", { id: toastId });
+      toast.success("Login Successfully", {
+        id: toastId,
+      });
       navigate("/dashboard");
     } catch (error) {
-      const axiosError = error as AxiosError;
-      toast.error(axiosError.response?.data?.message, { id: toastId });
+      const axiosError = error as AxiosError<{ message: string }>;
+      toast.error(axiosError.response?.data?.message || "An error occurred", {
+        id: toastId,
+      });
     }
   };
 
@@ -46,23 +60,20 @@ export default function Login() {
       <Box className="form-head " sx={{ marginTop: "-2.5rem" }}>
         <Stack>
           <Typography variant="h3" sx={{ fontSize: "30px", fontWeight: "500" }}>
-            Sign Up
+            Sign in
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}
-          >
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}>
             If you don’t have an account register
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}
-          >
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
             You Can
             <Link
               to={"/auth/register"}
-              className="ms-2 text-[#eb5148] font-semibold"
-            >
+              className="ms-2 text-[#eb5148] font-semibold">
               Register here !
             </Link>
           </Typography>
@@ -71,8 +82,7 @@ export default function Login() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-14 text-[#152C5B] font-normal text-base md:w-[90%] w-full"
-      >
+        className="mt-14 text-[#152C5B] font-normal text-base md:w-[90%] w-full">
         <Stack spacing={3}>
           <Box>
             <Typography variant="body1" component="label" htmlFor="email">
@@ -111,8 +121,7 @@ export default function Login() {
           <Box>
             <Link
               to={"/auth/forget-password"}
-              className="flex justify-end text-[#4D4D4D]"
-            >
+              className="flex justify-end text-[#4D4D4D]">
               Forgot Password ?
             </Link>
           </Box>

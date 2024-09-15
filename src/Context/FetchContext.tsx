@@ -19,7 +19,7 @@ interface fetchType {
 interface FetchContextType {
   fetchData: (options: fetchType) => Promise<any>;
   loading: boolean;
-  response: [];
+  response: AxiosResponse[];
 }
 const FetchContext = createContext<FetchContextType | undefined>(undefined);
 
@@ -36,6 +36,7 @@ interface fetchType {
   showToastify?: boolean;
   ToastifyMsg?: string;
   headers?: AxiosRequestConfig["headers"];
+  navigateTo?: string;
 }
 export const FetchProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -50,15 +51,20 @@ export const FetchProvider = ({ children }: { children: ReactNode }) => {
     ToastifyMsg,
     headers,
     url,
+    navigateTo,
   }: fetchType) => {
     setLoading(true);
-
+    const toastId = toast.loading("Processing...");
     try {
       const response = await axios({ url, method, data, params, headers });
       if (showToastify) {
-        toast.success(response?.data?.message || ToastifyMsg);
+        toast.success(response?.data?.message || ToastifyMsg, {
+          id: toastId,
+        });
       }
-      navigate("/auth/login");
+      if (navigateTo) {
+        navigate(navigateTo);
+      }
 
       setResponse([response]);
       setLoading(false);
@@ -67,8 +73,9 @@ export const FetchProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       const axiosError = error as AxiosError;
       setLoading(false);
-      toast.error(axiosError.response?.data?.message || "Something went wrong");
-      throw axiosError;
+      toast.error(axiosError.response?.data?.message || "An error occurred", {
+        id: toastId,
+      });
     }
   };
 
