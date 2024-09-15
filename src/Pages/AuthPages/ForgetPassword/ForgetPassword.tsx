@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, FormControl, Stack, Typography } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -60,39 +60,58 @@ export default function ForgetPassword() {
       >
         If you already have an account register <br />
         You can{" "}
-        <Link to={"/auth/login"} className="ms-2 text-[#eb5148] font-semibold">
+        <Link
+          to={"/auth/login"}
+          style={{
+            marginLeft: "0.5rem",
+            color: "#eb5148",
+            textDecoration: "none",
+            fontWeight: "bold",
+            fontSize: "1rem",
+          }}
+        >
           Login here !
         </Link>
       </Typography>
 
-      <form
-        className="mt-14 text-[#152C5B] font-normal text-base md:w-[90%] w-full "
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Stack spacing={3}>
-          <Box>
-            <Typography variant="body1" component="label" htmlFor="email ">
-              Email
-            </Typography>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl
+          sx={{
+            mt: "3.5rem",
+            color: "#152C5B",
+            fontWeight: "normal",
+            fontSize: "base",
+            width: {
+              xs: "100%",
+              md: "90%",
+            },
+          }}
+        >
+          <Stack spacing={3}>
+            <Box>
+              <Typography variant="body1" component="label" htmlFor="email ">
+                Email
+              </Typography>
 
-            <FormTextField
-              placeholder="Please type here ..."
-              errors={errors.email}
-              type="email"
-              register={register}
-              name="email"
-              icon={<AlternateEmail />}
-              rules={{
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Invalid email address",
-                },
-              }}
-            ></FormTextField>
-          </Box>
-          <ButtonForm name="Send Email" isSubmitting={isSubmitting} />
-        </Stack>
+              <FormTextField
+                placeholder="Please type here ..."
+                errors={errors.email}
+                type="email"
+                register={register}
+                name="email"
+                icon={<AlternateEmail />}
+                rules={{
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "Invalid email address",
+                  },
+                }}
+              ></FormTextField>
+            </Box>
+            <ButtonForm name="Send Email" isSubmitting={isSubmitting} />
+          </Stack>
+        </FormControl>
       </form>
     </Box>
   );

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import UserPageTitle from "../../Utils/UserPageTitle";
 import MainLoading from "../../Components/SharedComponents/MainLoading/MainLoading";
-import { useLoading } from "../../Contexts/LoadingContext/LoadingContext";
+import { useLoading } from "../../Context/LoadingContext/LoadingContext";
 import { useEffect } from "react";
 
 export default function UserLayout() {

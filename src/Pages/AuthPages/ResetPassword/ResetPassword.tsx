@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, FormControl, Stack, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { FormTextField } from "../../../Components/SharedComponents/FormTextField/FormTextField";
 import ButtonForm from "./../../../Components/SharedComponents/ButtonForm/ButtonForm";
@@ -69,7 +69,13 @@ export default function ResetPassword() {
             You Can
             <Link
               to={"/auth/login"}
-              className="ms-2 text-[#eb5148] font-semibold"
+              style={{
+                marginLeft: "0.5rem",
+                color: "#eb5148",
+                textDecoration: "none",
+                fontWeight: "bold",
+                fontSize: "1rem",
+              }}
             >
               Login here !
             </Link>
@@ -77,94 +83,104 @@ export default function ResetPassword() {
         </Stack>
       </Box>
 
-      <form
-        className="mt-10 text-[#152C5B] font-normal text-base md:w-[90%] w-full "
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Stack spacing={1.7}>
-          <Box>
-            <Typography variant="body1" component="label" htmlFor="email ">
-              Email
-            </Typography>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl
+          sx={{
+            mt: "2.5rem",
+            color: "#152C5B",
+            fontWeight: "normal",
+            fontSize: "base",
+            width: {
+              xs: "100%",
+              md: "90%",
+            },
+          }}
+        >
+          <Stack spacing={1.7}>
+            <Box>
+              <Typography variant="body1" component="label" htmlFor="email ">
+                Email
+              </Typography>
 
-            <FormTextField
-              placeholder="Please type here ..."
-              errors={errors.email}
-              type="email"
-              register={register}
-              name="email"
-              icon={<AlternateEmail />}
-              rules={{
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Invalid email address",
-                },
-              }}
-            />
-          </Box>
+              <FormTextField
+                placeholder="Please type here ..."
+                errors={errors.email}
+                type="email"
+                register={register}
+                name="email"
+                icon={<AlternateEmail />}
+                rules={{
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "Invalid email address",
+                  },
+                }}
+              />
+            </Box>
 
-          <Box>
-            <Typography variant="body1" component="label" htmlFor="otp ">
-              OTP
-            </Typography>
+            <Box>
+              <Typography variant="body1" component="label" htmlFor="otp ">
+                OTP
+              </Typography>
 
-            <FormTextField
-              placeholder="Please type here ..."
-              errors={errors.seed}
-              type="text"
-              register={register}
-              name="seed"
-              icon={<PinTwoTone />}
-              rules={{
-                required: "seed is required",
-              }}
-            />
-          </Box>
+              <FormTextField
+                placeholder="Please type here ..."
+                errors={errors.seed}
+                type="text"
+                register={register}
+                name="seed"
+                icon={<PinTwoTone />}
+                rules={{
+                  required: "seed is required",
+                }}
+              />
+            </Box>
 
-          <Box>
-            <Typography variant="body1" component="label" htmlFor="password">
-              Password
-            </Typography>
-            <PasswordTextField
-              placeholder="Please write password"
-              errors={errors.password}
-              name="password"
-              register={register}
-              rules={{
-                required: "Password is required",
-                pattern: {
-                  value:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  message:
-                    "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character",
-                },
-              }}
-            />
-          </Box>
-          <Box>
-            <Typography
-              variant="body1"
-              component="label"
-              htmlFor="confirmPassword"
-            >
-              Confirm Password
-            </Typography>
-            <PasswordTextField
-              placeholder="Please write password"
-              errors={errors.confirmPassword}
-              name="confirmPassword"
-              register={register}
-              rules={{
-                required: "Confirm password is required",
-                validate: (value) =>
-                  value === watch("password") || "Passwords does not match",
-              }}
-            />
-          </Box>
+            <Box>
+              <Typography variant="body1" component="label" htmlFor="password">
+                Password
+              </Typography>
+              <PasswordTextField
+                placeholder="Please write password"
+                errors={errors.password}
+                name="password"
+                register={register}
+                rules={{
+                  required: "Password is required",
+                  pattern: {
+                    value:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    message:
+                      "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character",
+                  },
+                }}
+              />
+            </Box>
+            <Box>
+              <Typography
+                variant="body1"
+                component="label"
+                htmlFor="confirmPassword"
+              >
+                Confirm Password
+              </Typography>
+              <PasswordTextField
+                placeholder="Please write password"
+                errors={errors.confirmPassword}
+                name="confirmPassword"
+                register={register}
+                rules={{
+                  required: "Confirm password is required",
+                  validate: (value) =>
+                    value === watch("password") || "Passwords does not match",
+                }}
+              />
+            </Box>
 
-          <ButtonForm name="Reset" isSubmitting={isSubmitting} />
-        </Stack>
+            <ButtonForm name="Reset" isSubmitting={isSubmitting} />
+          </Stack>
+        </FormControl>
       </form>
     </>
   );

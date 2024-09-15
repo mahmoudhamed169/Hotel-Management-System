@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import MasterPageTitle from "../../Utils/MasterPageTitle";
-import { useLoading } from "../../Contexts/LoadingContext/LoadingContext";
+import { useLoading } from "../../Context/LoadingContext/LoadingContext";
 import { useEffect } from "react";
 import MainLoading from "../../Components/SharedComponents/MainLoading/MainLoading";
 
