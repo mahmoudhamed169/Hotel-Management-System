@@ -1,35 +1,28 @@
 import {
+  AlternateEmail,
+  LanguageOutlined,
+  Person2Outlined,
+  PhoneInTalk,
+} from "@mui/icons-material";
+import {
   Box,
-  Button,
-  CircularProgress,
-  FormControl,
   InputLabel,
   MenuItem,
   Select,
   Stack,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Link } from "react-router-dom";
 import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS.tsx";
-import { useFetch } from "../../../Context/FetchContext";
+import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonForm.tsx";
 import { FormTextField } from "../../../Components/SharedComponents/FormTextField/FormTextField";
 import { PasswordTextField } from "../../../Components/SharedComponents/PasswordTextField/PasswordTextField.tsx";
-import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonForm.tsx";
-import { Link } from "react-router-dom";
-import {
-  AlternateEmail,
-  LanguageOutlined,
-  Person2Outlined,
-  PhoneInTalk,
-} from "@mui/icons-material";
+import { useFetch } from "../../../Context/FetchContext";
 
 export default function Register() {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-
   const fileTypes = ["JPG", "PNG", "GIF"];
   const {
     register,
@@ -38,7 +31,7 @@ export default function Register() {
     setError,
     clearErrors,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     setFocus,
   } = useForm();
   useEffect(() => {
@@ -284,7 +277,7 @@ export default function Register() {
             </Box>
           </Stack>
 
-          <ButtonForm name="Register" isSubmitting={isSubmitting} />
+          <ButtonForm name="Register" isSubmitting={loading} />
         </Stack>
       </form>
     </>

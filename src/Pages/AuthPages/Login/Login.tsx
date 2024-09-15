@@ -1,21 +1,14 @@
-import { AlternateEmail, Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { indigo } from "@mui/material/colors";
-import React, { useEffect, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { AlternateEmail } from "@mui/icons-material";
+import { Box, Stack, Typography } from "@mui/material";
 import axios, { AxiosError } from "axios";
-import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS";
-import { Link, useNavigate } from "react-router-dom";
-import { FormTextField } from "./../../../Components/SharedComponents/FormTextField/FormTextField";
-import { PasswordTextField } from "../../../Components/SharedComponents/PasswordTextField/PasswordTextField";
-import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonForm";
+import { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS";
+import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonForm";
+import { PasswordTextField } from "../../../Components/SharedComponents/PasswordTextField/PasswordTextField";
+import { FormTextField } from "./../../../Components/SharedComponents/FormTextField/FormTextField";
 
 interface IFormInput {
   email: string;
@@ -23,7 +16,7 @@ interface IFormInput {
 }
 export default function Login() {
   const navigate = useNavigate();
-  const colorLoginPage = indigo[900];
+
   const {
     register,
     handleSubmit,

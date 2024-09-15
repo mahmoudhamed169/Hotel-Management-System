@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 interface fetchType {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE";
@@ -39,6 +40,7 @@ interface fetchType {
 export const FetchProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [response, setResponse] = useState<AxiosResponse[]>([]);
+  const navigate = useNavigate();
 
   const fetchData = async ({
     method,
@@ -56,6 +58,7 @@ export const FetchProvider = ({ children }: { children: ReactNode }) => {
       if (showToastify) {
         toast.success(response?.data?.message || ToastifyMsg);
       }
+      navigate("/auth/login");
 
       setResponse([response]);
       setLoading(false);
