@@ -1,22 +1,14 @@
-import {
-  TextField,
-  Box,
-  Typography,
-  Button,
-  CircularProgress,
-  InputAdornment,
-  Stack,
-} from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import { AlternateEmail } from "@mui/icons-material";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS.tsx";
-import toast from "react-hot-toast";
-import { AlternateEmail } from "@mui/icons-material";
-import { FormTextField } from "../../../Components/SharedComponents/FormTextField/FormTextField.tsx";
 import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonForm.tsx";
+import { FormTextField } from "../../../Components/SharedComponents/FormTextField/FormTextField.tsx";
 
 interface IFormData {
   email: string;
@@ -41,7 +33,7 @@ export default function ForgetPassword() {
   const onSubmit: SubmitHandler<IFormData> = async (data) => {
     const toastId = toast.loading("Processing...");
     try {
-      const response = await axios.post(
+      const response = await axios.post<IResponse>(
         AUTHENTICATION_URLS.forgetPassword,
         data
       );
