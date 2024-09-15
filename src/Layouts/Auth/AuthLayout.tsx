@@ -6,7 +6,7 @@ import MainTitle from "../../Components/SharedComponents/MainTitle/MainTitle";
 import AuthPageTitle from "../../Utils/AuthPageTitle";
 
 import MainLoading from "../../Components/SharedComponents/MainLoading/MainLoading";
-import { useLoading } from "../../Contexts/LoadingContext/LoadingContext";
+import { useLoading } from "../../Context/LoadingContext/LoadingContext";
 
 export default function AuthLayout() {
   const { loading, setLoading } = useLoading();
@@ -28,10 +28,24 @@ export default function AuthLayout() {
     <>
       <Grid2 container spacing={3} sx={{ height: { xs: "auto", md: "100vh" } }}>
         <Grid2 item size={{ md: 6, sm: 10, xs: 12 }}>
-          <Box className="mt-5 ms-8">
+          <Box
+            className="mt-5 ms-8"
+            sx={{
+              marginTop: "1.25rem",
+              marginLeft: "2rem",
+            }}
+          >
             <MainTitle />
           </Box>
-          <Box className="mt-20 w-4/5 mx-auto md:ps-6">
+          <Box
+            className="mt-20 w-4/5 mx-auto md:ps-6"
+            sx={{
+              mt: "5rem",
+              width: "80%",
+              mx: "auto",
+              px: { md: 6 },
+            }}
+          >
             <Outlet />
           </Box>
         </Grid2>

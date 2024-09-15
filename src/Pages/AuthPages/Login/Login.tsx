@@ -1,5 +1,5 @@
 import { AlternateEmail } from "@mui/icons-material";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, FormControl, Stack, Typography } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -64,69 +64,95 @@ export default function Login() {
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}
+          >
             If you don’t have an account register
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}
+          >
             You Can
             <Link
               to={"/auth/register"}
-              className="ms-2 text-[#eb5148] font-semibold">
+              style={{
+                marginLeft: "0.5rem",
+                color: "#eb5148",
+                textDecoration: "none",
+                fontWeight: "bold",
+                fontSize: "1rem",
+              }}
+            >
               Register here !
             </Link>
           </Typography>
         </Stack>
       </Box>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="mt-14 text-[#152C5B] font-normal text-base md:w-[90%] w-full">
-        <Stack spacing={3}>
-          <Box>
-            <Typography variant="body1" component="label" htmlFor="email">
-              Email
-            </Typography>
-            <FormTextField
-              placeholder="Please type here ..."
-              errors={errors.email}
-              type="email"
-              register={register}
-              name="email"
-              icon={<AlternateEmail />}
-              rules={{
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Invalid email address",
-                },
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl
+          sx={{
+            mt: "3.5rem",
+            color: "#152C5B",
+            fontWeight: "normal",
+            fontSize: "base",
+            width: {
+              xs: "100%",
+              md: "90%",
+            },
+          }}
+        >
+          <Stack spacing={3}>
+            <Box>
+              <Typography variant="body1" component="label" htmlFor="email">
+                Email
+              </Typography>
+              <FormTextField
+                placeholder="Please type here ..."
+                errors={errors.email}
+                type="email"
+                register={register}
+                name="email"
+                icon={<AlternateEmail />}
+                rules={{
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "Invalid email address",
+                  },
+                }}
+              />
+            </Box>
+            <Box>
+              <Typography variant="body1" component="label" htmlFor="password">
+                Password
+              </Typography>
+              <PasswordTextField
+                placeholder="Enter your password"
+                errors={errors.password}
+                name="password"
+                register={register}
+                rules={{
+                  required: "Password is required",
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
               }}
-            />
-          </Box>
-          <Box>
-            <Typography variant="body1" component="label" htmlFor="password">
-              Password
-            </Typography>
-            <PasswordTextField
-              placeholder="Enter your password"
-              errors={errors.password}
-              name="password"
-              register={register}
-              rules={{
-                required: "Password is required",
-              }}
-            />
-          </Box>
-          <Box>
-            <Link
-              to={"/auth/forget-password"}
-              className="flex justify-end text-[#4D4D4D]">
-              Forgot Password ?
-            </Link>
-          </Box>
-          <ButtonForm name="Login" isSubmitting={isSubmitting} />
-        </Stack>
+            >
+              <Link
+                to={"/auth/forget-password"}
+                style={{ color: "#4D4D4D", textDecoration: "none" }}
+              >
+                Forgot Password ?
+              </Link>
+            </Box>
+            <ButtonForm name="Login" isSubmitting={isSubmitting} />
+          </Stack>
+        </FormControl>
       </form>
     </>
   );
