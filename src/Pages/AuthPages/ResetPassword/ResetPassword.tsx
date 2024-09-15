@@ -1,12 +1,24 @@
 import { Box, Stack, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormTextField } from "../../../Components/SharedComponents/FormTextField/FormTextField";
 import ButtonForm from "./../../../Components/SharedComponents/ButtonForm/ButtonForm";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { PasswordTextField } from "../../../Components/SharedComponents/PasswordTextField/PasswordTextField";
 import { AlternateEmail, PinTwoTone } from "@mui/icons-material";
 import toast from "react-hot-toast";
+import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS";
+import axios, { AxiosError } from "axios";
+
+interface FormValues {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  seed: string;
+}
+interface IResponse {
+  message: string;
+}
 
 export default function ResetPassword() {
   const {
@@ -19,9 +31,21 @@ export default function ResetPassword() {
   useEffect(() => {
     setFocus("email");
   }, [setFocus]);
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    toast.success("Successfully toasted!");
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    const toastId = toast.loading("Processing...");
+    try {
+      const response = await axios.post<IResponse>(
+        AUTHENTICATION_URLS.resetPassword,
+        data
+      );
+      toast.success(response.data.message, { id: toastId });
+      navigate("/auth/login");
+    } catch (error) {
+      const axiosError = error as AxiosError<IResponse>;
+      toast.error(axiosError.response?.data.message, { id: toastId });
+    }
 
     console.log(data);
   };

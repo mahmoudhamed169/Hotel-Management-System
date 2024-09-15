@@ -4,14 +4,7 @@ import {
   Person2Outlined,
   PhoneInTalk,
 } from "@mui/icons-material";
-import {
-  Box,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -88,16 +81,19 @@ export default function Register() {
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}
+          >
             If you already have an account register
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}
+          >
             You Can
             <Link
               to={"/auth/login"}
-              className="ms-2 text-[#eb5148] font-semibold">
+              className="ms-2 text-[#eb5148] font-semibold"
+            >
               Login here !
             </Link>
           </Typography>
@@ -106,7 +102,8 @@ export default function Register() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-5 text-[#152C5B] font-normal text-base md:w-[90%] w-full">
+        className="mt-5 text-[#152C5B] font-normal text-base md:w-[90%] w-full"
+      >
         <Stack spacing={2}>
           <Box>
             <Typography variant="body1" component="label" htmlFor="userName">
@@ -127,7 +124,8 @@ export default function Register() {
               <Typography
                 variant="body1"
                 component="label"
-                htmlFor="phoneNumber">
+                htmlFor="phoneNumber"
+              >
                 Phone Number
               </Typography>
               <FormTextField
@@ -208,7 +206,8 @@ export default function Register() {
               <Typography
                 variant="body1"
                 component="label"
-                htmlFor="confirmPassword">
+                htmlFor="confirmPassword"
+              >
                 Confirm Password
               </Typography>
               <PasswordTextField
@@ -244,7 +243,8 @@ export default function Register() {
                     fontSize: "0.75rem",
                     color: "#d32f2f",
                   }}
-                  variant="body2">
+                  variant="body2"
+                >
                   Photo is required
                 </Typography>
               )}
