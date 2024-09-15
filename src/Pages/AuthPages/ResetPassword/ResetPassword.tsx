@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { PasswordTextField } from "../../../Components/SharedComponents/PasswordTextField/PasswordTextField";
 import { AlternateEmail, PinTwoTone } from "@mui/icons-material";
 import toast from "react-hot-toast";
-import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS";
+import { apiClient, AUTHENTICATION_URLS } from "../../../Api/END_POINTS";
 import axios, { AxiosError } from "axios";
 
 interface FormValues {
@@ -36,7 +36,7 @@ export default function ResetPassword() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const toastId = toast.loading("Processing...");
     try {
-      const response = await axios.post<IResponse>(
+      const response = await apiClient.post<IResponse>(
         AUTHENTICATION_URLS.resetPassword,
         data
       );
@@ -58,14 +58,12 @@ export default function ResetPassword() {
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}
-          >
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}>
             If you don’t have an account register
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}
-          >
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
             You Can
             <Link
               to={"/auth/login"}
@@ -75,8 +73,7 @@ export default function ResetPassword() {
                 textDecoration: "none",
                 fontWeight: "bold",
                 fontSize: "1rem",
-              }}
-            >
+              }}>
               Login here !
             </Link>
           </Typography>
@@ -94,8 +91,7 @@ export default function ResetPassword() {
               xs: "100%",
               md: "90%",
             },
-          }}
-        >
+          }}>
           <Stack spacing={1.7}>
             <Box>
               <Typography variant="body1" component="label" htmlFor="email ">
@@ -161,8 +157,7 @@ export default function ResetPassword() {
               <Typography
                 variant="body1"
                 component="label"
-                htmlFor="confirmPassword"
-              >
+                htmlFor="confirmPassword">
                 Confirm Password
               </Typography>
               <PasswordTextField

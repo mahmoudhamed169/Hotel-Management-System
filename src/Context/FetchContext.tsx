@@ -2,6 +2,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { apiClient } from "../Api/END_POINTS";
 interface fetchType {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE";
@@ -56,7 +57,7 @@ export const FetchProvider = ({ children }: { children: ReactNode }) => {
     setLoading(true);
     const toastId = toast.loading("Processing...");
     try {
-      const response = await axios({ url, method, data, params, headers });
+      const response = await apiClient({ url, method, data, params, headers });
       if (showToastify) {
         toast.success(response?.data?.message || ToastifyMsg, {
           id: toastId,

@@ -9,6 +9,7 @@ import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS";
 import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonForm";
 import { PasswordTextField } from "../../../Components/SharedComponents/PasswordTextField/PasswordTextField";
 import { FormTextField } from "./../../../Components/SharedComponents/FormTextField/FormTextField";
+import { apiClient } from "../../../Api/END_POINTS";
 
 // interface IFormInput {
 //   email: string;
@@ -36,7 +37,7 @@ export default function Login() {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Processing...");
     try {
-      const response = await axios.post<responseType>(
+      const response = await apiClient.post<responseType>(
         AUTHENTICATION_URLS.login,
         data
       );
@@ -64,14 +65,12 @@ export default function Login() {
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}
-          >
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}>
             If you don’t have an account register
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}
-          >
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
             You Can
             <Link
               to={"/auth/register"}
@@ -81,8 +80,7 @@ export default function Login() {
                 textDecoration: "none",
                 fontWeight: "bold",
                 fontSize: "1rem",
-              }}
-            >
+              }}>
               Register here !
             </Link>
           </Typography>
@@ -100,8 +98,7 @@ export default function Login() {
               xs: "100%",
               md: "90%",
             },
-          }}
-        >
+          }}>
           <Stack spacing={3}>
             <Box>
               <Typography variant="body1" component="label" htmlFor="email">
@@ -141,12 +138,10 @@ export default function Login() {
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
-              }}
-            >
+              }}>
               <Link
                 to={"/auth/forget-password"}
-                style={{ color: "#4D4D4D", textDecoration: "none" }}
-              >
+                style={{ color: "#4D4D4D", textDecoration: "none" }}>
                 Forgot Password ?
               </Link>
             </Box>
