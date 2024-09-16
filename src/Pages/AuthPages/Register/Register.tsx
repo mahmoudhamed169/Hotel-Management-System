@@ -4,7 +4,7 @@ import {
   Person2Outlined,
   PhoneInTalk,
 } from "@mui/icons-material";
-import { Box, FormControl, Stack, Typography } from "@mui/material";
+import { Box, FormControl, Stack, Typography, useTheme } from "@mui/material";
 import { useEffect } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -16,6 +16,7 @@ import { PasswordTextField } from "../../../Components/SharedComponents/Password
 import { useFetch } from "../../../Context/FetchContext";
 
 export default function Register() {
+  const theme = useTheme();
   const fileTypes = ["JPG", "PNG", "GIF"];
   const {
     register,
@@ -100,7 +101,8 @@ export default function Register() {
         <FormControl
           sx={{
             mt: "1.25rem",
-            color: "#152C5B",
+            color: theme.palette.primary.main,
+
             fontWeight: "normal",
             fontSize: "base",
             width: {

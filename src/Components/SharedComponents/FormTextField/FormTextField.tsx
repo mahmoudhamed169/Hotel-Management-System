@@ -27,7 +27,6 @@ export const FormTextField = ({
       helperText={errors ? errors.message : ""}
       InputProps={{
         sx: {
-          backgroundColor: "#F5F6F8",
           "& input": {
             padding: "12px 16px",
           },

@@ -17,6 +17,7 @@ export default function ButtonForm({
       disabled={isSubmitting}
       sx={{
         backgroundColor: "#3252DF",
+        color: "#ffff",
         textTransform: "none",
         boxShadow: "0px 8px 15px 0px #3252DF4D",
         height: "50px",
