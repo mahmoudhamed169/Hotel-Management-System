@@ -8,11 +8,7 @@ import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { useTheme } from "@mui/material/styles";
 
-interface ActionsMenuProps {
-  rowId: string;
-}
-
-export default function ActionsMenu({ rowId }: ActionsMenuProps) {
+export default function ActionsMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const theme = useTheme();
 
