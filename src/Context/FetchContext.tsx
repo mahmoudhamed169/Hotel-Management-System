@@ -55,12 +55,12 @@ export const FetchProvider = ({ children }: { children: ReactNode }) => {
     navigateTo,
   }: fetchType) => {
     setLoading(true);
-    const toastId = toast.loading("Processing...");
+
     try {
       const response = await apiClient({ url, method, data, params, headers });
       if (showToastify) {
         toast.success(response?.data?.message || ToastifyMsg, {
-          id: toastId,
+          id: toast.loading("Processing..."),
         });
       }
       if (navigateTo) {
@@ -75,7 +75,7 @@ export const FetchProvider = ({ children }: { children: ReactNode }) => {
       const axiosError = error as AxiosError;
       setLoading(false);
       toast.error(axiosError.response?.data?.message || "An error occurred", {
-        id: toastId,
+        id: toast.loading("Processing..."),
       });
     }
   };

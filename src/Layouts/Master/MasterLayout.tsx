@@ -3,6 +3,7 @@ import MasterPageTitle from "../../Utils/MasterPageTitle";
 import { useLoading } from "../../Context/LoadingContext/LoadingContext";
 import { useEffect } from "react";
 import MainLoading from "../../Components/SharedComponents/MainLoading/MainLoading";
+import { Box } from "@mui/material";
 
 export default function MasterLayout() {
   MasterPageTitle();
@@ -21,8 +22,8 @@ export default function MasterLayout() {
     return <MainLoading />;
   }
   return (
-    <div>
+    <Box sx={{ padding: "72px" }}>
       <Outlet />
-    </div>
+    </Box>
   );
 }
