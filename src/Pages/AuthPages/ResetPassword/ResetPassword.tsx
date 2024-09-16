@@ -1,4 +1,4 @@
-import { Box, FormControl, Stack, Typography } from "@mui/material";
+import { Box, FormControl, Stack, Typography, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { FormTextField } from "../../../Components/SharedComponents/FormTextField/FormTextField";
 import ButtonForm from "./../../../Components/SharedComponents/ButtonForm/ButtonForm";
@@ -21,6 +21,7 @@ interface IResponse {
 }
 
 export default function ResetPassword() {
+  const theme = useTheme();
   const {
     register,
     handleSubmit,
@@ -58,12 +59,14 @@ export default function ResetPassword() {
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}
+          >
             If you don’t have an account register
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}
+          >
             You Can
             <Link
               to={"/auth/login"}
@@ -73,7 +76,8 @@ export default function ResetPassword() {
                 textDecoration: "none",
                 fontWeight: "bold",
                 fontSize: "1rem",
-              }}>
+              }}
+            >
               Login here !
             </Link>
           </Typography>
@@ -84,14 +88,15 @@ export default function ResetPassword() {
         <FormControl
           sx={{
             mt: "2.5rem",
-            color: "#152C5B",
+            color: theme.palette.primary.main,
             fontWeight: "normal",
             fontSize: "base",
             width: {
               xs: "100%",
               md: "90%",
             },
-          }}>
+          }}
+        >
           <Stack spacing={1.7}>
             <Box>
               <Typography variant="body1" component="label" htmlFor="email ">
@@ -157,7 +162,8 @@ export default function ResetPassword() {
               <Typography
                 variant="body1"
                 component="label"
-                htmlFor="confirmPassword">
+                htmlFor="confirmPassword"
+              >
                 Confirm Password
               </Typography>
               <PasswordTextField
