@@ -39,8 +39,7 @@ export default function AuthLayout() {
               marginLeft: "2rem",
               display: "flex",
               justifyContent: "space-between",
-            }}
-          >
+            }}>
             <MainTitle />
             <IconButton onClick={toggleTheme} sx={{ color: "#0d80d8" }}>
               {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
@@ -53,8 +52,7 @@ export default function AuthLayout() {
               width: "80%",
               mx: "auto",
               px: { md: 6 },
-            }}
-          >
+            }}>
             <Outlet />
           </Box>
         </Grid2>

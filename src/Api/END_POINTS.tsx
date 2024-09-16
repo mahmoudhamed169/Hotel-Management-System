@@ -20,3 +20,5 @@ export const AUTHENTICATION_URLS = {
   changePassword: `admin/users/change-password`,
   resetPassword: `admin/users/reset-password`,
 };
+
+export const DASHBOARD_URL = `/admin/dashboard`;

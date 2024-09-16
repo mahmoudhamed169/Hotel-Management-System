@@ -71,7 +71,15 @@ export default function App() {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Home /> },
+        {
+          index: true,
+          element: (
+            <FetchProvider>
+              {" "}
+              <Home />
+            </FetchProvider>
+          ),
+        },
         { path: "home", element: <Home /> },
         { path: "users", element: <UsersList /> },
         { path: "booking", element: <BookingList /> },
