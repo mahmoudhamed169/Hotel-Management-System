@@ -63,7 +63,12 @@ export default function App() {
     },
     {
       path: "dashboard",
-      element: <ProtectedRoute> <MasterLayout /></ProtectedRoute>,
+      element: (
+        <ProtectedRoute>
+          {" "}
+          <MasterLayout />
+        </ProtectedRoute>
+      ),
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Home /> },

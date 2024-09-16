@@ -1,5 +1,5 @@
 import { AlternateEmail } from "@mui/icons-material";
-import { Box, FormControl, Stack, Typography } from "@mui/material";
+import { Box, FormControl, Stack, Typography, useTheme } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -21,6 +21,7 @@ interface responseType {
   message: string;
 }
 export default function Login() {
+  const theme = useTheme();
   const navigate = useNavigate();
 
   const {
@@ -93,7 +94,7 @@ export default function Login() {
         <FormControl
           sx={{
             mt: "3.5rem",
-            color: "#152C5B",
+            color: theme.palette.primary.main,
             fontWeight: "normal",
             fontSize: "base",
             width: {

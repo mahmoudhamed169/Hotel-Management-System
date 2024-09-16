@@ -1,4 +1,4 @@
-import { Box, FormControl, Stack, Typography } from "@mui/material";
+import { Box, FormControl, Stack, Typography, useTheme } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -25,6 +25,7 @@ export default function ForgetPassword() {
     setFocus,
   } = useForm();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   useEffect(() => {
     setFocus("email");
@@ -78,7 +79,7 @@ export default function ForgetPassword() {
         <FormControl
           sx={{
             mt: "3.5rem",
-            color: "#152C5B",
+            color: theme.palette.primary.main,
             fontWeight: "normal",
             fontSize: "base",
             width: {
