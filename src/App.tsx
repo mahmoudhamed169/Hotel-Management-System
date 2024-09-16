@@ -26,6 +26,9 @@ import FaclilitesList from "./Pages/AdminPages/Facilities/FaclilitesList/Faclili
 import FaclilitesData from "./Pages/AdminPages/Facilities/FaclilitesData/FaclilitesData";
 import AdsList from "./Pages/AdminPages/Ads/AdsList/AdsList";
 import AdsData from "./Pages/AdminPages/Ads/AdsData/AdsData";
+import { Toaster } from "react-hot-toast";
+import { FetchProvider } from "./Context/FetchContext";
+import ProtectedRoute from "./Components/SharedComponents/ProtectedRoute/ProtectedRoute";
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -44,7 +47,11 @@ export default function App() {
     },
     {
       path: "auth",
-      element: <AuthLayout />,
+      element: (
+        <FetchProvider>
+          <AuthLayout />
+        </FetchProvider>
+      ),
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Login /> },
@@ -56,7 +63,12 @@ export default function App() {
     },
     {
       path: "dashboard",
-      element: <MasterLayout />,
+      element: (
+        <ProtectedRoute>
+          {" "}
+          <MasterLayout />
+        </ProtectedRoute>
+      ),
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Home /> },
@@ -85,6 +97,7 @@ export default function App() {
   return (
     <>
       <RouterProvider router={routes} />
+      <Toaster position="bottom-center" reverseOrder={true} />
     </>
   );
 }
