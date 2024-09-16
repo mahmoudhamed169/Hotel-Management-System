@@ -63,10 +63,23 @@ export default function App() {
     },
     {
       path: "dashboard",
-      element: <ProtectedRoute> <MasterLayout /></ProtectedRoute>,
+      element: (
+        <ProtectedRoute>
+          {" "}
+          <MasterLayout />
+        </ProtectedRoute>
+      ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Home /> },
+        {
+          index: true,
+          element: (
+            <FetchProvider>
+              {" "}
+              <Home />
+            </FetchProvider>
+          ),
+        },
         { path: "home", element: <Home /> },
         { path: "users", element: <UsersList /> },
         { path: "booking", element: <BookingList /> },

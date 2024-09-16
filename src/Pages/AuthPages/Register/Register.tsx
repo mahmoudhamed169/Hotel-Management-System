@@ -1,35 +1,36 @@
 import {
-  Box,
-  Button,
-  CircularProgress,
-  FormControl,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { useState } from "react";
+  AlternateEmail,
+  LanguageOutlined,
+  Person2Outlined,
+  PhoneInTalk,
+} from "@mui/icons-material";
+import { Box, FormControl, Stack, Typography, useTheme } from "@mui/material";
+import { useEffect } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Link } from "react-router-dom";
 import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS.tsx";
-import { useFetch } from "../../../Context/FetchContext";
+import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonForm.tsx";
 import { FormTextField } from "../../../Components/SharedComponents/FormTextField/FormTextField";
+import { PasswordTextField } from "../../../Components/SharedComponents/PasswordTextField/PasswordTextField.tsx";
+import { useFetch } from "../../../Context/FetchContext";
 
 export default function Register() {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-
+  const theme = useTheme();
   const fileTypes = ["JPG", "PNG", "GIF"];
   const {
     register,
     handleSubmit,
     setValue,
-
     setError,
     clearErrors,
+    watch,
     formState: { errors },
+    setFocus,
   } = useForm();
-
+  useEffect(() => {
+    setFocus("userName");
+  }, [setFocus]);
   const { fetchData, loading } = useFetch();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -57,23 +58,17 @@ export default function Register() {
       url: AUTHENTICATION_URLS.regitser,
       showToastify: true,
       data: formData,
+      navigateTo: "/auth/login",
     });
   };
 
-  const handleChange = (file: {
-    lastModified: number;
-    lastModifiedDate: string;
-    name: string;
-    size: number;
-    type: string;
-    webkitRelativePath: string;
-  }) => {
+  const handleChange = (file: File) => {
     setValue("profileImage", file);
   };
 
   return (
     <>
-      <Box className="form-head">
+      <Box className="form-head " sx={{ marginTop: "-2.5rem" }}>
         <Stack>
           <Typography variant="h3" sx={{ fontSize: "30px", fontWeight: "500" }}>
             Sign Up
@@ -86,71 +81,95 @@ export default function Register() {
           <Typography
             variant="h3"
             sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
-            You Can{" "}
-            <Link href="#" color="red" underline="none">
-              Login Here !
+            You Can
+            <Link
+              to={"/auth/login"}
+              style={{
+                marginLeft: "0.5rem",
+                color: "#eb5148",
+                textDecoration: "none",
+                fontWeight: "bold",
+                fontSize: "1rem",
+              }}>
+              Login here !
             </Link>
           </Typography>
         </Stack>
       </Box>
 
-      <Box sx={{ paddingRight: { md: "85px" } }}>
-        <Stack>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <FormControl>
-              <Typography variant="body1" sx={{ marginTop: "20px" }}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl
+          sx={{
+            mt: "1.25rem",
+            color: theme.palette.primary.main,
+
+            fontWeight: "normal",
+            fontSize: "base",
+            width: {
+              xs: "100%",
+              md: "90%",
+            },
+          }}>
+          <Stack spacing={2}>
+            <Box>
+              <Typography variant="body1" component="label" htmlFor="userName">
                 User Name
               </Typography>
               <FormTextField
                 placeholder="Please write user name"
                 errors={errors.userName}
                 name="userName"
+                icon={<Person2Outlined />}
                 register={register}
                 rules={{ required: "Username is required" }}
               />
+            </Box>
 
-              <Stack
-                justifyContent="space-between"
-                direction={{ md: "row" }}
-                useFlexGap
-                spacing={0}>
-                <Box>
-                  <Typography variant="body1" sx={{ marginTop: "15px" }}>
-                    Phone Number
-                  </Typography>
-                  <Box sx={{ width: { xs: "100%", md: "90%" } }}>
-                    <FormTextField
-                      placeholder="Please write phone number"
-                      errors={errors.phoneNumber}
-                      type="number"
-                      name="phoneNumber"
-                      register={register}
-                      rules={{
-                        required: "Phone number is required",
-                        pattern: {
-                          value: /^01\d{9}$/,
-                          message: "Must start with 01 and be 11 digits",
-                        },
-                      }}
-                    />
-                  </Box>
-                </Box>
-                <Box>
-                  <Typography variant="body1" sx={{ marginTop: "15px" }}>
-                    Country
-                  </Typography>
-                  <Box sx={{ width: "100%" }}>
-                    <FormTextField
-                      placeholder="Please write your country"
-                      errors={errors.country}
-                      name="country"
-                      register={register}
-                      rules={{ required: "Country is required" }}
-                    />
-                  </Box>
-                </Box>
-              </Stack>
-              <Typography variant="body1" sx={{ marginTop: "15px" }}>
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={2}
+              useFlexGap>
+              <Box flex={1}>
+                <Typography
+                  variant="body1"
+                  component="label"
+                  htmlFor="phoneNumber">
+                  Phone Number
+                </Typography>
+                <FormTextField
+                  placeholder="Please write phone number"
+                  errors={errors.phoneNumber}
+                  type="number"
+                  name="phoneNumber"
+                  register={register}
+                  icon={<PhoneInTalk />}
+                  rules={{
+                    required: "Phone number is required",
+                    pattern: {
+                      value: /^01\d{9}$/,
+                      message: "Must start with 01 and be 11 digits",
+                    },
+                  }}
+                />
+              </Box>
+
+              <Box flex={1}>
+                <Typography variant="body1" component="label" htmlFor="country">
+                  Country
+                </Typography>
+                <FormTextField
+                  placeholder="Please write your country"
+                  errors={errors.country}
+                  name="country"
+                  icon={<LanguageOutlined />}
+                  register={register}
+                  rules={{ required: "Country is required" }}
+                />
+              </Box>
+            </Stack>
+
+            <Box>
+              <Typography variant="body1" component="label" htmlFor="email">
                 Email Address
               </Typography>
               <FormTextField
@@ -158,6 +177,7 @@ export default function Register() {
                 errors={errors.email}
                 name="email"
                 register={register}
+                icon={<AlternateEmail />}
                 rules={{
                   required: "Email is required",
                   pattern: {
@@ -166,124 +186,87 @@ export default function Register() {
                   },
                 }}
               />
+            </Box>
 
-              <Typography variant="body1" sx={{ marginTop: "15px" }}>
-                Password
-              </Typography>
-              <FormTextField
-                placeholder="Please write password"
-                errors={errors.password}
-                showPassword={showPassword}
-                setShowPassword={setShowPassword}
-                type={showPassword ? "text" : "password"}
-                icon={
-                  <Button
-                    onClick={() => setShowPassword(!showPassword)}
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
-                    sx={{
-                      minWidth: "auto",
-                      padding: 0,
-                      background: "none",
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={2}
+              useFlexGap>
+              <Box>
+                <Typography
+                  variant="body1"
+                  component="label"
+                  htmlFor="password">
+                  Password
+                </Typography>
+                <PasswordTextField
+                  placeholder="Please write password"
+                  errors={errors.password}
+                  name="password"
+                  register={register}
+                  rules={{
+                    required: "Password is required",
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      message:
+                        "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character",
+                    },
+                  }}
+                />
+              </Box>
 
-                      cursor: "pointer",
-                    }}>
-                    {showPassword ? (
-                      <VisibilityIcon style={{ fontSize: "17px" }} />
-                    ) : (
-                      <VisibilityOffIcon style={{ fontSize: "17px" }} />
-                    )}
-                  </Button>
-                }
-                name="password"
-                register={register}
-                rules={{ required: "Password is required" }}
-              />
+              <Box>
+                <Typography
+                  variant="body1"
+                  component="label"
+                  htmlFor="confirmPassword">
+                  Confirm Password
+                </Typography>
+                <PasswordTextField
+                  placeholder="Please write password"
+                  errors={errors.confirmPassword}
+                  name="confirmPassword"
+                  register={register}
+                  rules={{
+                    required: "Confirm password is required",
+                    validate: (value) =>
+                      value === watch("password") || "Passwords does not match",
+                  }}
+                />
+              </Box>
+            </Stack>
 
-              <Typography variant="body1" sx={{ marginTop: "15px" }}>
-                Confirm Password
-              </Typography>
-              <FormTextField
-                placeholder="Please write password"
-                errors={errors.confirmPassword}
-                type={showPassword ? "text" : "password"}
-                showPassword={showPassword}
-                setShowPassword={setShowPassword}
-                icon={
-                  <Button
-                    onClick={() => setShowPassword(!showPassword)}
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
-                    sx={{
-                      minWidth: "auto",
-                      padding: 0,
-                      background: "none",
-
-                      cursor: "pointer",
-                    }}>
-                    {showPassword ? (
-                      <VisibilityIcon style={{ fontSize: "17px" }} />
-                    ) : (
-                      <VisibilityOffIcon style={{ fontSize: "17px" }} />
-                    )}
-                  </Button>
-                }
-                name="confirmPassword"
-                register={register}
-                rules={{ required: "Confirm password is required" }}
-              />
-              <Box sx={{ marginTop: "15px" }}>
+            <Stack>
+              <Box>
+                <Typography variant="body1" component="label">
+                  Profile Image
+                </Typography>
                 <FileUploader
                   handleChange={handleChange}
                   onSelect={() => clearErrors("profileImage")}
-                  name="Photo"
+                  name="profileImage"
                   hoverTitle="Drop Here"
                   types={fileTypes}
                 />
                 {errors.profileImage && (
                   <Typography
                     sx={{
-                      marginLeft: "14px",
                       marginTop: "3px",
                       fontSize: "0.75rem",
                       color: "#d32f2f",
                     }}
-                    variant="body1">
+                    variant="body2">
                     Photo is required
                   </Typography>
                 )}
               </Box>
-              <Button
-                variant="contained"
-                type="submit"
-                fullWidth
-                sx={{
-                  backgroundColor: "#3252DF",
-                  textTransform: "none",
-                  marginTop: "12px",
-                  boxShadow: "0px 8px 15px 0px #3252DF4D",
-                  "&:hover": {
-                    backgroundColor: "#0039CB",
-                  },
-                  "&:disabled": {
-                    backgroundColor: "#0039CB",
-                    color: "#ffff",
-                  },
-                }}
-                disabled={loading}
-                startIcon={
-                  loading ? (
-                    <CircularProgress size={20} color="inherit" />
-                  ) : null
-                }>
-                {loading ? "Loading..." : "Register"}
-              </Button>
-            </FormControl>
-          </form>
-        </Stack>
-      </Box>
+            </Stack>
+
+            <ButtonForm name="Register" isSubmitting={loading} />
+          </Stack>
+        </FormControl>
+      </form>
     </>
   );
 }

@@ -9,8 +9,6 @@ interface FormTextFieldType {
   rules?: RegisterOptions;
   icon?: ReactNode;
   type?: string;
-  setShowPassword?: (show: boolean) => void;
-  showPassword?: boolean;
 }
 export const FormTextField = ({
   placeholder,
@@ -20,8 +18,6 @@ export const FormTextField = ({
   rules,
   icon = null,
   type = "text",
-  setShowPassword,
-  showPassword,
 }: FormTextFieldType) => {
   return (
     <TextField
@@ -31,7 +27,6 @@ export const FormTextField = ({
       helperText={errors ? errors.message : ""}
       InputProps={{
         sx: {
-          backgroundColor: "rgba(245, 246, 248, 1)",
           "& input": {
             padding: "12px 16px",
           },
@@ -39,10 +34,10 @@ export const FormTextField = ({
         endAdornment: icon ? (
           <InputAdornment
             sx={{ cursor: "pointer" }}
-            onClick={() => setShowPassword && setShowPassword(!showPassword)}
             onMouseUp={(e) => e.preventDefault()}
             onMouseDown={(e) => e.preventDefault()}
-            position="end">
+            position="end"
+          >
             {icon}
           </InputAdornment>
         ) : null,

@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { Grid, Box, Typography, Button } from "@mui/material";
+import { ArrowBack, Home } from "@mui/icons-material";
 
 export default function NotFound() {
   const navigate = useNavigate();
@@ -6,65 +8,138 @@ export default function NotFound() {
   const handleGoBack = () => {
     navigate(-1);
   };
+
   const handleGoHome = () => {
     navigate("/");
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900 ">
-      <div className="container min-h-screen px-6 py-12 mx-auto lg:flex lg:items-center lg:gap-12">
-        <div className="wf-ull lg:w-1/2">
-          <p className="text-sm font-medium text-blue-500 dark:text-blue-400">
-            404 error
-          </p>
-          <h1 className="mt-3 text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl">
+    <Grid container spacing={3} sx={{ height: { xs: "auto", md: "100vh" } }}>
+      <Grid
+        item
+        xs={12}
+        md={6}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box sx={{ mt: 5, ml: { xs: 2, md: 8 } }}>
+          <Typography variant="h6" color="primary">
+            404 Error
+          </Typography>
+          <Typography variant="h4" sx={{ mt: 2, fontWeight: "bold" }}>
             Page not found
-          </h1>
-          <p className="mt-4 text-gray-500 dark:text-gray-400">
-            Sorry, the page you are looking for doesn't exist.Here are some
+          </Typography>
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            Sorry, the page you are looking for doesn't exist. Here are some
             helpful links:
-          </p>
+          </Typography>
 
-          <div className="flex items-center mt-6 gap-x-3">
-            <button
+          <Box
+            sx={{
+              mt: 5,
+            }}
+          >
+            <Button
               onClick={handleGoBack}
-              className="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700"
+              variant="outlined"
+              startIcon={<ArrowBack />}
+              sx={{
+                textTransform: "none",
+                borderColor: "divider",
+                color: "text.primary",
+                mr: 2,
+                "&:hover": {
+                  backgroundColor: "action.hover",
+                },
+              }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                className="w-5 h-5 rtl:rotate-180"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-                />
-              </svg>
-
-              <span>Go back</span>
-            </button>
-
-            <button
+              Go back
+            </Button>
+            <Button
               onClick={handleGoHome}
-              className="w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+              variant="contained"
+              color="primary"
+              startIcon={<Home />}
+              sx={{
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: "primary.dark",
+                },
+              }}
             >
               Take me home
-            </button>
-          </div>
-        </div>
+            </Button>
+          </Box>
+        </Box>
+      </Grid>
 
-        <div className="relative w-full mt-8 lg:w-1/2 lg:mt-0">
+      <Grid
+        item
+        xs={12}
+        md={6}
+        sx={{ position: "relative", height: "100%", overflow: "hidden" }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "start",
+            height: "calc(100% - 42px)",
+            width: "calc(100% - 42px)",
+            margin: "24px",
+            position: "relative",
+            overflow: "hidden",
+            color: "white",
+            borderRadius: "1rem",
+          }}
+        >
           <img
-            className=" w-full lg:h-[32rem] h-80 md:h-96 rounded-lg object-cover "
             src="https://images.unsplash.com/photo-1613310023042-ad79320c00ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-            alt=""
+            alt="Background"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+              zIndex: -1,
+            }}
           />
-        </div>
-      </div>
-    </section>
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 0,
+            }}
+          ></Box>
+          <Box
+            sx={{
+              p: { xs: 2, sm: 4, lg: 9 },
+              ml: { xs: 1, sm: 3, lg: 4 },
+              zIndex: 1,
+              position: "relative",
+              color: "white",
+            }}
+          >
+            <Typography variant="h3" sx={{ fontWeight: "bold" }}>
+              Page not found
+            </Typography>
+            <Typography sx={{ mt: 1, opacity: 0.9 }}>
+              Sorry, the page you are looking for doesn't exist.
+            </Typography>
+          </Box>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }

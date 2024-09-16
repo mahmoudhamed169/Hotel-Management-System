@@ -19,7 +19,7 @@ export default function AuthContextProvider(props) {
       saveLoginData();
     }
   }, []);
-
+  console.log(loginData);
   return (
     <AuthContext.Provider value={{ loginData, saveLoginData }}>
       {props.children}
