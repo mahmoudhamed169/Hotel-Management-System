@@ -26,7 +26,7 @@ export default function MasterLayout() {
   return (
 
     <>
-    <Sidebar/>
+    <Navbar/>
     <Box sx={{ padding: "72px" }}>
       <Outlet />
     </Box>
