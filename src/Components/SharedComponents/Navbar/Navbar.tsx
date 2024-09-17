@@ -175,7 +175,7 @@ export default function Navbar() {
           </Toolbar>
         </AppBar>
 
-        <Drawer variant="permanent" open={open}>
+        <Drawer variant="permanent" open={open} >
           <DrawerHeader>
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "rtl" ? (

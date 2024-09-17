@@ -29,11 +29,8 @@ export default function Sidebar() {
 
   return (
     <>
-
-          
-       
           <List>
-          <ListItem disablePadding>
+          <ListItem disablePadding >
             <ListItemButton onClick={()=>(navigate('/dashboard'))}>
               <ListItemIcon>
                 <HomeIcon />
