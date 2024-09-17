@@ -269,7 +269,7 @@ export default function Sidebar() {
           </ListItem>
 
           
-      <ListItem disablePadding onClick={()=>(localStorage.removeItem('token') , navigate('auth'))}>
+      <ListItem disablePadding onClick={()=>(localStorage.removeItem('token') , navigate('/auth'))}>
             
             <ListItemButton >
               <ListItemIcon>
