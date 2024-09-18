@@ -26,9 +26,11 @@ export default function MasterLayout() {
   return (
 
     <>
-    <Box sx={{ padding: "72px" , display:'flex'}}>
+    <Box sx={{  display:'flex'}}>
     <Navbar/>
+      <Box sx={{paddingTop:'5rem', width:'90%' ,paddingInline:{xs:'1rem'}, margin:'auto'}}>
       <Outlet/>
+      </Box>
     </Box>
     
     </>
