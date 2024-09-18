@@ -4,6 +4,8 @@ import { useLoading } from "../../Context/LoadingContext/LoadingContext";
 import { useEffect } from "react";
 import MainLoading from "../../Components/SharedComponents/MainLoading/MainLoading";
 import { Box } from "@mui/material";
+import Navbar from "../../Components/SharedComponents/Navbar/Navbar";
+import Sidebar from "../../Components/SharedComponents/Sidebar/Sidebar";
 
 export default function MasterLayout() {
   MasterPageTitle();
@@ -22,8 +24,16 @@ export default function MasterLayout() {
     return <MainLoading />;
   }
   return (
-    <Box sx={{ padding: "72px" }}>
-      <Outlet />
+
+    <>
+    <Box sx={{  display:'flex'}}>
+    <Navbar/>
+      <Box sx={{paddingTop:'5rem', width:'90%' ,paddingInline:{xs:'1rem'}, margin:'auto'}}>
+      <Outlet/>
+      </Box>
     </Box>
+    
+    </>
+   
   );
 }

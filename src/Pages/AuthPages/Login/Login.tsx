@@ -1,7 +1,7 @@
 import { AlternateEmail } from "@mui/icons-material";
 import { Box, FormControl, Stack, Typography, useTheme } from "@mui/material";
 import axios, { AxiosError } from "axios";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonFo
 import { PasswordTextField } from "../../../Components/SharedComponents/PasswordTextField/PasswordTextField";
 import { FormTextField } from "./../../../Components/SharedComponents/FormTextField/FormTextField";
 import { apiClient } from "../../../Api/END_POINTS";
+import { AuthContext } from "../../../Context/AuthContext";
 
 // interface IFormInput {
 //   email: string;
@@ -23,8 +24,11 @@ interface responseType {
 }
 export default function Login() {
   const theme = useTheme();
-  const navigate = useNavigate();
+  // let {saveLoginData}=useContext(AuthContext)
 
+  const {setUserId } = useContext(AuthContext)
+  
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -35,6 +39,14 @@ export default function Login() {
     setFocus("email");
   }, [setFocus]);
 
+    const handleNavigate = (role:string)=>{
+      if (role === 'admin') {
+        navigate("/dashboard")
+      } 
+      else{
+        navigate('/home')
+      }
+    }
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Processing...");
     try {
@@ -42,13 +54,18 @@ export default function Login() {
         AUTHENTICATION_URLS.login,
         data
       );
-      const { token } = response.data.data;
-      console.log(response.data.data.token);
-      localStorage.setItem("token", token);
+      console.log(response.data);
+      
+      const { token , user } = response.data.data;
+      // console.log(response.data.data.token);
+      localStorage.setItem("token", token); 
+      // saveLoginData()
+      setUserId(user._id)
       toast.success("Login Successfully", {
         id: toastId,
       });
-      navigate("/dashboard");
+      handleNavigate(user.role)
+      
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       toast.error(axiosError.response?.data?.message || "An error occurred", {
