@@ -14,13 +14,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useContext, useEffect, useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
-import { AuthContext } from "../../../Context/AuthContext";
+import AuthContextProvider, { AuthContext } from "../../../Context/AuthContext";
 import { apiClient } from "../../../Api/END_POINTS";
 import toast from "react-hot-toast";
-
-
-
-
+import ThemeToggleButton from "./../ThemeToggleButton/ThemeToggleButton";
 
 const drawerWidth = 240;
 
@@ -65,7 +62,6 @@ const AppBar = styled(MuiAppBar, {
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
-    
   }),
   variants: [
     {
@@ -95,8 +91,6 @@ const Drawer = styled(MuiDrawer, {
       style: {
         ...openedMixin(theme),
         "& .MuiDrawer-paper": openedMixin(theme),
-       
-
       },
     },
     {
@@ -109,13 +103,11 @@ const Drawer = styled(MuiDrawer, {
   ],
 }));
 export default function Navbar() {
+  const { loginData } = useContext(AuthContext);
+  console.log(loginData);
 
-
-
-  
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -124,20 +116,20 @@ export default function Navbar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-
-
-
+  if (!loginData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
-
-
-
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
 
-        <AppBar position="fixed" open={open} sx={{backgroundColor:" #F8F9FB" , color:"#2F313F"}}>
+        <AppBar
+          position="fixed"
+          open={open}
+          sx={{ backgroundColor: " #F8F9FB", color: "#2F313F" }}
+        >
           <Toolbar>
             <IconButton
               color="inherit"
@@ -147,19 +139,20 @@ export default function Navbar() {
               sx={[
                 {
                   marginRight: 5,
-                  color:'#203FC7'
+                  color: "#203FC7",
                 },
                 open && { display: "none" },
-                
               ]}
             >
-              <MenuIcon  />
+              <MenuIcon />
             </IconButton>
             <Box sx={{ flexGrow: 1 }} />
-            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+            <Box sx={{ marginInline: "0.5rem" }}>
+              <ThemeToggleButton />
+            </Box>
+            <Avatar alt="Travis Howard" src={loginData?.profileImage} />
             <Typography variant="h6" sx={{ ml: 1 }}>
-              {/* {loginData.role} */}
-              
+              {loginData?.userName}
             </Typography>
             <IconButton
               size="large"
@@ -168,7 +161,6 @@ export default function Navbar() {
             >
               <Badge color="error">
                 <ArrowDropDownIcon />
-                
               </Badge>
             </IconButton>
             <IconButton
@@ -183,11 +175,9 @@ export default function Navbar() {
           </Toolbar>
         </AppBar>
 
-   
-
-    <Drawer variant="permanent" open={open} sx={{backgroundColor:'red'}} >
-          <DrawerHeader sx={{backgroundColor:'#203FC7'}} >
-            <IconButton onClick={handleDrawerClose} sx={{color:'#fff'}}>
+        <Drawer variant="permanent" open={open} sx={{ backgroundColor: "red" }}>
+          <DrawerHeader sx={{ backgroundColor: "#203FC7" }}>
+            <IconButton onClick={handleDrawerClose} sx={{ color: "#fff" }}>
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
               ) : (
@@ -195,17 +185,10 @@ export default function Navbar() {
               )}
             </IconButton>
           </DrawerHeader>
-          
 
-              <Sidebar />
-            
-          
-
-
+          <Sidebar />
         </Drawer>
-   
       </Box>
-
     </>
-  )
+  );
 }

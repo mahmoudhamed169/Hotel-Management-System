@@ -1,75 +1,57 @@
-import { jwtDecode } from "jwt-decode";
 import { createContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { apiClient } from "../Api/END_POINTS";
 
 interface IUser {
-  profileImage:string,
-  userName : string,
+  profileImage: string;
+  userName: string;
 }
 
-interface IResponse{
-  success:string,
-  message:string,
-  data:{user:IUser};
+interface IResponse {
+  success: string;
+  message: string;
+  data: { user: IUser };
 }
+
 export const AuthContext = createContext(null);
 
 export default function AuthContextProvider(props) {
-  const [loginData, setLoginData] = useState();
+  const [loginData, setLoginData] = useState<IUser | null>(
+    () => JSON.parse(localStorage.getItem("loginData") as string) || null // Initialize state from localStorage
+  );
+  const [userId, setUserId] = useState<string | undefined>();
 
-  const [userId, setUserId]=useState()
-  const [userData, setUserData]=useState<IUser>()
+  console.log("User ID:", userId);
 
-  const saveLoginData = () => {
+  const getUserProfile = async () => {
+    try {
+      const response = await apiClient.get<IResponse>(`portal/users/${userId}`);
+      const user = response.data.data.user;
 
-    const encodedToken = localStorage.getItem('token')
-    const decodedToken = jwtDecode(encodedToken)
-    setLoginData(decodedToken);
-    console.log(loginData);
-    
-
+      setLoginData(user);
+      localStorage.setItem("loginData", JSON.stringify(user)); // Store user data in localStorage
+    } catch (error) {
+      console.log("Error fetching user profile:", error);
+    }
   };
 
   useEffect(() => {
-
-    if (localStorage.getItem('token')) {
-      saveLoginData()
+    if (userId) {
+      getUserProfile();
     }
-  }, [])
+  }, [userId]);
 
-  const getUserProfile =  async ()=>{
-
-    try {
-      const response = await apiClient.get<IResponse>(
-        `portal/users/${userId}`
-
-      )
-      console.log(response);
-      
-    setLoginData(response?.data?.data)
-      console.log(loginData);
-      
-      // console.log(userDate);
-      toast(userDate?.userName,{
-        position:"top-center",
-        // padding: '16px',
-        icon: '🙌',
+  useEffect(() => {
+    if (loginData) {
+      toast.success(`Welcome, ${loginData.userName}`, {
+        position: "top-center",
+        icon: "🙌",
       });
-      
-      
-    } catch (error) {
-      console.log(error);
-      
     }
-}
-  // useEffect(() => {
-  //   if (userId) {
-  //     getUserProfile();
-  //   }
-  // }, []);
+  }, [loginData]);
+
   return (
-    <AuthContext.Provider value={{ loginData ,setUserId, userId}}>
+    <AuthContext.Provider value={{ setUserId, loginData }}>
       {props.children}
     </AuthContext.Provider>
   );

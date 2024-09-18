@@ -26,9 +26,9 @@ export default function Login() {
   const theme = useTheme();
   // let {saveLoginData}=useContext(AuthContext)
 
-  const {setUserId } = useContext(AuthContext)
-  
-  const navigate = useNavigate()
+  const { setUserId } = useContext(AuthContext);
+
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -39,14 +39,13 @@ export default function Login() {
     setFocus("email");
   }, [setFocus]);
 
-    const handleNavigate = (role:string)=>{
-      if (role === 'admin') {
-        navigate("/dashboard")
-      } 
-      else{
-        navigate('/home')
-      }
+  const handleNavigate = (role: string) => {
+    if (role === "admin") {
+      navigate("/dashboard");
+    } else {
+      navigate("/home");
     }
+  };
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Processing...");
     try {
@@ -54,18 +53,14 @@ export default function Login() {
         AUTHENTICATION_URLS.login,
         data
       );
-      console.log(response.data);
-      
-      const { token , user } = response.data.data;
-      // console.log(response.data.data.token);
-      localStorage.setItem("token", token); 
-      // saveLoginData()
-      setUserId(user._id)
+      // console.log(response.data);
+      const { token, user } = response.data.data;
+      localStorage.setItem("token", token);
+      setUserId(user._id);
       toast.success("Login Successfully", {
         id: toastId,
       });
-      handleNavigate(user.role)
-      
+      handleNavigate(user.role);
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       toast.error(axiosError.response?.data?.message || "An error occurred", {
@@ -83,12 +78,14 @@ export default function Login() {
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}
+          >
             If you don’t have an account register
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}
+          >
             You Can
             <Link
               to={"/auth/register"}
@@ -98,7 +95,8 @@ export default function Login() {
                 textDecoration: "none",
                 fontWeight: "bold",
                 fontSize: "1rem",
-              }}>
+              }}
+            >
               Register here !
             </Link>
           </Typography>
@@ -116,7 +114,8 @@ export default function Login() {
               xs: "100%",
               md: "90%",
             },
-          }}>
+          }}
+        >
           <Stack spacing={3}>
             <Box>
               <Typography variant="body1" component="label" htmlFor="email">
@@ -156,10 +155,12 @@ export default function Login() {
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
-              }}>
+              }}
+            >
               <Link
                 to={"/auth/forget-password"}
-                style={{ color: "#4D4D4D", textDecoration: "none" }}>
+                style={{ color: "#4D4D4D", textDecoration: "none" }}
+              >
                 Forgot Password ?
               </Link>
             </Box>
