@@ -1,3 +1,4 @@
+import { useTheme } from "@emotion/react";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import BedroomParentIcon from '@mui/icons-material/BedroomParent';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -6,7 +7,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from '@mui/icons-material/Home';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Collapse } from "@mui/material";
+import { Box, Collapse } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -17,8 +18,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function Sidebar() {
-  // let {loginData} = useContext(AuthContext)
-
+ 
   const navigate = useNavigate()
 
   const [openNestedList, setOpenNestedList] = useState(false);
@@ -29,13 +29,14 @@ export default function Sidebar() {
 
   return (
     <>
-          <List>
-          <ListItem disablePadding >
+      <Box sx={{backgroundColor:'#203FC7' , height:'100%' , color:'#fff'}}>
+          <List >
+          <ListItem disablePadding  >
             <ListItemButton onClick={()=>(navigate('/dashboard'))}>
-              <ListItemIcon>
-                <HomeIcon />
+              <ListItemIcon sx={{fontWeight:'600' , fontSize:"13px"}}>
+                <HomeIcon sx={{color:"#ffff"}}/>
               </ListItemIcon>
-              <ListItemText primary="Home" />
+              <ListItemText primary="Home"  />
             </ListItemButton>
           </ListItem>
 
@@ -44,7 +45,7 @@ export default function Sidebar() {
           <ListItem disablePadding>
             <ListItemButton onClick={()=>(navigate('/dashboard/users'))}>
               <ListItemIcon>
-              <GroupIcon />
+              <GroupIcon sx={{color:"#ffff"}} />
                 
               </ListItemIcon>
               <ListItemText primary="Users" />
@@ -53,7 +54,7 @@ export default function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton onClick={()=>(navigate('/dashboard/rooms'))}>
-              <ListItemIcon>
+              <ListItemIcon  sx={{color:"#ffff"}}>
               <DashboardIcon />
                 
               </ListItemIcon>
@@ -63,7 +64,7 @@ export default function Sidebar() {
 
           <ListItem disablePadding>
             <ListItemButton onClick={()=>(navigate('/dashboard/ads'))}>
-              <ListItemIcon>
+              <ListItemIcon  sx={{color:"#ffff"}}>
               <CalendarMonthIcon />
                 
               </ListItemIcon>
@@ -74,7 +75,7 @@ export default function Sidebar() {
 
 
        <ListItemButton onClick={handleClickNested} >
-        <ListItemIcon  >
+        <ListItemIcon  sx={{color:"#ffff"}} >
           <GroupIcon />
         </ListItemIcon>
         <ListItemText primary="Bookings"  onClick={()=>(navigate('/dashboard/booking'))}/>
@@ -83,7 +84,7 @@ export default function Sidebar() {
       <Collapse in={openNestedList} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 }} onClick={()=>(navigate('/dashboard/room-facilities'))} >
-            <ListItemIcon>
+            <ListItemIcon  sx={{color:"#ffff"}}>
             <BedroomParentIcon/>
              
             </ListItemIcon>
@@ -94,7 +95,7 @@ export default function Sidebar() {
 
       <ListItem disablePadding>
             <ListItemButton onClick={()=>(navigate('/auth/forget-password'))}>
-              <ListItemIcon>
+              <ListItemIcon  sx={{color:"#ffff"}}>
               <LockOpenIcon />
               </ListItemIcon>
               <ListItemText primary="Change password" />
@@ -104,8 +105,8 @@ export default function Sidebar() {
           
       <ListItem disablePadding onClick={()=>(localStorage.removeItem('token') , navigate('/auth'))}>
             
-            <ListItemButton >
-              <ListItemIcon>
+            <ListItemButton  >
+              <ListItemIcon  sx={{color:"#ffff"}}>
               <LogoutIcon />
                 
               </ListItemIcon>
@@ -115,7 +116,8 @@ export default function Sidebar() {
 
         </List>
 
-
+      
+      </Box>
     
     </>
   );

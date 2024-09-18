@@ -35,7 +35,6 @@ export default function Home() {
       setData(response[0].data.data);
     }
   }, [response]);
-  console.log(data);
   return (
     <Box>
       <Box>
