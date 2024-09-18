@@ -18,7 +18,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       theme.palette.mode === "light" ? "#1F263E" : theme.palette.common.white,
     fontWeight: 500,
     fontSize: "1rem",
-    height: "80px",
+    height: "100px",
     borderBottom: "none",
   },
   [`&.${TableCell.body}`]: {
@@ -52,6 +52,7 @@ const TableSkeleton = ({ columns, rowCount }) => {
       <Table
         sx={{
           minWidth: 700,
+
           borderCollapse: "collapse",
           "& th, & td": {
             border: "none",
@@ -66,7 +67,7 @@ const TableSkeleton = ({ columns, rowCount }) => {
                 <StyledTableCell key={colIndex}>
                   {col === "images" || col === "profileImage" ? (
                     <Skeleton
-                      sx={{ height: 100 }}
+                      sx={{ height: 50 }}
                       animation="wave"
                       variant="rectangular"
                     />
@@ -75,7 +76,7 @@ const TableSkeleton = ({ columns, rowCount }) => {
                       variant="text"
                       width="90%"
                       animation="wave"
-                      sx={{ height: 40 }}
+                      sx={{ height: 20 }}
                     />
                   )}
                 </StyledTableCell>

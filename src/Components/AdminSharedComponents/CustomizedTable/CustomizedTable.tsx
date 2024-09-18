@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import ActionsMenu from "./../ActionsMenu/ActionsMenu";
+import { CheckCircle, Cancel } from "@mui/icons-material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -23,8 +24,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
     borderBottom: "none",
-    height: "64px",
-    paddingLeft: "2rem",
+    height: "50px",
   },
 }));
 
@@ -42,8 +42,126 @@ interface TableProps {
   data: any[];
   columns: string[];
 }
+const StatusBadge = styled("span")(({ status }: { status: string }) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  padding: "4px 8px",
+  borderRadius: "4px",
+  color: "#fff",
+  backgroundColor: status === "completed" ? "green" : "orange",
+}));
 
-const CustomTable: React.FC<TableProps> = ({ data, columns }) => {
+function renderCellContent(col: string, row: any) {
+  switch (col) {
+    case "status":
+      return (
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <StatusBadge status={row.status}>
+            {row.status === "completed" ? "Completed" : "Pending"}
+          </StatusBadge>
+        </div>
+      );
+    case "room":
+      const room = row.room;
+      // console.log(room);
+
+      if (!room) {
+        return <span>No Room Data Available</span>;
+      }
+
+      const isDetailedRoom =
+        "price" in room || "capacity" in room || "discount" in room;
+
+      return isDetailedRoom ? (
+        <ul style={{ margin: 0, padding: 0 }}>
+          <li>Room Number: {room.roomNumber || "N/A"}</li>
+          <li>Price: {room.price ? `$${room.price}` : "N/A"}</li>
+          <li>Capacity: {room.capacity || "N/A"}</li>
+          <li>
+            Discount: {room.discount != null ? `${room.discount}%` : "N/A"}
+          </li>
+        </ul>
+      ) : (
+        <span>{room.roomNumber || "N/A"}</span>
+      );
+
+    case "isActive":
+      return (
+        <p
+          style={{
+            backgroundColor: row.isActive ? "#d4edda" : "#f8d7da",
+            color: row.isActive ? "#155724" : "#721c24",
+            padding: "0.5rem ",
+            borderRadius: "4px",
+            width: "85px",
+          }}
+        >
+          {row.isActive ? "Active" : "Not Active"}
+        </p>
+      );
+    case "verified":
+      return (
+        <p
+          style={{
+            backgroundColor: row.verified ? "#d4edda" : "#f8d7da",
+            color: row.verified ? "#155724" : "#721c24",
+            padding: "0.5rem ",
+            borderRadius: "4px",
+            width: "85px",
+          }}
+        >
+          {row.verified ? "Verified" : "Unverified"}
+        </p>
+      );
+    case "facilities":
+      return (
+        <ul style={{ margin: 0, padding: 0 }}>
+          {row.facilities.slice(0, 3).map((item: any, index: number) => (
+            <li key={index} style={{ marginBottom: "0.5rem" }}>
+              {item.name}
+            </li>
+          ))}
+          {row.facilities.length > 3 && (
+            <li style={{ color: "gray" }}>and more...</li>
+          )}
+        </ul>
+      );
+    case "images":
+      return row.images.length > 0 ? (
+        <img
+          src={row.images[0]}
+          alt="room"
+          style={{ width: "50px", height: "50px", objectFit: "cover" }}
+        />
+      ) : (
+        "No Image"
+      );
+    case "createdBy":
+      return row.createdBy?.userName || "N/A";
+    case "user":
+      return row.user?.userName || "N/A";
+    case "profileImage":
+      return row.profileImage ? (
+        <img
+          src={row.profileImage}
+          alt="profile"
+          style={{ width: "50px", height: "50px", objectFit: "cover" }}
+        />
+      ) : (
+        "No Image"
+      );
+    case "startDate":
+    case "endDate":
+    case "createdAt":
+      const dateStr = row[col];
+      const date = new Date(dateStr);
+      return date.toLocaleDateString("en-GB"); // Format as dd/mm/yyyy
+    default:
+      return row[col] || "N/A";
+  }
+}
+
+function CustomTable({ data, columns }: TableProps) {
   return (
     <TableContainer
       component={Paper}
@@ -76,48 +194,7 @@ const CustomTable: React.FC<TableProps> = ({ data, columns }) => {
             <StyledTableRow key={rowIndex}>
               {columns.map((col, colIndex) => (
                 <StyledTableCell key={colIndex}>
-                  {Array.isArray(row[col]) ? (
-                    col === "facilities" ? (
-                      <ul style={{ margin: 0, padding: 0 }}>
-                        {row[col]
-                          .slice(0, 3)
-                          .map((item: any, index: number) => (
-                            <li key={index} style={{ marginBottom: "0.5rem" }}>
-                              {item.name}
-                            </li>
-                          ))}
-                        {row[col].length > 3 && (
-                          <li style={{ color: "gray" }}>and more...</li>
-                        )}
-                      </ul>
-                    ) : col === "images" ? (
-                      row[col].length > 0 ? (
-                        <img src={row[col][0]} alt="room" width={100} />
-                      ) : (
-                        "No Image"
-                      )
-                    ) : (
-                      row[col] || "N/A"
-                    )
-                  ) : typeof row[col] === "object" && row[col] !== null ? (
-                    col === "createdBy" ? (
-                      (row[col] as { userName?: string }).userName || "N/A"
-                    ) : col === "user" ? (
-                      (row[col] as { userName?: string }).userName || "N/A"
-                    ) : col === "room" ? (
-                      (row[col] as { roomNumber?: string }).roomNumber || "N/A"
-                    ) : (
-                      "N/A"
-                    )
-                  ) : col === "profileImage" ? (
-                    row[col] ? (
-                      <img src={row[col]} alt="profile" width={100} />
-                    ) : (
-                      "No Image"
-                    )
-                  ) : (
-                    row[col] || "N/A"
-                  )}
+                  {renderCellContent(col, row)}
                 </StyledTableCell>
               ))}
               <StyledTableCell>
@@ -129,6 +206,6 @@ const CustomTable: React.FC<TableProps> = ({ data, columns }) => {
       </Table>
     </TableContainer>
   );
-};
+}
 
 export default CustomTable;
