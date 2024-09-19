@@ -1,5 +1,6 @@
 const BASE_URL = "https://upskilling-egypt.com:3000/api/v0";
 
+
 const BASE_ADMIN_URL = `${BASE_URL}/admin`;
 
 export const AUTHENTICATION_URLS = {
@@ -9,3 +10,8 @@ export const AUTHENTICATION_URLS = {
   changePassword: `${BASE_ADMIN_URL}/users/change-password`,
   resetPassword: `${BASE_ADMIN_URL}/users/reset-password`,
 };
+
+export const ADMIN_ROOM = {
+createRoom:`${BASE_ADMIN_URL}/rooms`,
+allFacility:`${BASE_ADMIN_URL}/room-facilities`
+}
