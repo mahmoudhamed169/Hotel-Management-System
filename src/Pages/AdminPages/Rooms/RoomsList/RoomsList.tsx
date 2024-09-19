@@ -3,7 +3,10 @@ import { apiClient } from "../../../../Api/END_POINTS";
 import CustomTable from "./../../../../Components/AdminSharedComponents/CustomizedTable/CustomizedTable";
 import TableSkeleton from "../../../../Components/AdminSharedComponents/TableSkeleton/TableSkeleton";
 import MyTablePagination from "./../../../../Components/AdminSharedComponents/TablePagination/MyTablePagination";
-import { Box } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import theme from "../../../../Context/ThemeContext/theme";
+import { useTheme } from "@emotion/react";
+import TableDetailsHeader from "../../../../Components/AdminSharedComponents/TableDetailsHeader/TableDetailsHeader";
 
 interface IFacility {
   _id: string;
@@ -83,32 +86,38 @@ export default function RoomsList() {
   ];
 
   return (
-    <div>
-      {loading ? (
-        <TableSkeleton columns={columns} rowCount={5} />
-      ) : error ? (
-        <p>{error}</p>
-      ) : (
-        <>
-          <CustomTable data={rooms} columns={columns} />
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "end",
-              margin: "2rem",
-            }}
-          >
-            <MyTablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              count={totalCount}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Box>
-        </>
-      )}
-    </div>
+    <>
+      <TableDetailsHeader
+        buttonTitle="Add New Room"
+        title="Rooms"
+        href="rooms/add-new"
+      />
+      <Box>
+        {loading ? (
+          <TableSkeleton columns={columns} rowCount={5} />
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <>
+            <CustomTable data={rooms} columns={columns} />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "end",
+                margin: "2rem",
+              }}>
+              <MyTablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                count={totalCount}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Box>
+          </>
+        )}
+      </Box>
+    </>
   );
 }

@@ -24,7 +24,7 @@ const lightPalette = {
     main: "#152C5B",
   },
   secondary: {
-    main: "#EF9B28",
+    main: "#203FC7",
     dark: "#D87D3F",
   },
   background: {
@@ -48,7 +48,7 @@ const darkPalette = {
     main: "#ffffff",
   },
   secondary: {
-    main: "#0E382F",
+    main: "#FFFFF",
     dark: "#093022",
   },
   background: {
