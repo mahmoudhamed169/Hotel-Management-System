@@ -4,6 +4,7 @@ import CustomTable from "../../../../Components/AdminSharedComponents/Customized
 import { apiClient } from "../../../../Api/END_POINTS";
 import MyTablePagination from "./../../../../Components/AdminSharedComponents/TablePagination/MyTablePagination";
 import { Box } from "@mui/material";
+import toast from "react-hot-toast";
 
 export default function BookingList() {
   const [booking, setBooking] = React.useState<{}[]>([]);
@@ -50,6 +51,17 @@ export default function BookingList() {
     setPage(1);
   };
 
+  const deleteBooking = async (id) => {
+    try {
+      const response = await apiClient.delete(`/admin/booking/${id}`);
+      toast.success("Booking delete sucesfully");
+      getAllBooking(page, rowsPerPage);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete Booking. Please try again.");
+    }
+  };
+
   const columns = [
     "room",
     "startDate",
@@ -66,7 +78,12 @@ export default function BookingList() {
         <p>{error}</p>
       ) : (
         <>
-          <CustomTable data={booking} columns={columns} />
+          <CustomTable
+            data={booking}
+            columns={columns}
+            onDelete={deleteBooking}
+            tag="Booking"
+          />
           <Box
             sx={{
               display: "flex",

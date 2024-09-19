@@ -3,15 +3,25 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { useTheme } from "@mui/material/styles";
+import ModalConfirmDelete from "../DeleteConfirmationModal/DeleteConfirmationModal";
+import { useLocation } from "react-router-dom";
 
-export default function ActionsMenu() {
+interface IProps {
+  row: any[];
+  onDelete?: () => void;
+  tag?: string;
+  viewIcon?: string;
+}
+
+export default function ActionsMenu({ row, onDelete, tag }: IProps) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const theme = useTheme();
-
+  const loaction = useLocation();
+  // console.log(loaction.pathname);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -44,22 +54,25 @@ export default function ActionsMenu() {
           },
         }}
       >
-        <MenuItem
-          sx={{
-            margin: "0.5rem",
-            paddingLeft: "2.5rem",
-            color: theme.palette.primary.main,
-          }}
-        >
-          <VisibilityRoundedIcon
+        {location.pathname === "/dashboard/room-facilities" || (
+          <MenuItem
             sx={{
-              marginLeft: "0.3rem",
-              marginRight: "0.75rem",
-              color: "#203Fc7",
+              margin: "0.5rem",
+              paddingLeft: "2.5rem",
+              color: theme.palette.primary.main,
             }}
-          />
-          View
-        </MenuItem>
+          >
+            <VisibilityRoundedIcon
+              sx={{
+                marginLeft: "0.3rem",
+                marginRight: "0.75rem",
+                color: "#203Fc7",
+              }}
+            />
+            View
+          </MenuItem>
+        )}
+
         <MenuItem
           sx={{
             margin: "0.5rem",
@@ -76,22 +89,14 @@ export default function ActionsMenu() {
           />
           Edit
         </MenuItem>
-        <MenuItem
-          sx={{
-            margin: "0.5rem",
-            paddingLeft: "2.5rem",
-            color: theme.palette.primary.main,
-          }}
-        >
-          <DeleteIcon
-            sx={{
-              marginLeft: "0.3rem",
-              marginRight: "0.75rem",
-              color: "#203Fc7",
+        {tag && (
+          <ModalConfirmDelete
+            deleteAction={() => {
+              onDelete(row._id);
             }}
+            tag={tag}
           />
-          Delete
-        </MenuItem>
+        )}
       </Menu>
     </>
   );

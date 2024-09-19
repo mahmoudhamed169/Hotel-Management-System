@@ -4,8 +4,9 @@ import TableSkeleton from "../../../../Components/AdminSharedComponents/TableSke
 import CustomTable from "../../../../Components/AdminSharedComponents/CustomizedTable/CustomizedTable";
 import MyTablePagination from "./../../../../Components/AdminSharedComponents/TablePagination/MyTablePagination";
 import { Box } from "@mui/material";
-import TableDetailsHeader from "../../../../Components/AdminSharedComponents/TableDetailsHeader/TableDetailsHeader";
+
 import AdsData from "../AdsData/AdsData";
+import toast from "react-hot-toast";
 
 export default function AdsList() {
   const [ads, setAds] = React.useState<[]>([]);
@@ -32,6 +33,16 @@ export default function AdsList() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const deleteAd = async (id) => {
+    try {
+      const response = await apiClient.delete(`/admin/ads/${id}`);
+      toast.success("Ad delete sucesfully");
+      getAllAds(page, rowsPerPage);
+    } catch (error) {
+      toast.error("Failed to delete ad. Please try again.");
     }
   };
 
@@ -67,7 +78,12 @@ export default function AdsList() {
         <p>{error}</p>
       ) : (
         <>
-          <CustomTable data={ads} columns={columns} />
+          <CustomTable
+            data={ads}
+            columns={columns}
+            onDelete={deleteAd}
+            tag="Ad"
+          />
           <Box
             sx={{
               display: "flex",

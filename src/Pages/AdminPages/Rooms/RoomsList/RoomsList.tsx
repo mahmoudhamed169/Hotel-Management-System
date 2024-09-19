@@ -7,6 +7,7 @@ import { Box, Button, Typography } from "@mui/material";
 import theme from "../../../../Context/ThemeContext/theme";
 import { useTheme } from "@emotion/react";
 import TableDetailsHeader from "../../../../Components/AdminSharedComponents/TableDetailsHeader/TableDetailsHeader";
+import toast from "react-hot-toast";
 
 interface IFacility {
   _id: string;
@@ -38,6 +39,8 @@ export default function RoomsList() {
   const [page, setPage] = React.useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [totalCount, setTotalCount] = React.useState<number>(0);
+  const [selectedRoom, setSelectedRoom] = React.useState<IRoom | null>(null);
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
 
   const getAllRooms = async (page: number, size: number) => {
     setLoading(true);
@@ -85,6 +88,27 @@ export default function RoomsList() {
     "facilities",
   ];
 
+  const deleteRoom = async (id) => {
+    try {
+      const response = await apiClient.delete(`/admin/rooms/${id}`);
+      toast.success("Rome delete sucesfully");
+      getAllRooms(page, rowsPerPage);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete Rome. Please try again.");
+    }
+  };
+
+  const handleView = (room: IRoom) => {
+    setSelectedRoom(room);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedRoom(null);
+  };
+
   return (
     <>
       <TableDetailsHeader
@@ -99,13 +123,20 @@ export default function RoomsList() {
           <p>{error}</p>
         ) : (
           <>
-            <CustomTable data={rooms} columns={columns} />
+            <CustomTable
+              data={rooms}
+              columns={columns}
+              onDelete={deleteRoom}
+              onView={handleView}
+              tag="Room"
+            />
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "end",
                 margin: "2rem",
-              }}>
+              }}
+            >
               <MyTablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 count={totalCount}

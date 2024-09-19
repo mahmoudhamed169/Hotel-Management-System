@@ -1,4 +1,3 @@
-import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,7 +7,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import ActionsMenu from "./../ActionsMenu/ActionsMenu";
-import { CheckCircle, Cancel } from "@mui/icons-material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -41,6 +39,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 interface TableProps {
   data: any[];
   columns: string[];
+  onDelete?: () => void;
+
+  tag: string;
 }
 const StatusBadge = styled("span")(({ status }: { status: string }) => ({
   display: "inline-flex",
@@ -161,7 +162,7 @@ function renderCellContent(col: string, row: any) {
   }
 }
 
-function CustomTable({ data, columns }: TableProps) {
+function CustomTable({ data, columns, onDelete, tag }: TableProps) {
   return (
     <TableContainer
       component={Paper}
@@ -198,7 +199,7 @@ function CustomTable({ data, columns }: TableProps) {
                 </StyledTableCell>
               ))}
               <StyledTableCell>
-                <ActionsMenu />
+                <ActionsMenu row={row} onDelete={onDelete} tag={tag} />
               </StyledTableCell>
             </StyledTableRow>
           ))}

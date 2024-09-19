@@ -71,8 +71,7 @@ export default function AdsData({ onAdd }) {
     handleSubmit,
     setFocus,
     formState: { errors, isSubmitting },
-    setValue: setFormValue,
-    getValues,
+
     reset,
   } = useForm<FormData>();
 
