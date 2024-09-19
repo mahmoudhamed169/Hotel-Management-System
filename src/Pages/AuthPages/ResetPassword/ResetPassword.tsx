@@ -36,7 +36,7 @@ export default function ResetPassword() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const toastId = toast.loading("Processing...");
     try {
-      const response = await axios.post<IResponse>(
+      const response = await axios.post<IResponse >(
         AUTHENTICATION_URLS.resetPassword,
         data
       );
@@ -44,7 +44,7 @@ export default function ResetPassword() {
       navigate("/auth/login");
     } catch (error) {
       const axiosError = error as AxiosError<IResponse>;
-      toast.error(axiosError.response?.data.message, { id: toastId });
+      toast.error(axiosError.response?.data.message  , { id: toastId });
     }
 
     console.log(data);
