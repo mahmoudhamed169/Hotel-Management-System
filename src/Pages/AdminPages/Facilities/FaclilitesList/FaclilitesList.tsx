@@ -4,6 +4,7 @@ import TableSkeleton from "../../../../Components/AdminSharedComponents/TableSke
 import CustomTable from "../../../../Components/AdminSharedComponents/CustomizedTable/CustomizedTable";
 import MyTablePagination from "./../../../../Components/AdminSharedComponents/TablePagination/MyTablePagination";
 import { Box } from "@mui/material";
+import toast from "react-hot-toast";
 
 export default function FaclilitesList() {
   const [facilities, setFacilities] = React.useState<{}[]>([]);
@@ -52,6 +53,17 @@ export default function FaclilitesList() {
 
   const columns = ["_id", "name", "createdBy"];
 
+  const deleteFaclities = async (id) => {
+    try {
+      const response = await apiClient.delete(`/admin/room-facilities/${id}`);
+      toast.success("Facilities delete sucesfully");
+      getAllFacilities(page, rowsPerPage);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete Facilities. Please try again.");
+    }
+  };
+
   return (
     <div>
       {loading ? (
@@ -60,7 +72,12 @@ export default function FaclilitesList() {
         <p>{error}</p>
       ) : (
         <>
-          <CustomTable data={facilities} columns={columns} />
+          <CustomTable
+            data={facilities}
+            columns={columns}
+            onDelete={deleteFaclities}
+            tag="Faclities"
+          />
           <Box
             sx={{
               display: "flex",
