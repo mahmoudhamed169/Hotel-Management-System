@@ -4,6 +4,8 @@ import TableSkeleton from "../../../../Components/AdminSharedComponents/TableSke
 import CustomTable from "../../../../Components/AdminSharedComponents/CustomizedTable/CustomizedTable";
 import MyTablePagination from "./../../../../Components/AdminSharedComponents/TablePagination/MyTablePagination";
 import { Box } from "@mui/material";
+import TableDetailsHeader from "../../../../Components/AdminSharedComponents/TableDetailsHeader/TableDetailsHeader";
+import AdsData from "../AdsData/AdsData";
 
 export default function AdsList() {
   const [ads, setAds] = React.useState<[]>([]);
@@ -13,7 +15,7 @@ export default function AdsList() {
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [totalCount, setTotalCount] = React.useState<number>(0);
 
-  const getAllFacilities = async (page: number, size: number) => {
+  const getAllAds = async (page: number, size: number) => {
     setLoading(true);
 
     try {
@@ -32,9 +34,10 @@ export default function AdsList() {
       setLoading(false);
     }
   };
-  React.useEffect((age, rowsPerPage) => {
-    getAllFacilities(age, rowsPerPage);
-  }, []);
+
+  React.useEffect(() => {
+    getAllAds(page, rowsPerPage);
+  }, [rowsPerPage, page]);
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -50,9 +53,14 @@ export default function AdsList() {
     setPage(1);
   };
 
+  const refreshAdsList = () => {
+    getAllAds(page, rowsPerPage);
+  };
+
   const columns = ["room", "isActive", "createdAt", "createdBy"];
   return (
     <div>
+      <AdsData onAdd={refreshAdsList} />
       {loading ? (
         <TableSkeleton columns={columns} rowCount={6} />
       ) : error ? (
