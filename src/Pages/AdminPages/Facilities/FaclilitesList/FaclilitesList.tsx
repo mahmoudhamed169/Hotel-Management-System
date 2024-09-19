@@ -11,7 +11,6 @@ import EditFacility from "./ModalContents/EditFacility";
 interface openModalType {
   AddModal: boolean;
   EditModal: boolean;
-  ViewModal: boolean;
   DeleteModal: boolean;
 }
 
@@ -25,9 +24,9 @@ export default function FaclilitesList() {
   const [openModal, setOpenModal] = useState<openModalType>({
     AddModal: false,
     EditModal: false,
-    ViewModal: true,
     DeleteModal: false,
   });
+  const [selectedFac, setSelectedFac] = useState("");
   const handleOpen = (ModalType: keyof openModalType) =>
     setOpenModal({ ...openModal, [ModalType]: true });
 
@@ -93,6 +92,7 @@ export default function FaclilitesList() {
         title={"Facilities"}
         buttonTitle={"Add New Facility"}
         href={""}
+        onclick={() => handleOpen("AddModal")}
       />
       <Box>
         {loading ? (
@@ -106,6 +106,7 @@ export default function FaclilitesList() {
             <CustomTable
               handleOpen={handleOpen}
               data={facilities}
+              setSelectedFac={setSelectedFac}
               columns={columns}
             />
             <Box
@@ -135,13 +136,21 @@ export default function FaclilitesList() {
           <Box sx={modalStyle}>
             <Box
               onClick={() => handleClose(selectedModal)}
-              sx={{ display: "flex", justifyContent: "flex-end" }}>
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                color: "red",
+                cursor: "pointer",
+              }}>
               <CloseIcon />
             </Box>
             {selectedModal === "AddModal" ? (
-              <AddFacility />
+              <AddFacility handleClose={handleClose} />
             ) : selectedModal === "EditModal" ? (
-              <EditFacility />
+              <EditFacility
+                handleClose={handleClose}
+                selectedFac={selectedFac}
+              />
             ) : (
               ""
             )}

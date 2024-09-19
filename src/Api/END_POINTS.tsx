@@ -21,4 +21,8 @@ export const AUTHENTICATION_URLS = {
   resetPassword: `admin/users/reset-password`,
 };
 
+export const ADMIN_URLS = {
+  facilities: `admin/room-facilities`,
+};
+
 export const DASHBOARD_URL = `/admin/dashboard`;

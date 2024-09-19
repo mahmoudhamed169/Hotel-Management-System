@@ -8,7 +8,7 @@ import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { useTheme } from "@mui/material/styles";
 
-export default function ActionsMenu({ handleOpen }) {
+export default function ActionsMenu({ handleOpen, setSelectedFac, value }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const theme = useTheme();
 
@@ -59,7 +59,10 @@ export default function ActionsMenu({ handleOpen }) {
           View
         </MenuItem>
         <MenuItem
-          onClick={() => handleOpen("EditModal")}
+          onClick={() => {
+            handleOpen("EditModal");
+            setSelectedFac(value);
+          }}
           sx={{
             margin: "0.5rem",
             paddingLeft: "2.5rem",

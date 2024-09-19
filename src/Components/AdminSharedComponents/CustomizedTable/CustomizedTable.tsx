@@ -159,7 +159,12 @@ function renderCellContent(col: string, row: any) {
   }
 }
 
-function CustomTable({ data, columns, handleOpen }: TableProps) {
+function CustomTable({
+  data,
+  columns,
+  handleOpen,
+  setSelectedFac,
+}: TableProps) {
   return (
     <TableContainer
       component={Paper}
@@ -196,7 +201,11 @@ function CustomTable({ data, columns, handleOpen }: TableProps) {
                 </StyledTableCell>
               ))}
               <StyledTableCell>
-                <ActionsMenu handleOpen={handleOpen} />
+                <ActionsMenu
+                  handleOpen={handleOpen}
+                  value={row}
+                  setSelectedFac={setSelectedFac}
+                />
               </StyledTableCell>
             </StyledTableRow>
           ))}
