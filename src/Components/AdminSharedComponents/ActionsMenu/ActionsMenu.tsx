@@ -8,7 +8,7 @@ import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { useTheme } from "@mui/material/styles";
 
-export default function ActionsMenu() {
+export default function ActionsMenu({ handleOpen }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const theme = useTheme();
 
@@ -25,8 +25,7 @@ export default function ActionsMenu() {
       <IconButton
         onClick={handleClick}
         aria-controls="action-menu"
-        aria-haspopup="true"
-      >
+        aria-haspopup="true">
         <MoreVertIcon />
       </IconButton>
       <Menu
@@ -42,15 +41,14 @@ export default function ActionsMenu() {
             borderRadius: "1.5rem",
             boxShadow: "none",
           },
-        }}
-      >
+        }}>
         <MenuItem
+          onClick={() => handleOpen("ViewModal")}
           sx={{
             margin: "0.5rem",
             paddingLeft: "2.5rem",
             color: theme.palette.primary.main,
-          }}
-        >
+          }}>
           <VisibilityRoundedIcon
             sx={{
               marginLeft: "0.3rem",
@@ -61,12 +59,12 @@ export default function ActionsMenu() {
           View
         </MenuItem>
         <MenuItem
+          onClick={() => handleOpen("EditModal")}
           sx={{
             margin: "0.5rem",
             paddingLeft: "2.5rem",
             color: theme.palette.primary.main,
-          }}
-        >
+          }}>
           <EditNoteRoundedIcon
             sx={{
               marginLeft: "0.3rem",
@@ -77,12 +75,12 @@ export default function ActionsMenu() {
           Edit
         </MenuItem>
         <MenuItem
+          onClick={() => handleOpen("DeleteModal")}
           sx={{
             margin: "0.5rem",
             paddingLeft: "2.5rem",
             color: theme.palette.primary.main,
-          }}
-        >
+          }}>
           <DeleteIcon
             sx={{
               marginLeft: "0.3rem",

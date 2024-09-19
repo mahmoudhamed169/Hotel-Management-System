@@ -94,8 +94,7 @@ function renderCellContent(col: string, row: any) {
             padding: "0.5rem ",
             borderRadius: "4px",
             width: "85px",
-          }}
-        >
+          }}>
           {row.isActive ? "Active" : "Not Active"}
         </p>
       );
@@ -108,8 +107,7 @@ function renderCellContent(col: string, row: any) {
             padding: "0.5rem ",
             borderRadius: "4px",
             width: "85px",
-          }}
-        >
+          }}>
           {row.verified ? "Verified" : "Unverified"}
         </p>
       );
@@ -161,7 +159,7 @@ function renderCellContent(col: string, row: any) {
   }
 }
 
-function CustomTable({ data, columns }: TableProps) {
+function CustomTable({ data, columns, handleOpen }: TableProps) {
   return (
     <TableContainer
       component={Paper}
@@ -169,8 +167,7 @@ function CustomTable({ data, columns }: TableProps) {
         boxShadow: "none",
         border: "none",
         marginTop: "1rem",
-      }}
-    >
+      }}>
       <Table
         sx={{
           minWidth: 700,
@@ -179,12 +176,13 @@ function CustomTable({ data, columns }: TableProps) {
             border: "none",
           },
         }}
-        aria-label="customized table"
-      >
+        aria-label="customized table">
         <TableHead>
           <TableRow>
             {columns.map((col) => (
-              <StyledTableCell key={col}>{col}</StyledTableCell>
+              <StyledTableCell key={col}>
+                {col === "_id" ? "id" : col}
+              </StyledTableCell>
             ))}
             <StyledTableCell>Actions</StyledTableCell>
           </TableRow>
@@ -198,7 +196,7 @@ function CustomTable({ data, columns }: TableProps) {
                 </StyledTableCell>
               ))}
               <StyledTableCell>
-                <ActionsMenu />
+                <ActionsMenu handleOpen={handleOpen} />
               </StyledTableCell>
             </StyledTableRow>
           ))}
