@@ -3,7 +3,6 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { useTheme } from "@mui/material/styles";
@@ -11,17 +10,24 @@ import ModalConfirmDelete from "../DeleteConfirmationModal/DeleteConfirmationMod
 import { useLocation } from "react-router-dom";
 
 interface IProps {
-  row: any[];
-  onDelete?: () => void;
+  value: any;
+  onDelete?: (id: string) => void;
   tag?: string;
-  viewIcon?: string;
+  handleOpen: (modalType: string) => void;
+  setSelectedFac: (value: any) => void;
 }
 
-export default function ActionsMenu({ row, onDelete, tag }: IProps) {
+const ActionsMenu: React.FC<IProps> = ({
+  value,
+  onDelete,
+  tag,
+  handleOpen,
+  setSelectedFac,
+}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const theme = useTheme();
-  const loaction = useLocation();
-  // console.log(loaction.pathname);
+  const loacation = useLocation();
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -54,8 +60,9 @@ export default function ActionsMenu({ row, onDelete, tag }: IProps) {
           },
         }}
       >
-        {location.pathname === "/dashboard/room-facilities" || (
+        {loacation.pathname === "/dashboard/room-facilities" || (
           <MenuItem
+            onClick={() => handleOpen("ViewModal")}
             sx={{
               margin: "0.5rem",
               paddingLeft: "2.5rem",
@@ -74,6 +81,10 @@ export default function ActionsMenu({ row, onDelete, tag }: IProps) {
         )}
 
         <MenuItem
+          onClick={() => {
+            handleOpen("EditModal");
+            setSelectedFac(value);
+          }}
           sx={{
             margin: "0.5rem",
             paddingLeft: "2.5rem",
@@ -89,15 +100,16 @@ export default function ActionsMenu({ row, onDelete, tag }: IProps) {
           />
           Edit
         </MenuItem>
+
         {tag && (
           <ModalConfirmDelete
-            deleteAction={() => {
-              onDelete(row._id);
-            }}
+            deleteAction={() => onDelete && onDelete(value._id)}
             tag={tag}
           />
         )}
       </Menu>
     </>
   );
-}
+};
+
+export default ActionsMenu;

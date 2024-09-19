@@ -162,7 +162,22 @@ function renderCellContent(col: string, row: any) {
   }
 }
 
-function CustomTable({ data, columns, onDelete, tag }: TableProps) {
+function CustomTable({
+  data,
+  columns,
+  onDelete,
+  tag,
+  handleOpen,
+  setSelectedFac,
+}) {
+  console.log({
+    data,
+    columns,
+    onDelete,
+    tag,
+    handleOpen,
+    setSelectedFac,
+  });
   return (
     <TableContainer
       component={Paper}
@@ -185,7 +200,9 @@ function CustomTable({ data, columns, onDelete, tag }: TableProps) {
         <TableHead>
           <TableRow>
             {columns.map((col) => (
-              <StyledTableCell key={col}>{col}</StyledTableCell>
+              <StyledTableCell key={col}>
+                {col === "_id" ? "id" : col}
+              </StyledTableCell>
             ))}
             <StyledTableCell>Actions</StyledTableCell>
           </TableRow>
@@ -199,7 +216,13 @@ function CustomTable({ data, columns, onDelete, tag }: TableProps) {
                 </StyledTableCell>
               ))}
               <StyledTableCell>
-                <ActionsMenu row={row} onDelete={onDelete} tag={tag} />
+                <ActionsMenu
+                  value={row}
+                  onDelete={onDelete}
+                  tag={tag}
+                  setSelectedFac={setSelectedFac}
+                  handleOpen={handleOpen}
+                />
               </StyledTableCell>
             </StyledTableRow>
           ))}

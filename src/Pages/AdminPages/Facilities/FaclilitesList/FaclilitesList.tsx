@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { apiClient } from "../../../../Api/END_POINTS";
 import TableSkeleton from "../../../../Components/AdminSharedComponents/TableSkeleton/TableSkeleton";
 import CustomTable from "../../../../Components/AdminSharedComponents/CustomizedTable/CustomizedTable";
 import MyTablePagination from "./../../../../Components/AdminSharedComponents/TablePagination/MyTablePagination";
-import { Box } from "@mui/material";
+import { Box, Modal, TextField, Typography } from "@mui/material";
 import toast from "react-hot-toast";
+import TableDetailsHeader from "../../../../Components/AdminSharedComponents/TableDetailsHeader/TableDetailsHeader";
+import CloseIcon from "@mui/icons-material/Close";
+import AddFacility from "./ModalContents/AddFacility";
+import EditFacility from "./ModalContents/EditFacility";
+interface openModalType {
+  AddModal: boolean;
+  EditModal: boolean;
+  DeleteModal: boolean;
+}
 
 export default function FaclilitesList() {
   const [facilities, setFacilities] = React.useState<{}[]>([]);
@@ -13,7 +22,32 @@ export default function FaclilitesList() {
   const [page, setPage] = React.useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [totalCount, setTotalCount] = React.useState<number>(0);
+  const [openModal, setOpenModal] = useState<openModalType>({
+    AddModal: false,
+    EditModal: false,
+    DeleteModal: false,
+  });
+  const [selectedFac, setSelectedFac] = useState("");
+  const handleOpen = (ModalType: keyof openModalType) =>
+    setOpenModal({ ...openModal, [ModalType]: true });
 
+  const handleClose = (ModalType: keyof openModalType) =>
+    setOpenModal({ ...openModal, [ModalType]: false });
+  const selectedModal = Object.entries(openModal).find(
+    ([, value]) => value === true
+  )?.[0] as keyof openModalType | undefined;
+
+  const modalStyle = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
   const getAllFacilities = async (page: number, size: number) => {
     setLoading(true);
 
@@ -56,7 +90,7 @@ export default function FaclilitesList() {
   const deleteFaclities = async (id) => {
     try {
       const response = await apiClient.delete(`/admin/room-facilities/${id}`);
-      toast.success("Facilities delete sucesfully");
+      await toast.success("Facilities delete sucesfully");
       getAllFacilities(page, rowsPerPage);
     } catch (error) {
       console.log(error);
@@ -65,37 +99,80 @@ export default function FaclilitesList() {
   };
 
   return (
-    <div>
-      {loading ? (
-        <TableSkeleton columns={columns} rowCount={5} />
-      ) : error ? (
-        <p>{error}</p>
-      ) : (
-        <>
-          <CustomTable
-            data={facilities}
-            columns={columns}
-            onDelete={deleteFaclities}
-            tag="Faclities"
-          />
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "end",
-              margin: "2rem",
-            }}
-          >
-            <MyTablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              count={totalCount}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
+    <>
+      <TableDetailsHeader
+        title={"Facilities"}
+        buttonTitle={"Add New Facility"}
+        onclick={() => handleOpen("AddModal")}
+      />
+      <Box>
+        {loading ? (
+          <TableSkeleton columns={columns} rowCount={5} />
+        ) : error ? (
+          <Typography variant="body1" component="p">
+            {error}
+          </Typography>
+        ) : (
+          <>
+            <CustomTable
+              handleOpen={handleOpen}
+              data={facilities}
+              setSelectedFac={setSelectedFac}
+              columns={columns}
+              onDelete={deleteFaclities}
+              tag="Faclities"
             />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "end",
+                margin: "2rem",
+              }}
+            >
+              <MyTablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                count={totalCount}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Box>
+          </>
+        )}
+      </Box>
+      {selectedModal && (
+        <Modal
+          open={Boolean(selectedModal)}
+          onClose={() => handleClose(selectedModal)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={modalStyle}>
+            <Box
+              onClick={() => handleClose(selectedModal)}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                color: "red",
+                cursor: "pointer",
+              }}
+            >
+              <CloseIcon />
+            </Box>
+            {selectedModal === "AddModal" ? (
+              <AddFacility handleClose={handleClose} />
+            ) : selectedModal === "EditModal" ? (
+              <EditFacility
+                handleClose={handleClose}
+                selectedFac={selectedFac}
+              />
+            ) : (
+              ""
+            )}
           </Box>
-        </>
+        </Modal>
       )}
-    </div>
+    </>
   );
 }

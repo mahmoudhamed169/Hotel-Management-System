@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Close as CloseIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import deleteImg from "../../../assets/images/delete.png";
+import ButtonForm from "../../SharedComponents/ButtonForm/ButtonForm";
 
 interface ModalConfirmDeleteProps {
   deleteAction: () => Promise<void>;
