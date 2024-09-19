@@ -1,4 +1,3 @@
-import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,7 +7,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import ActionsMenu from "./../ActionsMenu/ActionsMenu";
-import { CheckCircle, Cancel } from "@mui/icons-material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -41,6 +39,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 interface TableProps {
   data: any[];
   columns: string[];
+  onDelete?: () => void;
+
+  tag: string;
 }
 const StatusBadge = styled("span")(({ status }: { status: string }) => ({
   display: "inline-flex",
@@ -94,7 +95,8 @@ function renderCellContent(col: string, row: any) {
             padding: "0.5rem ",
             borderRadius: "4px",
             width: "85px",
-          }}>
+          }}
+        >
           {row.isActive ? "Active" : "Not Active"}
         </p>
       );
@@ -107,7 +109,8 @@ function renderCellContent(col: string, row: any) {
             padding: "0.5rem ",
             borderRadius: "4px",
             width: "85px",
-          }}>
+          }}
+        >
           {row.verified ? "Verified" : "Unverified"}
         </p>
       );
@@ -162,9 +165,19 @@ function renderCellContent(col: string, row: any) {
 function CustomTable({
   data,
   columns,
+  onDelete,
+  tag,
   handleOpen,
   setSelectedFac,
-}: TableProps) {
+}) {
+  console.log({
+    data,
+    columns,
+    onDelete,
+    tag,
+    handleOpen,
+    setSelectedFac,
+  });
   return (
     <TableContainer
       component={Paper}
@@ -172,7 +185,8 @@ function CustomTable({
         boxShadow: "none",
         border: "none",
         marginTop: "1rem",
-      }}>
+      }}
+    >
       <Table
         sx={{
           minWidth: 700,
@@ -181,7 +195,8 @@ function CustomTable({
             border: "none",
           },
         }}
-        aria-label="customized table">
+        aria-label="customized table"
+      >
         <TableHead>
           <TableRow>
             {columns.map((col) => (
@@ -202,9 +217,11 @@ function CustomTable({
               ))}
               <StyledTableCell>
                 <ActionsMenu
-                  handleOpen={handleOpen}
                   value={row}
+                  onDelete={onDelete}
+                  tag={tag}
                   setSelectedFac={setSelectedFac}
+                  handleOpen={handleOpen}
                 />
               </StyledTableCell>
             </StyledTableRow>

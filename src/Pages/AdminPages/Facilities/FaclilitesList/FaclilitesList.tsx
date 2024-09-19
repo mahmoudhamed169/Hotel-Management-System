@@ -4,6 +4,7 @@ import TableSkeleton from "../../../../Components/AdminSharedComponents/TableSke
 import CustomTable from "../../../../Components/AdminSharedComponents/CustomizedTable/CustomizedTable";
 import MyTablePagination from "./../../../../Components/AdminSharedComponents/TablePagination/MyTablePagination";
 import { Box, Modal, TextField, Typography } from "@mui/material";
+import toast from "react-hot-toast";
 import TableDetailsHeader from "../../../../Components/AdminSharedComponents/TableDetailsHeader/TableDetailsHeader";
 import CloseIcon from "@mui/icons-material/Close";
 import AddFacility from "./ModalContents/AddFacility";
@@ -86,12 +87,22 @@ export default function FaclilitesList() {
 
   const columns = ["_id", "name", "createdBy"];
 
+  const deleteFaclities = async (id) => {
+    try {
+      const response = await apiClient.delete(`/admin/room-facilities/${id}`);
+      await toast.success("Facilities delete sucesfully");
+      getAllFacilities(page, rowsPerPage);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete Facilities. Please try again.");
+    }
+  };
+
   return (
     <>
       <TableDetailsHeader
         title={"Facilities"}
         buttonTitle={"Add New Facility"}
-        href={""}
         onclick={() => handleOpen("AddModal")}
       />
       <Box>
@@ -108,13 +119,16 @@ export default function FaclilitesList() {
               data={facilities}
               setSelectedFac={setSelectedFac}
               columns={columns}
+              onDelete={deleteFaclities}
+              tag="Faclities"
             />
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "end",
                 margin: "2rem",
-              }}>
+              }}
+            >
               <MyTablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 count={totalCount}
@@ -132,7 +146,8 @@ export default function FaclilitesList() {
           open={Boolean(selectedModal)}
           onClose={() => handleClose(selectedModal)}
           aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description">
+          aria-describedby="modal-modal-description"
+        >
           <Box sx={modalStyle}>
             <Box
               onClick={() => handleClose(selectedModal)}
@@ -141,7 +156,8 @@ export default function FaclilitesList() {
                 justifyContent: "flex-end",
                 color: "red",
                 cursor: "pointer",
-              }}>
+              }}
+            >
               <CloseIcon />
             </Box>
             {selectedModal === "AddModal" ? (

@@ -3,14 +3,30 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { useTheme } from "@mui/material/styles";
+import ModalConfirmDelete from "../DeleteConfirmationModal/DeleteConfirmationModal";
+import { useLocation } from "react-router-dom";
 
-export default function ActionsMenu({ handleOpen, setSelectedFac, value }) {
+interface IProps {
+  value: any;
+  onDelete?: (id: string) => void;
+  tag?: string;
+  handleOpen: (modalType: string) => void;
+  setSelectedFac: (value: any) => void;
+}
+
+const ActionsMenu: React.FC<IProps> = ({
+  value,
+  onDelete,
+  tag,
+  handleOpen,
+  setSelectedFac,
+}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const theme = useTheme();
+  const loacation = useLocation();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -25,7 +41,8 @@ export default function ActionsMenu({ handleOpen, setSelectedFac, value }) {
       <IconButton
         onClick={handleClick}
         aria-controls="action-menu"
-        aria-haspopup="true">
+        aria-haspopup="true"
+      >
         <MoreVertIcon />
       </IconButton>
       <Menu
@@ -41,23 +58,28 @@ export default function ActionsMenu({ handleOpen, setSelectedFac, value }) {
             borderRadius: "1.5rem",
             boxShadow: "none",
           },
-        }}>
-        <MenuItem
-          onClick={() => handleOpen("ViewModal")}
-          sx={{
-            margin: "0.5rem",
-            paddingLeft: "2.5rem",
-            color: theme.palette.primary.main,
-          }}>
-          <VisibilityRoundedIcon
+        }}
+      >
+        {loacation.pathname === "/dashboard/room-facilities" || (
+          <MenuItem
+            onClick={() => handleOpen("ViewModal")}
             sx={{
-              marginLeft: "0.3rem",
-              marginRight: "0.75rem",
-              color: "#203Fc7",
+              margin: "0.5rem",
+              paddingLeft: "2.5rem",
+              color: theme.palette.primary.main,
             }}
-          />
-          View
-        </MenuItem>
+          >
+            <VisibilityRoundedIcon
+              sx={{
+                marginLeft: "0.3rem",
+                marginRight: "0.75rem",
+                color: "#203Fc7",
+              }}
+            />
+            View
+          </MenuItem>
+        )}
+
         <MenuItem
           onClick={() => {
             handleOpen("EditModal");
@@ -67,7 +89,8 @@ export default function ActionsMenu({ handleOpen, setSelectedFac, value }) {
             margin: "0.5rem",
             paddingLeft: "2.5rem",
             color: theme.palette.primary.main,
-          }}>
+          }}
+        >
           <EditNoteRoundedIcon
             sx={{
               marginLeft: "0.3rem",
@@ -77,23 +100,16 @@ export default function ActionsMenu({ handleOpen, setSelectedFac, value }) {
           />
           Edit
         </MenuItem>
-        <MenuItem
-          onClick={() => handleOpen("DeleteModal")}
-          sx={{
-            margin: "0.5rem",
-            paddingLeft: "2.5rem",
-            color: theme.palette.primary.main,
-          }}>
-          <DeleteIcon
-            sx={{
-              marginLeft: "0.3rem",
-              marginRight: "0.75rem",
-              color: "#203Fc7",
-            }}
+
+        {tag && (
+          <ModalConfirmDelete
+            deleteAction={() => onDelete && onDelete(value._id)}
+            tag={tag}
           />
-          Delete
-        </MenuItem>
+        )}
       </Menu>
     </>
   );
-}
+};
+
+export default ActionsMenu;
