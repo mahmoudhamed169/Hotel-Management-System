@@ -124,14 +124,14 @@ export default function FaclilitesList() {
               data={facilities}
               columns={columns}
               onDelete={deleteFaclities}
+              tag={"facility"}
             />
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "end",
                 margin: "2rem",
-              }}
-            >
+              }}>
               <MyTablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 count={totalCount}
@@ -149,8 +149,7 @@ export default function FaclilitesList() {
           open={Boolean(selectedModal)}
           onClose={() => handleClose(selectedModal)}
           aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
+          aria-describedby="modal-modal-description">
           <Box sx={modalStyle}>
             <Box
               onClick={() => handleClose(selectedModal)}
@@ -159,16 +158,19 @@ export default function FaclilitesList() {
                 justifyContent: "flex-end",
                 color: "red",
                 cursor: "pointer",
-              }}
-            >
+              }}>
               <CloseIcon />
             </Box>
             {selectedModal === "AddModal" ? (
-              <AddFacility handleClose={handleClose} />
+              <AddFacility
+                handleClose={handleClose}
+                getAllFacilities={getAllFacilities}
+              />
             ) : selectedModal === "EditModal" ? (
               <EditFacility
                 handleClose={handleClose}
                 selectedFac={selectedFac}
+                getAllFacilities={getAllFacilities}
               />
             ) : (
               ""

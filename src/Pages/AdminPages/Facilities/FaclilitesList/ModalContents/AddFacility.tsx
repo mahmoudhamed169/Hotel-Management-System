@@ -8,7 +8,13 @@ import { ADMIN_URLS, apiClient } from "../../../../../Api/END_POINTS";
 import ButtonForm from "../../../../../Components/SharedComponents/ButtonForm/ButtonForm";
 import { AxiosError } from "axios";
 
-export default function AddFacility({ handleClose }) {
+export default function AddFacility({
+  handleClose,
+  getAllFacilities,
+}: {
+  handleClose: () => void;
+  getAllFacilities: getAllFacilities;
+}) {
   const theme = useTheme();
 
   const {
@@ -28,8 +34,10 @@ export default function AddFacility({ handleClose }) {
         id: toastId,
       });
       handleClose("AddModal");
+      getAllFacilities();
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
+      console.log(axiosError);
       toast.error(axiosError.response?.data?.message || "An error occurred", {
         id: toastId,
       });
