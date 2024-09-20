@@ -36,13 +36,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-interface TableProps {
-  data: any[];
-  columns: string[];
-  onDelete?: () => void;
-
-  tag: string;
-}
 const StatusBadge = styled("span")(({ status }: { status: string }) => ({
   display: "inline-flex",
   alignItems: "center",
@@ -95,8 +88,7 @@ function renderCellContent(col: string, row: any) {
             padding: "0.5rem ",
             borderRadius: "4px",
             width: "85px",
-          }}
-        >
+          }}>
           {row.isActive ? "Active" : "Not Active"}
         </p>
       );
@@ -109,8 +101,7 @@ function renderCellContent(col: string, row: any) {
             padding: "0.5rem ",
             borderRadius: "4px",
             width: "85px",
-          }}
-        >
+          }}>
           {row.verified ? "Verified" : "Unverified"}
         </p>
       );
@@ -162,7 +153,24 @@ function renderCellContent(col: string, row: any) {
   }
 }
 
-function CustomTable({ data, columns, onDelete, tag, onView, onEdit }) {
+interface TableProps {
+  data: any[];
+  columns: string[];
+  onDelete?: () => void;
+  onEdit?: (value: any) => void;
+
+  onView?: (value: any) => void;
+
+  tag: string;
+}
+function CustomTable({
+  data,
+  columns,
+  onDelete,
+  tag,
+  onView,
+  onEdit,
+}: TableProps) {
   console.log({
     data,
     columns,
@@ -177,8 +185,7 @@ function CustomTable({ data, columns, onDelete, tag, onView, onEdit }) {
         boxShadow: "none",
         border: "none",
         marginTop: "1rem",
-      }}
-    >
+      }}>
       <Table
         sx={{
           minWidth: 700,
@@ -187,8 +194,7 @@ function CustomTable({ data, columns, onDelete, tag, onView, onEdit }) {
             border: "none",
           },
         }}
-        aria-label="customized table"
-      >
+        aria-label="customized table">
         <TableHead>
           <TableRow>
             {columns.map((col) => (

@@ -1,22 +1,30 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { AxiosError } from "axios";
-import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { ADMIN_URLS, apiClient } from "../../../../../Api/END_POINTS";
 import ButtonForm from "../../../../../Components/SharedComponents/ButtonForm/ButtonForm";
 
-export default function EditFacility({ selectedFac, handleClose }) {
+export default function EditFacility({
+  selectedFac,
+  handleClose,
+  getAllFacilities,
+}: {
+  selectedFac: { _id: string; name: string };
+  handleClose: (value: string) => void;
+  getAllFacilities: () => void;
+}) {
   console.log(selectedFac);
   const {
     register,
     handleSubmit,
-    getValues,
+
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = async (data: {
+    name: string;
+  }) => {
     const toastId = toast.loading("Processing...");
     try {
       const response = await apiClient.put(
@@ -28,6 +36,7 @@ export default function EditFacility({ selectedFac, handleClose }) {
         id: toastId,
       });
       handleClose("EditModal");
+      getAllFacilities();
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       toast.error(axiosError.response?.data?.message || "An error occurred", {
