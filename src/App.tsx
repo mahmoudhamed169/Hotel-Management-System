@@ -96,8 +96,6 @@ export default function App() {
           element: <FaclilitesData />,
         },
         { path: "ads", element: <AdsList /> },
-        { path: "ads/add-new-ads", element: <AdsData /> },
-        { path: "ads/update-ads/:id", element: <AdsData /> },
       ],
     },
   ]);

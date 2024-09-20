@@ -17,7 +17,7 @@ export const AuthContext = createContext(null);
 
 export default function AuthContextProvider(props) {
   const [loginData, setLoginData] = useState<IUser | null>(
-    () => JSON.parse(localStorage.getItem("loginData") as string) || null // Initialize state from localStorage
+    () => JSON.parse(localStorage.getItem("loginData") as string) || null
   );
   const [userId, setUserId] = useState<string | undefined>();
 
@@ -29,7 +29,7 @@ export default function AuthContextProvider(props) {
       const user = response.data.data.user;
 
       setLoginData(user);
-      localStorage.setItem("loginData", JSON.stringify(user)); // Store user data in localStorage
+      localStorage.setItem("loginData", JSON.stringify(user));
     } catch (error) {
       console.log("Error fetching user profile:", error);
     }
@@ -40,15 +40,6 @@ export default function AuthContextProvider(props) {
       getUserProfile();
     }
   }, [userId]);
-
-  useEffect(() => {
-    if (loginData) {
-      toast.success(`Welcome, ${loginData.userName}`, {
-        position: "top-center",
-        icon: "🙌",
-      });
-    }
-  }, [loginData]);
 
   return (
     <AuthContext.Provider value={{ setUserId, loginData }}>

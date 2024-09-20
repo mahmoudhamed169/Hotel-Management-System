@@ -162,21 +162,13 @@ function renderCellContent(col: string, row: any) {
   }
 }
 
-function CustomTable({
-  data,
-  columns,
-  onDelete,
-  tag,
-  handleOpen,
-  setSelectedFac,
-}) {
+function CustomTable({ data, columns, onDelete, tag, onView, onEdit }) {
   console.log({
     data,
     columns,
     onDelete,
     tag,
-    handleOpen,
-    setSelectedFac,
+    onEdit,
   });
   return (
     <TableContainer
@@ -219,9 +211,9 @@ function CustomTable({
                 <ActionsMenu
                   value={row}
                   onDelete={onDelete}
+                  onView={onView}
                   tag={tag}
-                  setSelectedFac={setSelectedFac}
-                  handleOpen={handleOpen}
+                  onEdit={onEdit}
                 />
               </StyledTableCell>
             </StyledTableRow>

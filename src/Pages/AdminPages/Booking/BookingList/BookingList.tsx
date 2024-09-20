@@ -3,8 +3,9 @@ import TableSkeleton from "../../../../Components/AdminSharedComponents/TableSke
 import CustomTable from "../../../../Components/AdminSharedComponents/CustomizedTable/CustomizedTable";
 import { apiClient } from "../../../../Api/END_POINTS";
 import MyTablePagination from "./../../../../Components/AdminSharedComponents/TablePagination/MyTablePagination";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import toast from "react-hot-toast";
+import BookingView from "../BookingView/BookingView";
 
 export default function BookingList() {
   const [booking, setBooking] = React.useState<{}[]>([]);
@@ -13,6 +14,18 @@ export default function BookingList() {
   const [page, setPage] = React.useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [totalCount, setTotalCount] = React.useState<number>(0);
+  const [selectedBooking, setSelectedBooking] = React.useState<{} | null>(null);
+  const [openModal, setOpenModal] = React.useState<boolean>(false);
+
+  const onView = (bookingItem: {}) => {
+    setSelectedBooking(bookingItem); // Set the selected booking
+    setOpenModal(true); // Open the modal
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelectedBooking(null);
+  };
 
   const getAllBooking = async (page: number, size: number) => {
     setLoading(true);
@@ -27,12 +40,13 @@ export default function BookingList() {
       setBooking(response.data.data.booking);
       setTotalCount(response.data.data.totalCount);
     } catch (err) {
-      setError("Failed to load rooms");
+      setError("Failed to load bookings");
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
+
   React.useEffect(() => {
     getAllBooking(page, rowsPerPage);
   }, [page, rowsPerPage]);
@@ -51,10 +65,10 @@ export default function BookingList() {
     setPage(1);
   };
 
-  const deleteBooking = async (id) => {
+  const deleteBooking = async (id: string) => {
     try {
-      const response = await apiClient.delete(`/admin/booking/${id}`);
-      toast.success("Booking delete sucesfully");
+      await apiClient.delete(`/admin/booking/${id}`);
+      toast.success("Booking deleted successfully");
       getAllBooking(page, rowsPerPage);
     } catch (error) {
       console.log(error);
@@ -70,8 +84,22 @@ export default function BookingList() {
     "user",
     "status",
   ];
+
   return (
-    <div>
+    <>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Typography
+          fontSize="23px"
+          fontWeight="500"
+          variant="body2"
+          component="span"
+        >
+          Users Table Details
+        </Typography>
+        <Typography fontSize="14px" variant="body2" component="span">
+          You can check all details
+        </Typography>
+      </Box>
       {loading ? (
         <TableSkeleton columns={columns} rowCount={5} />
       ) : error ? (
@@ -82,6 +110,7 @@ export default function BookingList() {
             data={booking}
             columns={columns}
             onDelete={deleteBooking}
+            onView={onView}
             tag="Booking"
           />
           <Box
@@ -102,6 +131,13 @@ export default function BookingList() {
           </Box>
         </>
       )}
-    </div>
+      {selectedBooking && (
+        <BookingView
+          booking={selectedBooking}
+          open={openModal}
+          onClose={handleCloseModal}
+        />
+      )}
+    </>
   );
 }

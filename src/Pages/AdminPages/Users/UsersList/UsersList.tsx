@@ -3,7 +3,8 @@ import TableSkeleton from "../../../../Components/AdminSharedComponents/TableSke
 import CustomTable from "../../../../Components/AdminSharedComponents/CustomizedTable/CustomizedTable";
 import { apiClient } from "../../../../Api/END_POINTS";
 import MyTablePagination from "../../../../Components/AdminSharedComponents/TablePagination/MyTablePagination";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import UserDetails from "../UserDetails/userDetails";
 
 export default function UsersList() {
   const [users, setUsers] = React.useState<{}[]>([]);
@@ -12,6 +13,19 @@ export default function UsersList() {
   const [page, setPage] = React.useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [totalCount, setTotalCount] = React.useState<number>(0);
+
+  const [selectedUser, setSelectedUser] = React.useState<{} | null>(null); // To hold the selected user for modal
+  const [openModal, setOpenModal] = React.useState<boolean>(false); // To control modal visibility
+
+  const onView = (user: {}) => {
+    setSelectedUser(user); // Set the selected user
+    setOpenModal(true); // Open the modal
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false); // Close the modal
+    setSelectedUser(null); // Reset the selected user when modal is closed
+  };
 
   const getAllUsers = async (page: number, size: number) => {
     setLoading(true);
@@ -62,14 +76,28 @@ export default function UsersList() {
   ];
 
   return (
-    <div>
+    <>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Typography
+          fontSize="23px"
+          fontWeight="500"
+          variant="body2"
+          component="span"
+        >
+          Users Table Details
+        </Typography>
+        <Typography fontSize="14px" variant="body2" component="span">
+          You can check all details
+        </Typography>
+      </Box>
+
       {loading ? (
         <TableSkeleton columns={columns} rowCount={rowsPerPage} />
       ) : error ? (
         <p>{error}</p>
       ) : (
         <>
-          <CustomTable data={users} columns={columns} />
+          <CustomTable data={users} columns={columns} onView={onView} />
 
           <Box
             sx={{
@@ -89,6 +117,13 @@ export default function UsersList() {
           </Box>
         </>
       )}
-    </div>
+      {selectedUser && (
+        <UserDetails
+          user={selectedUser}
+          open={openModal}
+          onClose={handleCloseModal}
+        />
+      )}
+    </>
   );
 }

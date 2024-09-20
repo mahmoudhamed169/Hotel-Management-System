@@ -37,6 +37,11 @@ export default function FaclilitesList() {
     ([, value]) => value === true
   )?.[0] as keyof openModalType | undefined;
 
+  const handleEdit = (facility) => {
+    setSelectedFac(facility);
+    handleOpen("EditModal");
+  };
+
   const modalStyle = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -115,12 +120,10 @@ export default function FaclilitesList() {
         ) : (
           <>
             <CustomTable
-              handleOpen={handleOpen}
+              onEdit={handleEdit}
               data={facilities}
-              setSelectedFac={setSelectedFac}
               columns={columns}
               onDelete={deleteFaclities}
-              tag="Faclities"
             />
             <Box
               sx={{
