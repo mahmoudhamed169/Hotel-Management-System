@@ -13,16 +13,17 @@ interface IProps {
   value: any;
   onDelete?: (id: string) => void;
   tag?: string;
-  handleOpen: (modalType: string) => void;
-  setSelectedFac: (value: any) => void;
+  onEdit: (value: any) => void;
+
+  onView: (value: any) => void;
 }
 
 const ActionsMenu: React.FC<IProps> = ({
   value,
   onDelete,
   tag,
-  handleOpen,
-  setSelectedFac,
+  onEdit,
+  onView,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const theme = useTheme();
@@ -62,7 +63,7 @@ const ActionsMenu: React.FC<IProps> = ({
       >
         {loacation.pathname === "/dashboard/room-facilities" || (
           <MenuItem
-            onClick={() => handleOpen("ViewModal")}
+            onClick={() => onView(value)}
             sx={{
               margin: "0.5rem",
               paddingLeft: "2.5rem",
@@ -79,29 +80,30 @@ const ActionsMenu: React.FC<IProps> = ({
             View
           </MenuItem>
         )}
+        {location.pathname === "/dashboard/users" ||
+          location.pathname === "/dashboard/booking" || (
+            <MenuItem
+              onClick={() => {
+                onEdit(value);
+              }}
+              sx={{
+                margin: "0.5rem",
+                paddingLeft: "2.5rem",
+                color: theme.palette.primary.main,
+              }}
+            >
+              <EditNoteRoundedIcon
+                sx={{
+                  marginLeft: "0.3rem",
+                  marginRight: "0.75rem",
+                  color: "#203Fc7",
+                }}
+              />
+              Edit
+            </MenuItem>
+          )}
 
-        <MenuItem
-          onClick={() => {
-            handleOpen("EditModal");
-            setSelectedFac(value);
-          }}
-          sx={{
-            margin: "0.5rem",
-            paddingLeft: "2.5rem",
-            color: theme.palette.primary.main,
-          }}
-        >
-          <EditNoteRoundedIcon
-            sx={{
-              marginLeft: "0.3rem",
-              marginRight: "0.75rem",
-              color: "#203Fc7",
-            }}
-          />
-          Edit
-        </MenuItem>
-
-        {tag && (
+        {loacation.pathname === "/dashboard/users" || (
           <ModalConfirmDelete
             deleteAction={() => onDelete && onDelete(value._id)}
             tag={tag}

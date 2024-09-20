@@ -6,6 +6,7 @@ import {
   Typography,
   MenuItem,
   useTheme,
+  CircularProgress,
 } from "@mui/material";
 import { Close as CloseIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import deleteImg from "../../../assets/images/delete.png";
@@ -18,7 +19,7 @@ interface ModalConfirmDeleteProps {
 
 function ModalConfirmDelete({ deleteAction, tag }: ModalConfirmDeleteProps) {
   const [open, setOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const handleClose = () => setOpen(false);
   const handleShow = () => setOpen(true);
   const theme = useTheme();
@@ -90,11 +91,33 @@ function ModalConfirmDelete({ deleteAction, tag }: ModalConfirmDeleteProps) {
               variant="contained"
               color="error"
               onClick={async () => {
-                await deleteAction();
-                handleClose();
+                setLoading(true);
+                try {
+                  await deleteAction();
+                } catch (error) {
+                  console.error("Failed to delete:", error);
+                } finally {
+                  setLoading(false);
+                  handleClose();
+                }
               }}
+              sx={{
+                "&:disabled": {
+                  backgroundColor: "#c62828",
+                  color: "#ffff",
+                },
+              }}
+              disabled={loading}
+              startIcon={
+                loading ? (
+                  <CircularProgress
+                    size={20}
+                    sx={{ marginInline: "0.5rem", color: "#fff" }}
+                  />
+                ) : null
+              }
             >
-              {`Delete this ${tag}`}
+              {loading ? "Deleting..." : `Delete`}
             </Button>
           </Box>
         </Box>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { apiClient } from "../../../../Api/END_POINTS";
 import CustomTable from "./../../../../Components/AdminSharedComponents/CustomizedTable/CustomizedTable";
 import TableSkeleton from "../../../../Components/AdminSharedComponents/TableSkeleton/TableSkeleton";
@@ -8,6 +8,7 @@ import theme from "../../../../Context/ThemeContext/theme";
 import { useTheme } from "@emotion/react";
 import TableDetailsHeader from "../../../../Components/AdminSharedComponents/TableDetailsHeader/TableDetailsHeader";
 import toast from "react-hot-toast";
+import RoomViewModel from "../RoomViewModel/RoomViewModel";
 
 interface IFacility {
   _id: string;
@@ -29,31 +30,39 @@ interface IRoomsResponse {
   message: string;
   data: {
     rooms: IRoom[];
+    totalCount: number; // Make sure this is included in the API response
   };
 }
 
 export default function RoomsList() {
-  const [rooms, setRooms] = React.useState<IRoom[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [error, setError] = React.useState<string | null>(null);
-  const [page, setPage] = React.useState<number>(1);
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
-  const [totalCount, setTotalCount] = React.useState<number>(0);
-  const [selectedRoom, setSelectedRoom] = React.useState<IRoom | null>(null);
-  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [rooms, setRooms] = useState<IRoom[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [selectedRoom, setSelectedRoom] = useState<IRoom | null>(null);
+
+  const handleView = (room: IRoom) => {
+    setSelectedRoom(room);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedRoom(null);
+  };
 
   const getAllRooms = async (page: number, size: number) => {
     setLoading(true);
 
     try {
       const response = await apiClient.get<IRoomsResponse>("/admin/rooms", {
-        params: {
-          page: page,
-          size: size,
-        },
+        params: { page, size },
       });
       setRooms(response.data.data.rooms);
-      setTotalCount(response.data.data.totalCount);
+      setTotalCount(response.data.data.totalCount); // Make sure this is set from the API response
     } catch (err) {
       setError("Failed to load rooms");
       console.error(err);
@@ -62,9 +71,10 @@ export default function RoomsList() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAllRooms(page, rowsPerPage);
   }, [page, rowsPerPage]);
+
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -88,25 +98,15 @@ export default function RoomsList() {
     "facilities",
   ];
 
-  const deleteRoom = async (id) => {
+  const deleteRoom = async (id: string) => {
     try {
-      const response = await apiClient.delete(`/admin/rooms/${id}`);
-      toast.success("Rome delete sucesfully");
+      await apiClient.delete(`/admin/rooms/${id}`);
+      toast.success("Room deleted successfully");
       getAllRooms(page, rowsPerPage);
     } catch (error) {
       console.log(error);
-      toast.error("Failed to delete Rome. Please try again.");
+      toast.error("Failed to delete room. Please try again.");
     }
-  };
-
-  const handleView = (room: IRoom) => {
-    setSelectedRoom(room);
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-    setSelectedRoom(null);
   };
 
   return (
@@ -127,7 +127,7 @@ export default function RoomsList() {
               data={rooms}
               columns={columns}
               onDelete={deleteRoom}
-              onView={handleView}
+              onView={handleView} // Pass handleView to CustomTable if it's supported
               tag="Room"
             />
             <Box
@@ -146,6 +146,13 @@ export default function RoomsList() {
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
             </Box>
+            {selectedRoom && (
+              <RoomViewModel
+                open={modalOpen}
+                onClose={handleCloseModal}
+                room={selectedRoom}
+              />
+            )}
           </>
         )}
       </Box>
