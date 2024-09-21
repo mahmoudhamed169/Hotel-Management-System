@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { apiClient } from "../../../../Api/END_POINTS";
 import TableSkeleton from "../../../../Components/AdminSharedComponents/TableSkeleton/TableSkeleton";
 import CustomTable from "../../../../Components/AdminSharedComponents/CustomizedTable/CustomizedTable";
@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 import AdsModal from "./../AdModal/AdsModal";
 import AdView from "../AdView/AdView";
 
+import { useSearchParams } from "react-router-dom";
+
 export default function AdsList() {
   const [ads, setAds] = React.useState<[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -18,17 +20,20 @@ export default function AdsList() {
   const [totalCount, setTotalCount] = React.useState<number>(0);
   const [selectedAd, setSelectedAd] = React.useState<null | any>(null);
   const [modalOpen, setModalOpen] = React.useState(false);
-
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: "0",
+    size: "5",
+  });
   const [openViewModal, setOpenViewModal] = React.useState<boolean>(false);
 
   const onView = (user: {}) => {
-    setSelectedAd(user); // Set the selected user
-    setOpenViewModal(true); // Open the modal
+    setSelectedAd(user);
+    setOpenViewModal(true);
   };
 
   const handleViewCloseModal = () => {
-    setOpenViewModal(false); // Close the modal
-    setSelectedAd(null); // Reset the selected user when modal is closed
+    setOpenViewModal(false);
+    setSelectedAd(null);
   };
 
   const getAllAds = async (page: number, size: number) => {
@@ -36,8 +41,8 @@ export default function AdsList() {
     try {
       const response = await apiClient.get("/admin/ads", {
         params: {
-          page: page,
-          size: size,
+          page: Number(searchParams.get("page")) + 1,
+          size: Number(searchParams.get("size")),
         },
       });
       setAds(response.data.data.ads);
@@ -61,8 +66,8 @@ export default function AdsList() {
   };
 
   const handleEditAd = (ad: any) => {
-    setSelectedAd(ad); // Set the selected ad
-    setModalOpen(true); // Open the modal
+    setSelectedAd(ad);
+    setModalOpen(true);
   };
 
   React.useEffect(() => {
@@ -74,13 +79,18 @@ export default function AdsList() {
     newPage: number
   ) => {
     setPage(newPage);
+    searchParams.set("page", newPage.toString());
+    setSearchParams(searchParams);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // Reset to first page
+    searchParams.set("size", event.target.value.toString());
+    searchParams.set("page", "0");
+    setSearchParams(searchParams);
+    setPage(0);
   };
 
   const refreshAdsList = () => {
@@ -96,7 +106,7 @@ export default function AdsList() {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         onAdd={refreshAdsList}
-        initialData={selectedAd} // Pass the selected ad for editing
+        initialData={selectedAd}
       />
       {loading ? (
         <TableSkeleton columns={columns} rowCount={6} />
@@ -117,13 +127,12 @@ export default function AdsList() {
               display: "flex",
               justifyContent: "end",
               margin: "2rem",
-            }}
-          >
+            }}>
             <MyTablePagination
               rowsPerPageOptions={[5, 10, 25]}
               count={totalCount}
-              rowsPerPage={rowsPerPage}
-              page={page}
+              rowsPerPage={Number(searchParams.get("size"))}
+              page={Number(searchParams.get("page"))}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />

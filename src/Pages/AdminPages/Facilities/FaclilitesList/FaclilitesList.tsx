@@ -3,12 +3,13 @@ import { apiClient } from "../../../../Api/END_POINTS";
 import TableSkeleton from "../../../../Components/AdminSharedComponents/TableSkeleton/TableSkeleton";
 import CustomTable from "../../../../Components/AdminSharedComponents/CustomizedTable/CustomizedTable";
 import MyTablePagination from "./../../../../Components/AdminSharedComponents/TablePagination/MyTablePagination";
-import { Box, Modal, TextField, Typography } from "@mui/material";
+import { Box, Modal, Typography } from "@mui/material";
 import toast from "react-hot-toast";
 import TableDetailsHeader from "../../../../Components/AdminSharedComponents/TableDetailsHeader/TableDetailsHeader";
 import CloseIcon from "@mui/icons-material/Close";
 import AddFacility from "./ModalContents/AddFacility";
 import EditFacility from "./ModalContents/EditFacility";
+import { useSearchParams } from "react-router-dom";
 interface openModalType {
   AddModal: boolean;
   EditModal: boolean;
@@ -19,7 +20,7 @@ export default function FaclilitesList() {
   const [facilities, setFacilities] = React.useState<{}[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string | null>(null);
-  const [page, setPage] = React.useState<number>(1);
+  const [page, setPage] = React.useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [totalCount, setTotalCount] = React.useState<number>(0);
   const [openModal, setOpenModal] = useState<openModalType>({
@@ -41,6 +42,11 @@ export default function FaclilitesList() {
     setSelectedFac(facility);
     handleOpen("EditModal");
   };
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: "0",
+    size: "5",
+  });
+  console.log(searchParams.get("page"));
 
   const modalStyle = {
     position: "absolute" as "absolute",
@@ -59,8 +65,8 @@ export default function FaclilitesList() {
     try {
       const response = await apiClient.get("/admin/room-facilities", {
         params: {
-          page: page,
-          size: size,
+          page: Number(searchParams.get("page")) + 1,
+          size: Number(searchParams.get("size")),
         },
       });
       setFacilities(response.data.data.facilities);
@@ -74,20 +80,25 @@ export default function FaclilitesList() {
   };
   React.useEffect(() => {
     getAllFacilities(page, rowsPerPage);
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, searchParams.get("page")]);
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPage(newPage);
+    searchParams.set("page", newPage.toString());
+    setSearchParams(searchParams);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
+    searchParams.set("size", event.target.value.toString());
+    searchParams.set("page", "0");
+    setSearchParams(searchParams);
+    setPage(0);
   };
 
   const columns = ["_id", "name", "createdBy"];
@@ -135,8 +146,8 @@ export default function FaclilitesList() {
               <MyTablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 count={totalCount}
-                rowsPerPage={rowsPerPage}
-                page={page}
+                rowsPerPage={Number(searchParams.get("size"))}
+                page={Number(searchParams.get("page"))}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
