@@ -1,7 +1,7 @@
 import { AlternateEmail } from "@mui/icons-material";
 import { Box, FormControl, Stack, Typography, useTheme } from "@mui/material";
 import axios, { AxiosError } from "axios";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonFo
 import { PasswordTextField } from "../../../Components/SharedComponents/PasswordTextField/PasswordTextField";
 import { FormTextField } from "./../../../Components/SharedComponents/FormTextField/FormTextField";
 import { apiClient } from "../../../Api/END_POINTS";
+import { AuthContext } from "../../../Context/AuthContext";
 
 // interface IFormInput {
 //   email: string;
@@ -23,8 +24,11 @@ interface responseType {
 }
 export default function Login() {
   const theme = useTheme();
-  const navigate = useNavigate();
+  // let {saveLoginData}=useContext(AuthContext)
 
+  const { setUserId } = useContext(AuthContext);
+
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -35,6 +39,13 @@ export default function Login() {
     setFocus("email");
   }, [setFocus]);
 
+  const handleNavigate = (role: string) => {
+    if (role === "admin") {
+      navigate("/dashboard");
+    } else {
+      navigate("/home");
+    }
+  };
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Processing...");
     try {
@@ -42,13 +53,14 @@ export default function Login() {
         AUTHENTICATION_URLS.login,
         data
       );
-      const { token } = response.data.data;
-      console.log(response.data.data.token);
+      // console.log(response.data);
+      const { token, user } = response.data.data;
       localStorage.setItem("token", token);
+      setUserId(user._id);
       toast.success("Login Successfully", {
         id: toastId,
       });
-      navigate("/dashboard");
+      handleNavigate(user.role);
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       toast.error(axiosError.response?.data?.message || "An error occurred", {
@@ -66,12 +78,14 @@ export default function Login() {
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}
+          >
             If you don’t have an account register
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}
+          >
             You Can
             <Link
               to={"/auth/register"}
@@ -81,7 +95,8 @@ export default function Login() {
                 textDecoration: "none",
                 fontWeight: "bold",
                 fontSize: "1rem",
-              }}>
+              }}
+            >
               Register here !
             </Link>
           </Typography>
@@ -99,7 +114,8 @@ export default function Login() {
               xs: "100%",
               md: "90%",
             },
-          }}>
+          }}
+        >
           <Stack spacing={3}>
             <Box>
               <Typography variant="body1" component="label" htmlFor="email">
@@ -139,10 +155,12 @@ export default function Login() {
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
-              }}>
+              }}
+            >
               <Link
                 to={"/auth/forget-password"}
-                style={{ color: "#4D4D4D", textDecoration: "none" }}>
+                style={{ color: "#4D4D4D", textDecoration: "none" }}
+              >
                 Forgot Password ?
               </Link>
             </Box>

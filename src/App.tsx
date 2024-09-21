@@ -71,7 +71,15 @@ export default function App() {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Home /> },
+        {
+          index: true,
+          element: (
+            <FetchProvider>
+              {" "}
+              <Home />
+            </FetchProvider>
+          ),
+        },
         { path: "home", element: <Home /> },
         { path: "users", element: <UsersList /> },
         { path: "booking", element: <BookingList /> },
@@ -88,8 +96,6 @@ export default function App() {
           element: <FaclilitesData />,
         },
         { path: "ads", element: <AdsList /> },
-        { path: "ads/add-new-ads", element: <AdsData /> },
-        { path: "ads/update-ads/:id", element: <AdsData /> },
       ],
     },
   ]);

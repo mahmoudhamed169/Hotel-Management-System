@@ -1,4 +1,4 @@
-import { Box, Grid2, IconButton } from "@mui/material";
+import { Box, Grid2 } from "@mui/material";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import AuthBackGround from "../../Components/SharedComponents/AuthBackGround/AuthBackGround";
@@ -7,13 +7,12 @@ import AuthPageTitle from "../../Utils/AuthPageTitle";
 
 import MainLoading from "../../Components/SharedComponents/MainLoading/MainLoading";
 import { useLoading } from "../../Context/LoadingContext/LoadingContext";
-import { useAppTheme } from "../../Context/ThemeContext/ThemeContext";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
+
+import ThemeToggleButton from "../../Components/SharedComponents/ThemeToggleButton/ThemeToggleButton";
 
 export default function AuthLayout() {
   const { loading, setLoading } = useLoading();
-  const { mode, toggleTheme } = useAppTheme();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -39,12 +38,9 @@ export default function AuthLayout() {
               marginLeft: "2rem",
               display: "flex",
               justifyContent: "space-between",
-            }}
-          >
+            }}>
             <MainTitle />
-            <IconButton onClick={toggleTheme} sx={{ color: "#0d80d8" }}>
-              {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
-            </IconButton>
+            <ThemeToggleButton />
           </Box>
           <Box
             className="mt-20 w-4/5 mx-auto md:ps-6"
@@ -53,8 +49,7 @@ export default function AuthLayout() {
               width: "80%",
               mx: "auto",
               px: { md: 6 },
-            }}
-          >
+            }}>
             <Outlet />
           </Box>
         </Grid2>
