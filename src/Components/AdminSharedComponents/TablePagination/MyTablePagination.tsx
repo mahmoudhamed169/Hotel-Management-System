@@ -8,6 +8,8 @@ import FirstPageRoundedIcon from "@mui/icons-material/FirstPageRounded";
 import LastPageRoundedIcon from "@mui/icons-material/LastPageRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import { Typography } from "@mui/material";
+import { SearchParams } from "../../../Context/SearchParams";
 
 interface MyTablePaginationProps {
   rowsPerPageOptions: (number | { label: string; value: number })[];
@@ -31,11 +33,31 @@ export default function MyTablePagination({
   onPageChange,
   onRowsPerPageChange,
 }: MyTablePaginationProps) {
+  console.log(page);
   return (
-    <Root sx={{ width: 500, maxWidth: "100%" }}>
+    <Root sx={{ maxWidth: "100%" }}>
       <table aria-label="custom pagination table">
         <tfoot>
-          <tr>
+          <tr style={{ display: "flex", alignItems: "center" }}>
+            <Typography
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: "0.875rem",
+                fontWeight: "400",
+              }}>
+              Page:
+              <Typography
+                sx={{
+                  border: "1px solid #C7D0DD",
+                  borderRadius: "6px",
+                  width: "max-content",
+                  padding: "2px 4px 2px 4px",
+                  marginLeft: "7px",
+                }}>
+                {page + 1}
+              </Typography>
+            </Typography>{" "}
             <StyledTablePagination
               rowsPerPageOptions={rowsPerPageOptions}
               colSpan={3}
@@ -49,6 +71,7 @@ export default function MyTablePagination({
                 actions: {
                   showFirstButton: true,
                   showLastButton: true,
+
                   slots: {
                     firstPageIcon: FirstPageRoundedIcon,
                     lastPageIcon: LastPageRoundedIcon,
