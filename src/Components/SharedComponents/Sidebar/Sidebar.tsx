@@ -32,7 +32,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon sx={{ fontWeight: "600", fontSize: "13px" }}>
+            <ListItemIcon sx={{ fontWeight: "600", fontSize: "13px" }} aria-label="Home">
               <HomeIcon sx={{ color: "#ffff" }} />
             </ListItemIcon>
             <ListItemText primary="Home" />
@@ -46,7 +46,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard/users" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon>
+            <ListItemIcon aria-label="Users">
               <GroupIcon sx={{ color: "#ffff" }} />
             </ListItemIcon>
             <ListItemText primary="Users" />
@@ -60,7 +60,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard/rooms" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon sx={{ color: "#ffff" }}>
+            <ListItemIcon aria-label="Rooms" sx={{ color: "#ffff" }}>
               <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="Rooms" />
@@ -74,7 +74,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard/ads" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon sx={{ color: "#ffff" }}>
+            <ListItemIcon aria-label="Ads" sx={{ color: "#ffff" }}>
               <CalendarMonthIcon />
             </ListItemIcon>
             <ListItemText primary="Ads" />
@@ -88,7 +88,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard/booking" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon sx={{ color: "#ffff" }}>
+            <ListItemIcon aria-label="Booking" sx={{ color: "#ffff" }}>
               <GroupIcon sx={{ color: "#ffff" }} />
             </ListItemIcon>
             <ListItemText primary="Booking" />
@@ -102,7 +102,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard/room-facilities" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon sx={{ color: "#ffff" }}>
+            <ListItemIcon aria-label="Facilities" sx={{ color: "#ffff" }}>
               <CalendarMonthIcon />
             </ListItemIcon>
             <ListItemText primary="Facilities" />
@@ -119,7 +119,7 @@ export default function Sidebar() {
           }}
         >
           <ListItemButton>
-            <ListItemIcon sx={{ color: "#ffff" }}>
+            <ListItemIcon aria-label="Logout" sx={{ color: "#ffff" }}>
               <LogoutIcon />
             </ListItemIcon>
             <ListItemText primary="Logout" />
