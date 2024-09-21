@@ -5,7 +5,6 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import GroupIcon from "@mui/icons-material/Group";
 import HomeIcon from "@mui/icons-material/Home";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Box, Collapse } from "@mui/material";
 import List from "@mui/material/List";
@@ -15,11 +14,15 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ChangePassword from "../../../Pages/AuthPages/ChangePassword/ChangePassword";
 
 export default function Sidebar() {
   const navigate = useNavigate();
 
   const [openNestedList, setOpenNestedList] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleClickNested = () => {
     setOpenNestedList(!openNestedList);
@@ -84,14 +87,7 @@ export default function Sidebar() {
             </ListItemButton>
           </ListItem>
 
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate("/auth/forget-password")}>
-              <ListItemIcon sx={{ color: "#ffff" }}>
-                <LockOpenIcon />
-              </ListItemIcon>
-              <ListItemText primary="Change password" />
-            </ListItemButton>
-          </ListItem>
+        <ChangePassword/>
 
           <ListItem
             disablePadding

@@ -116,9 +116,7 @@ export default function Navbar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  if (!loginData) {
-    return <div>Loading...</div>;
-  }
+
 
   return (
     <>
