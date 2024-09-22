@@ -9,18 +9,23 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import ChangePassword from "../../../Pages/AuthPages/ChangePassword/ChangePassword";
 
 export default function Sidebar() {
   const navigate = useNavigate();
-  const [activeLink, setActiveLink] = useState<string>("");
+  const location = useLocation(); 
+  const [activeLink, setActiveLink] = useState<string>(location.pathname); 
 
   const handleNavigation = (path: string) => {
-    setActiveLink(path); // Set the active link
-    navigate(path); // Navigate to the specified path
+    setActiveLink(path); 
+    navigate(path); 
   };
+
+  useEffect(() => {
+    setActiveLink(location.pathname); 
+  }, [location.pathname]);
 
   return (
     <Box sx={{ backgroundColor: "#203FC7", height: "100%", color: "#fff" }}>
