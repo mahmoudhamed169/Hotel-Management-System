@@ -2,13 +2,14 @@ import { InputAdornment, TextField } from "@mui/material";
 import { ReactNode } from "react";
 import { FieldValues, RegisterOptions, UseFormRegister } from "react-hook-form";
 interface FormTextFieldType {
-  placeholder: string;
+  placeholder?: string;
   errors: any;
   name: string;
   register: UseFormRegister<FieldValues>;
   rules?: RegisterOptions;
   icon?: ReactNode;
   type?: string;
+  label?: string;
 }
 export const FormTextField = ({
   placeholder,
@@ -16,6 +17,7 @@ export const FormTextField = ({
   name,
   register,
   rules,
+  label,
   icon = null,
   type = "text",
 }: FormTextFieldType) => {
@@ -25,10 +27,11 @@ export const FormTextField = ({
       type={type}
       error={!!errors}
       helperText={errors ? errors.message : ""}
+      label={label}
       InputProps={{
         sx: {
           "& input": {
-            padding: "12px 16px",
+            padding: "16.5px 16px",
           },
         },
         endAdornment: icon ? (
