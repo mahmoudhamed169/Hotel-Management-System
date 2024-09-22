@@ -391,7 +391,7 @@ export default function RoomsData() {
           >
             Cancel
           </Button>
-          <Box sx={{ width: "103px", height: "50px" }}>
+          <Box sx={{ width: "120px", height: "50px" }}>
             <ButtonForm
               isSubmitting={isSubmitting}
               name={isEditing ? "Edit Room" : "Add Room"}
