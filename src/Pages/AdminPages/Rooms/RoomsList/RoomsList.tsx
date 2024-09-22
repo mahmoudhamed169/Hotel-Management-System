@@ -7,7 +7,7 @@ import { Box } from "@mui/material";
 import TableDetailsHeader from "../../../../Components/AdminSharedComponents/TableDetailsHeader/TableDetailsHeader";
 import toast from "react-hot-toast";
 import RoomViewModel from "../RoomViewModel/RoomViewModel";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface IFacility {
   _id: string;
@@ -47,9 +47,18 @@ export default function RoomsList() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedRoom, setSelectedRoom] = useState<IRoom | null>(null);
 
+  const navigate = useNavigate();
+
   const handleView = (room: IRoom) => {
     setSelectedRoom(room);
     setModalOpen(true);
+  };
+
+  const handleEdit = (room: IRoom) => {
+    navigate(`/dashboard/rooms/update/${room._id}`, {
+      state: { roomData: room },
+    });
+    console.log(room);
   };
 
   const handleCloseModal = () => {
@@ -126,7 +135,9 @@ export default function RoomsList() {
       <TableDetailsHeader
         buttonTitle="Add New Room"
         title="Rooms"
-        href="rooms/add-new"
+        onclick={() => {
+          navigate("/dashboard/rooms/add-new");
+        }}
       />
       <Box>
         {loading ? (
@@ -139,15 +150,17 @@ export default function RoomsList() {
               data={rooms}
               columns={columns}
               onDelete={deleteRoom}
-              onView={handleView} // Pass handleView to CustomTable if it's supported
+              onView={handleView}
               tag="Room"
+              onEdit={handleEdit}
             />
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "end",
                 margin: "2rem",
-              }}>
+              }}
+            >
               <MyTablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 count={totalCount}
