@@ -3,6 +3,7 @@ import axios from "axios";
 export const apiClient = axios.create({
   baseURL: "https://upskilling-egypt.com:3000/api/v0",
 });
+export const BASE_IMG_URL = "https://upskilling-egypt.com:3000";
 
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
@@ -23,6 +24,7 @@ export const AUTHENTICATION_URLS = {
 
 export const ADMIN_URLS = {
   facilities: `admin/room-facilities`,
+  rooms: `admin/rooms`,
 };
 
 export const DASHBOARD_URL = `/admin/dashboard`;

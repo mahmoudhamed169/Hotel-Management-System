@@ -1,0 +1,33 @@
+.uploader {
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+}
+.uploader label {
+  width: 100% !important;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  padding: 25px;
+  border: 2px dashed #203fc7;
+  cursor: pointer;
+}
+.register .uploader label {
+  padding: 8px;
+}
+.uploader label svg {
+  display: none;
+  color: rgba(74, 163, 90, 1) !important;
+}
+.uploader label::before {
+  content: url("../../../../assets/images/upload.png");
+  display: block;
+  width: 30px;
+  height: 30px;
+
+  margin: 0 auto;
+}
+.uploader .green-title {
+  color: rgba(74, 163, 90, 1);
+}
