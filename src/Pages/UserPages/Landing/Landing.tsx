@@ -1,3 +1,4 @@
+import Calendar from "../../../Components/UserSharedComponents/Calendar/CalenderBooking";
 
   import Footer from "../navbar&&footer/Footer";
 import NavBarFooter from "../navbar&&footer/NavBarFooter";
@@ -9,12 +10,12 @@ import UserAds from "../../../Components/UserSharedComponents/UserAds/UserAds";
 export default function Landing() {
   return (
     <div>
-<!-- <NavBarFooter/> -->
-      
-      {/* <Houses />
+  <NavBarFooter/>
+      <Calendar/>
+      <Houses />
       <Hotels />
-      <UserAds /> */}
-<!--  <Footer/> -->
+      <UserAds />
+   <Footer/> 
       
     </div>
   );
