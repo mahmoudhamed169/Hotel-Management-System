@@ -24,5 +24,8 @@ export const AUTHENTICATION_URLS = {
 export const ADMIN_URLS = {
   facilities: `admin/room-facilities`,
 };
+export const PORTAL_URLS = {
+  ads: `portal/ads`,
+};
 
 export const DASHBOARD_URL = `/admin/dashboard`;

@@ -1,22 +1,20 @@
-
-  import Footer from "../navbar&&footer/Footer";
+import Footer from "../navbar&&footer/Footer";
 import NavBarFooter from "../navbar&&footer/NavBarFooter";
 
 import Hotels from "../../../Components/UserSharedComponents/Hotels/Hotels";
 import Houses from "../../../Components/UserSharedComponents/Houses/Houses";
 import UserAds from "../../../Components/UserSharedComponents/UserAds/UserAds";
+import MostPopularAds from "../../../Components/UserSharedComponents/MostPopularAds/MostPopularAds";
 
 export default function Landing() {
   return (
     <div>
-<!-- <NavBarFooter/> -->
-      
-      {/* <Houses />
+      <NavBarFooter />
+      <MostPopularAds />
+      <Houses />
       <Hotels />
-      <UserAds /> */}
-<!--  <Footer/> -->
-      
+      <UserAds />
+      <Footer />
     </div>
   );
-
 }
