@@ -9,18 +9,23 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import ChangePassword from "../../../Pages/AuthPages/ChangePassword/ChangePassword";
 
 export default function Sidebar() {
   const navigate = useNavigate();
-  const [activeLink, setActiveLink] = useState<string>("");
+  const location = useLocation(); 
+  const [activeLink, setActiveLink] = useState<string>(location.pathname); 
 
   const handleNavigation = (path: string) => {
-    setActiveLink(path); // Set the active link
-    navigate(path); // Navigate to the specified path
+    setActiveLink(path); 
+    navigate(path); 
   };
+
+  useEffect(() => {
+    setActiveLink(location.pathname); 
+  }, [location.pathname]);
 
   return (
     <Box sx={{ backgroundColor: "#203FC7", height: "100%", color: "#fff" }}>
@@ -32,7 +37,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon sx={{ fontWeight: "600", fontSize: "13px" }} aria-label="Home">
+            <ListItemIcon sx={{ fontWeight: "600", fontSize: "13px" }}>
               <HomeIcon sx={{ color: "#ffff" }} />
             </ListItemIcon>
             <ListItemText primary="Home" />
@@ -46,7 +51,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard/users" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon aria-label="Users">
+            <ListItemIcon>
               <GroupIcon sx={{ color: "#ffff" }} />
             </ListItemIcon>
             <ListItemText primary="Users" />
@@ -60,7 +65,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard/rooms" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon aria-label="Rooms" sx={{ color: "#ffff" }}>
+            <ListItemIcon sx={{ color: "#ffff" }}>
               <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="Rooms" />
@@ -74,7 +79,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard/ads" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon aria-label="Ads" sx={{ color: "#ffff" }}>
+            <ListItemIcon sx={{ color: "#ffff" }}>
               <CalendarMonthIcon />
             </ListItemIcon>
             <ListItemText primary="Ads" />
@@ -88,7 +93,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard/booking" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon aria-label="Booking" sx={{ color: "#ffff" }}>
+            <ListItemIcon sx={{ color: "#ffff" }}>
               <GroupIcon sx={{ color: "#ffff" }} />
             </ListItemIcon>
             <ListItemText primary="Booking" />
@@ -102,7 +107,7 @@ export default function Sidebar() {
               backgroundColor: activeLink === "/dashboard/room-facilities" ? "#1a2d7a" : "transparent",
             }}
           >
-            <ListItemIcon aria-label="Facilities" sx={{ color: "#ffff" }}>
+            <ListItemIcon sx={{ color: "#ffff" }}>
               <CalendarMonthIcon />
             </ListItemIcon>
             <ListItemText primary="Facilities" />
@@ -119,7 +124,7 @@ export default function Sidebar() {
           }}
         >
           <ListItemButton>
-            <ListItemIcon aria-label="Logout" sx={{ color: "#ffff" }}>
+            <ListItemIcon sx={{ color: "#ffff" }}>
               <LogoutIcon />
             </ListItemIcon>
             <ListItemText primary="Logout" />

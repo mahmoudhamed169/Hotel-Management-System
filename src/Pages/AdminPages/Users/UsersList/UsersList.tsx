@@ -5,6 +5,7 @@ import { apiClient } from "../../../../Api/END_POINTS";
 import MyTablePagination from "../../../../Components/AdminSharedComponents/TablePagination/MyTablePagination";
 import { Box, Typography } from "@mui/material";
 import UserDetails from "../UserDetails/userDetails";
+import { useSearchParams } from "react-router-dom";
 
 export default function UsersList() {
   const [users, setUsers] = React.useState<{}[]>([]);
@@ -14,17 +15,20 @@ export default function UsersList() {
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [totalCount, setTotalCount] = React.useState<number>(0);
 
-  const [selectedUser, setSelectedUser] = React.useState<{} | null>(null); // To hold the selected user for modal
-  const [openModal, setOpenModal] = React.useState<boolean>(false); // To control modal visibility
-
+  const [selectedUser, setSelectedUser] = React.useState<{} | null>(null);
+  const [openModal, setOpenModal] = React.useState<boolean>(false);
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: "0",
+    size: "5",
+  });
   const onView = (user: {}) => {
-    setSelectedUser(user); // Set the selected user
-    setOpenModal(true); // Open the modal
+    setSelectedUser(user);
+    setOpenModal(true);
   };
 
   const handleCloseModal = () => {
-    setOpenModal(false); // Close the modal
-    setSelectedUser(null); // Reset the selected user when modal is closed
+    setOpenModal(false);
+    setSelectedUser(null);
   };
 
   const getAllUsers = async (page: number, size: number) => {
@@ -33,8 +37,8 @@ export default function UsersList() {
     try {
       const response = await apiClient.get("/admin/users", {
         params: {
-          page: page,
-          size: size,
+          page: Number(searchParams.get("page")) + 1,
+          size: Number(searchParams.get("size")),
         },
       });
       setUsers(response.data.data.users);
@@ -56,13 +60,18 @@ export default function UsersList() {
     newPage: number
   ) => {
     setPage(newPage);
+    searchParams.set("page", newPage.toString());
+    setSearchParams(searchParams);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
+    searchParams.set("size", event.target.value.toString());
+    searchParams.set("page", "0");
+    setSearchParams(searchParams);
+    setPage(0);
   };
 
   const columns = [
@@ -82,8 +91,7 @@ export default function UsersList() {
           fontSize="23px"
           fontWeight="500"
           variant="body2"
-          component="span"
-        >
+          component="span">
           Users Table Details
         </Typography>
         <Typography fontSize="14px" variant="body2" component="span">
@@ -104,13 +112,12 @@ export default function UsersList() {
               display: "flex",
               justifyContent: "end",
               margin: "2rem",
-            }}
-          >
+            }}>
             <MyTablePagination
               rowsPerPageOptions={[5, 10, 25]}
               count={totalCount}
-              rowsPerPage={rowsPerPage}
-              page={page}
+              rowsPerPage={Number(searchParams.get("size"))}
+              page={Number(searchParams.get("page"))}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
