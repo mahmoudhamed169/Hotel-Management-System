@@ -26,6 +26,7 @@ export const ADMIN_URLS = {
 };
 export const PORTAL_URLS = {
   ads: `portal/ads`,
+  favoriRoom: `portal/favorite-rooms`,
 };
 
 export const DASHBOARD_URL = `/admin/dashboard`;

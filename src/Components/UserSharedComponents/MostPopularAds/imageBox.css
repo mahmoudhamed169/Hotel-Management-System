@@ -6,7 +6,9 @@
   width: 100%;
   padding-bottom: 75%;
 }
-
+.image-box svg {
+  font-size: 35px;
+}
 .image {
   object-fit: cover;
   width: 100%;
@@ -38,4 +40,19 @@
 }
 .image-box:hover .image {
   transform: scale(1.3);
+}
+.text {
+  position: absolute;
+  color: white;
+  opacity: 0;
+  left: 10px;
+  bottom: 40px;
+  transition: opacity 1s ease-in-out;
+}
+.image-box:hover .text {
+  opacity: 1;
+}
+.text .span {
+  font-size: 20px;
+  font-weight: 400;
 }
