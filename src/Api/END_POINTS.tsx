@@ -30,3 +30,8 @@ export const PORTAL_URLS = {
 };
 
 export const DASHBOARD_URL = `/admin/dashboard`;
+
+
+// get rooms 
+
+export const getRoomDetails= `/portal/rooms/available/`;

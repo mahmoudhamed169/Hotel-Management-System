@@ -1,3 +1,5 @@
+import Calendar from "../../../Components/UserSharedComponents/Calendar/CalenderBooking";
+
 import Footer from "../navbar&&footer/Footer";
 import NavBarFooter from "../navbar&&footer/NavBarFooter";
 
@@ -10,6 +12,7 @@ export default function Landing() {
   return (
     <div>
       <NavBarFooter />
+      <Calendar />
       <MostPopularAds />
       <Houses />
       <Hotels />
