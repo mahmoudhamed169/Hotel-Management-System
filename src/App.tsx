@@ -41,6 +41,7 @@ export default function App() {
         { path: "explore", element: <Explore /> },
         { path: "favorite-rooms", element: <Favorites /> },
         { path: "room-details", element: <RoomDetails /> },
+        { path: "room-details/:id", element: <RoomDetails /> },
         { path: "stripePayment", element: <StripePayment /> },
       ],
     },
