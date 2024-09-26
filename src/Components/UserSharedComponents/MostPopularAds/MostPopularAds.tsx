@@ -22,6 +22,7 @@ interface RoomType {
   _id: string;
   roomNumber: string;
   images: string[];
+  price: number;
 }
 interface AdsType {
   room: RoomType;
@@ -137,7 +138,7 @@ export default function MostPopularAds() {
         <Grid container spacing={2} columns={12}>
           <Grid size={{ xs: 12, lg: 4 }}>
             {/* <Item sx={{ height: "100% !important" }}>size=8/24</Item> */}
-            {console.log(ads[0]?.room)}
+
             {ads ? (
               // <Box
               //   className="image-box"
@@ -315,6 +316,22 @@ const AdCard = ({
         height: "100%",
       }}>
       <img className="image" src={room?.images[0]} />
+      <Box
+        className="price"
+        sx={{
+          position: "absolute",
+          zIndex: "10",
+          right: "0",
+          background: "#FF498B",
+          minWidth: "120px",
+          padding: "10px",
+          borderBottomLeftRadius: "10px",
+          color: "white",
+        }}>
+        <Typography variant="body1" component="span" sx={{ padding: "10px" }}>
+          $<b>{room?.price}</b> Per Night
+        </Typography>
+      </Box>
       <Box className="overlay">
         <Box className="text">
           <Typography className="span" variant="body1" component="span">
