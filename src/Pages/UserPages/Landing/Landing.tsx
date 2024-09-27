@@ -11,7 +11,7 @@ import MostPopularAds from "../../../Components/UserSharedComponents/MostPopular
 export default function Landing() {
   return (
     <div>
-      <NavBarFooter />
+      {/* <NavBarFooter /> */}
       <Calendar />
       <MostPopularAds />
       <Houses />
