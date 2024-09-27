@@ -10,25 +10,29 @@ interface RoomType {
   images: string[];
   price: number;
 }
-interface AdsType {
+interface valuesType {
   room: RoomType;
 }
 
 export const PhotoCard = ({
   room,
   isFavorite,
-  isLoading,
+  isLovalueing,
   onToggleFavorite,
-  ad,
+  value,
   eyeIcon,
 }: {
   room: RoomType;
   isFavorite: boolean;
-  isLoading: boolean;
+  isLovalueing: boolean;
   onToggleFavorite?: () => void;
-  ad: AdsType;
+  value: valuesType;
   eyeIcon?: boolean;
 }) => {
+  { console.log(room)}
+  console.log(value);
+  
+
   return (
     <Box
       className="image-box"
@@ -36,7 +40,8 @@ export const PhotoCard = ({
         maxHeight: "100%",
         height: "100%",
       }}>
-      <img className="image" src={room?.images[0]} />
+      <img className="image" src={value?.images[0]} />
+      
       <Box
         className="price"
         sx={{
@@ -45,23 +50,23 @@ export const PhotoCard = ({
           right: "0",
           background: "#FF498B",
           minWidth: "120px",
-          padding: "10px",
-          borderBottomLeftRadius: "10px",
+          pvalueding: "10px",
+          borderBottomLeftRvalueius: "10px",
           color: "white",
         }}>
-        <Typography variant="body1" component="span" sx={{ padding: "10px" }}>
-          $<b>{room?.price}</b> Per Night
+        <Typography variant="body1" component="span" sx={{ pvalueding: "10px" }}>
+          $<b>{value?.price}</b> Per Night
         </Typography>
       </Box>
       <Box className="overlay">
         <Box className="text">
           <Typography className="span" variant="body1" component="span">
-            {room?.roomNumber.toUpperCase()}
+            {value?.roomNumber.toUpperCase()}
           </Typography>
         </Box>
         {eyeIcon ? (
-          <Link to={`/room-details/${room?._id}`} state={ad?.room}>
-            <ButtonBase disabled={isLoading}>
+          <Link to={`/room-details/${room?._id}`} state={value?.room}>
+            <ButtonBase disabled={isLovalueing}>
               <VisibilityIcon sx={{ color: "white", marginRight: "15px" }} />
             </ButtonBase>
           </Link>
@@ -75,13 +80,13 @@ export const PhotoCard = ({
             localStorage.getItem("token")
               ? isFavorite
                 ? "Remove from Favori"
-                : "Add to Favori"
+                : "valued to Favori"
               : "You must be logged in"
           }
           placement="top">
           <Typography>
             <ButtonBase
-              disabled={isLoading || !localStorage.getItem("token")}
+              disabled={isLovalueing || !localStorage.getItem("token")}
               onClick={onToggleFavorite}>
               <FavoriteIcon sx={{ color: !isFavorite ? "white" : "red" }} />
             </ButtonBase>
