@@ -11,8 +11,8 @@ import { Box } from "@mui/material";
 
 export default function Landing() {
   return (
-    <Box>
-      <NavBarFooter />
+    <div>
+      {/* <NavBarFooter /> */}
       <Calendar />
       <MostPopularAds />
       <Houses />

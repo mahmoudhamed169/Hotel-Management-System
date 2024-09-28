@@ -3,6 +3,8 @@ import UserPageTitle from "../../Utils/UserPageTitle";
 import MainLoading from "../../Components/SharedComponents/MainLoading/MainLoading";
 import { useLoading } from "../../Context/LoadingContext/LoadingContext";
 import { useEffect } from "react";
+import Navbar from "../../Components/UserSharedComponents/Navbar/Navabr";
+import { Box } from "@mui/material";
 
 export default function UserLayout() {
   UserPageTitle();
@@ -21,8 +23,9 @@ export default function UserLayout() {
     return <MainLoading />;
   }
   return (
-    <div>
+    <Box>
+      <Navbar />
       <Outlet />
-    </div>
+    </Box>
   );
 }

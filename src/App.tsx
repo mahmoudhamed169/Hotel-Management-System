@@ -39,6 +39,7 @@ export default function App() {
         { index: true, element: <Landing /> },
         { path: "home", element: <Landing /> },
         { path: "explore", element: <Explore /> },
+        { path: "reviews", element: <reviews /> },
         { path: "favorite-rooms", element: <Favorites /> },
         { path: "room-details", element: <RoomDetails /> },
         { path: "room-details/:id", element: <RoomDetails /> },
