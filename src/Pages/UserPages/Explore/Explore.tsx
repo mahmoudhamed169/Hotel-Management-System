@@ -91,7 +91,7 @@ export default function Explore() {
           <Grid size={{ xs: 12, md: 4, lg: 3 }}>
             <OpacityAnimate delay={index / 2}>
               <PhotoCard
-                room={room}
+                value={room}
                 eyeIcon
                 isFavorite={checkIfRoomInFavori(room._id)}
                 isLoading={isLoading}
