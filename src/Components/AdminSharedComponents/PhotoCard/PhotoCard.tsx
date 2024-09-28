@@ -43,7 +43,7 @@ export const PhotoCard = ({
           minWidth: "120px",
           padding: "10px",
           borderBottomLeftRadius: "10px",
-          color: "white",
+          color: `white`,
         }}>
         <Typography variant="body1" component="span" sx={{ padding: "10px" }}>
           $<b>{value?.price}</b> Per Night
