@@ -11,7 +11,7 @@ import { Box } from "@mui/material";
 
 export default function Landing() {
   return (
-    <div>
+    <Box>
       {/* <NavBarFooter /> */}
       <Calendar />
       <MostPopularAds />
