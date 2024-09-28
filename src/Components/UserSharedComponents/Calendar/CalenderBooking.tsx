@@ -60,7 +60,7 @@ export default function CalendarBooking() {
         params: { startDate, endDate },
       });
 
-      console.log(response.data.data.rooms);
+      console.log(response.data.rooms);
 
       navigate("/explore");
     } catch (error) {
@@ -70,7 +70,7 @@ export default function CalendarBooking() {
   };
 
   return (
-    <Box sx={{ width: "85%", margin: "auto", padding: "20px 0" }}>
+    <Box sx={{ flexGrow: 1, width: "85%", margin: "auto", padding: "20px 0" }}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={8}>
           <Typography
@@ -211,8 +211,7 @@ export default function CalendarBooking() {
               borderTopLeftRadius: "7rem",
               padding: "1rem",
               position: "relative",
-              height: "400px",
-              // height: "300px",
+              height: "300px",
             }}
           >
             <CalenderImages />

@@ -104,7 +104,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 export default function Navbar() {
   const { loginData } = useContext(AuthContext);
-  console.log(loginData , "this is login");
+  console.log(loginData);
 
   const theme = useTheme();
   const [open, setOpen] = useState(false);

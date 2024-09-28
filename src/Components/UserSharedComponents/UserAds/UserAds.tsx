@@ -46,8 +46,8 @@ export default function UserAds() {
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-    speed: 4000,
-    autoplaySpeed: 1000,
+    speed: 2000,
+    autoplaySpeed: 2000,
     cssEase: "linear",
     responsive: [
       {
