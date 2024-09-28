@@ -4,35 +4,26 @@ import { Link } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
-interface RoomType {
+interface valuesType {
   _id: string;
   roomNumber: string;
   images: string[];
   price: number;
 }
-interface valuesType {
-  room: RoomType;
-}
 
 export const PhotoCard = ({
-  room,
   isFavorite,
-  isLovalueing,
+  isLoading,
   onToggleFavorite,
   value,
   eyeIcon,
 }: {
-  room: RoomType;
   isFavorite: boolean;
-  isLovalueing: boolean;
+  isLoading: boolean;
   onToggleFavorite?: () => void;
   value: valuesType;
   eyeIcon?: boolean;
 }) => {
-  { console.log(room)}
-  console.log(value);
-  
-
   return (
     <Box
       className="image-box"
@@ -41,7 +32,7 @@ export const PhotoCard = ({
         height: "100%",
       }}>
       <img className="image" src={value?.images[0]} />
-      
+
       <Box
         className="price"
         sx={{
@@ -50,11 +41,11 @@ export const PhotoCard = ({
           right: "0",
           background: "#FF498B",
           minWidth: "120px",
-          pvalueding: "10px",
-          borderBottomLeftRvalueius: "10px",
+          padding: "10px",
+          borderBottomLeftRadius: "10px",
           color: "white",
         }}>
-        <Typography variant="body1" component="span" sx={{ pvalueding: "10px" }}>
+        <Typography variant="body1" component="span" sx={{ padding: "10px" }}>
           $<b>{value?.price}</b> Per Night
         </Typography>
       </Box>
@@ -65,8 +56,8 @@ export const PhotoCard = ({
           </Typography>
         </Box>
         {eyeIcon ? (
-          <Link to={`/room-details/${room?._id}`} state={value?.room}>
-            <ButtonBase disabled={isLovalueing}>
+          <Link to={`/room-details/${value?._id}`} state={value}>
+            <ButtonBase disabled={isLoading}>
               <VisibilityIcon sx={{ color: "white", marginRight: "15px" }} />
             </ButtonBase>
           </Link>
@@ -86,7 +77,7 @@ export const PhotoCard = ({
           placement="top">
           <Typography>
             <ButtonBase
-              disabled={isLovalueing || !localStorage.getItem("token")}
+              disabled={isLoading || !localStorage.getItem("token")}
               onClick={onToggleFavorite}>
               <FavoriteIcon sx={{ color: !isFavorite ? "white" : "red" }} />
             </ButtonBase>

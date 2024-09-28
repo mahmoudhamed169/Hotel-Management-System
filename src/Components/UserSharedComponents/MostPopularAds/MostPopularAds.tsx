@@ -45,9 +45,11 @@ interface FavoriResponseType {
 export default function MostPopularAds() {
   const [ads, setAds] = useState<AdsType[]>([]);
   const [favoriteRooms, setFavoriteRooms] = useState<FavoriType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getAds = async () => {
+    setLoading(false);
     try {
       const response = await apiClient.get<ResponseType>(PORTAL_URLS.ads, {
         params: { page: 1, size: 5 },
@@ -135,63 +137,14 @@ export default function MostPopularAds() {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2} columns={12}>
           <Grid size={{ xs: 12, lg: 4 }}>
-            {/* <Item sx={{ height: "100% !important" }}>size=8/24</Item> */}
-
-            {ads ? (
-              // <Box
-              //   className="image-box"
-              //   sx={{
-              //     maxHeight: "100%",
-              //     height: "100%",
-              //   }}>
-              //   <img className="image" src={ads[0]?.room.images[0]} />
-              //   <Box className="overlay">
-              //     <Link
-              //       to={`/room-details/${ads[0]?.room._id}`}
-              //       state={ads[0]?.room}>
-              //       <ButtonBase disabled={isLoading}>
-              //         <VisibilityIcon
-              //           sx={{ color: "white", marginRight: "15px" }}
-              //         />
-              //       </ButtonBase>
-              //     </Link>
-              //     <Tooltip
-              //       TransitionProps={{ timeout: 600 }}
-              //       title={
-              //         localStorage.getItem("token")
-              //           ? checkIfRoomInFavori(ads[0]?.room._id)
-              //             ? "Remove from Favori"
-              //             : "Add to Favori"
-              //           : "You must be logged in"
-              //       }
-              //       placement="top">
-              //       <Typography>
-              //         <ButtonBase
-              //           onClick={() =>
-              //             checkIfRoomInFavori(ads[0]?.room._id)
-              //               ? handleFavoriteToggle(ads[0]?.room._id, "remove")
-              //               : handleFavoriteToggle(ads[0]?.room._id, "add")
-              //           }
-              //           disabled={isLoading || !localStorage.getItem("token")}>
-              //           {!checkIfRoomInFavori(ads[0]?.room._id) ? (
-              //             <FavoriteBorderIcon sx={{ color: "red" }} />
-              //           ) : (
-              //             <FavoriteIcon sx={{ color: "red" }} />
-              //           )}
-              //         </ButtonBase>
-              //       </Typography>
-              //     </Tooltip>
-              //     <Box className="text">
-              //       <Typography
-              //         className="span"
-              //         variant="body1"
-              //         component="span">
-              //         {ads[0]?.room.roomNumber.toUpperCase()}
-              //       </Typography>
-              //     </Box>
-              //   </Box>
-              // </Box>
-
+            {loading ? (
+              <Skeleton
+                variant="rectangular"
+                width="100%"
+                height="100%"
+                animation="wave"
+              />
+            ) : (
               <PhotoCard
                 isFavorite={checkIfRoomInFavori(ads[0]?.room._id)}
                 eyeIcon
@@ -201,84 +154,38 @@ export default function MostPopularAds() {
                     ? handleFavoriteToggle(ads[0]?.room._id, "remove")
                     : handleFavoriteToggle(ads[0]?.room._id, "add")
                 }
-                room={ads[0]?.room}
-                ad={ads[0]}
-              />
-            ) : (
-              <Skeleton
-                variant="text"
-                width="100%"
-                height="100%"
-                animation="wave"
+                value={ads[0]?.room}
               />
             )}
           </Grid>
           <Grid container size={{ xs: 12, lg: 8 }}>
             {ads ? (
-              ads?.slice(1).map((ad: AdsType) => (
-                <Grid size={{ xs: 12, lg: 6 }}>
-                  {/* <Box className="image-box">
-                    <img className="image" src={ad.room.images[0]} />
-                    <Box className="overlay">
-                      <Box className="text">
-                        <Typography
-                          className="span"
-                          variant="body1"
-                          component="span">
-                          {ad.room.roomNumber.toUpperCase()}
-                        </Typography>
-                      </Box>
-                      <Link to={`/room-details/${ad.room._id}`} state={ad.room}>
-                        <ButtonBase disabled={isLoading}>
-                          <VisibilityIcon
-                            sx={{ color: "white", marginRight: "15px" }}
-                          />
-                        </ButtonBase>
-                      </Link>
-                      <Tooltip
-                        TransitionProps={{ timeout: 600 }}
-                        title={
-                          localStorage.getItem("token")
-                            ? checkIfRoomInFavori(ad.room._id)
-                              ? "Remove from Favori"
-                              : "Add to Favori"
-                            : "You must be logged in"
+              ads
+                ?.slice(1)
+                .map((ad: AdsType) => (
+                  <Grid size={{ xs: 12, lg: 6 }}>
+                    {loading ? (
+                      <Skeleton
+                        variant="rectangular"
+                        width="100%"
+                        height="100%"
+                        animation="wave"
+                      />
+                    ) : (
+                      <PhotoCard
+                        isFavorite={checkIfRoomInFavori(ad.room._id)}
+                        eyeIcon
+                        isLoading={isLoading}
+                        onToggleFavorite={() =>
+                          checkIfRoomInFavori(ad.room._id)
+                            ? handleFavoriteToggle(ad.room._id, "remove")
+                            : handleFavoriteToggle(ad.room._id, "add")
                         }
-                        placement="top">
-                        <Typography>
-                          <ButtonBase
-                            disabled={
-                              isLoading || !localStorage.getItem("token")
-                            }
-                            onClick={() =>
-                              checkIfRoomInFavori(ad.room._id)
-                                ? handleFavoriteToggle(ad.room._id, "remove")
-                                : handleFavoriteToggle(ad.room._id, "add")
-                            }>
-                            {!checkIfRoomInFavori(ad.room._id) ? (
-                              <FavoriteBorderIcon sx={{ color: "red" }} />
-                            ) : (
-                              <FavoriteIcon sx={{ color: "red" }} />
-                            )}
-                          </ButtonBase>
-                        </Typography>
-                      </Tooltip>
-                    </Box>
-                  </Box> */}
-                  <PhotoCard
-                    isFavorite={checkIfRoomInFavori(ad.room._id)}
-                    eyeIcon
-                    isLoading={isLoading}
-                    onToggleFavorite={() =>
-                      checkIfRoomInFavori(ad.room._id)
-                        ? handleFavoriteToggle(ad.room._id, "remove")
-                        : handleFavoriteToggle(ad.room._id, "add")
-                    }
-                    room={ad.room}
-                    ad={ad}
-                  />
-                </Grid>
-              ))
+                        value={ad.room}
+                      />
+                    )}
+                  </Grid>
+                ))
             ) : (
               <Skeleton
                 variant="text"
