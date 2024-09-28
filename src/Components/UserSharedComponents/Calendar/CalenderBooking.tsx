@@ -81,7 +81,8 @@ export default function CalendarBooking() {
               marginBottom: ".2rem",
               color: "#152C5B",
               lineHeight: "1.2",
-            }}>
+            }}
+          >
             Forget Busy Work,
             <br />
             Start Next Vacation
@@ -94,7 +95,8 @@ export default function CalendarBooking() {
               marginBottom: "1.5rem",
               color: "#B0B0B0",
               lineHeight: "1.7rem",
-            }}>
+            }}
+          >
             We provide what you need to enjoy your holiday with family.
             <br /> Time to make another memorable moment.
           </Typography>
@@ -108,7 +110,8 @@ export default function CalendarBooking() {
                 color: "#152C5B",
                 lineHeight: "1.875rem",
                 mb: "1rem",
-              }}>
+              }}
+            >
               Start Booking
             </Typography>
             <Button
@@ -119,7 +122,8 @@ export default function CalendarBooking() {
               }}
               onClick={handleButtonClick}
               variant="contained"
-              color="primary">
+              color="primary"
+            >
               <CalendarMonth />
             </Button>
             <Popover
@@ -133,7 +137,8 @@ export default function CalendarBooking() {
               transformOrigin={{
                 vertical: "top",
                 horizontal: "center",
-              }}>
+              }}
+            >
               <DateRangePicker
                 open={open}
                 toggle={() => setAnchorEl(null)}
@@ -157,7 +162,8 @@ export default function CalendarBooking() {
                     backgroundColor: "#E74C3C",
                   },
                   mr: "1rem",
-                }}>
+                }}
+              >
                 <Remove sx={{ color: "#fff" }} />
               </IconButton>
               <TextField
@@ -175,7 +181,8 @@ export default function CalendarBooking() {
                     backgroundColor: "#1ABC9C",
                   },
                   ml: "1rem",
-                }}>
+                }}
+              >
                 <Add sx={{ color: "white" }} />
               </IconButton>
             </Box>
@@ -189,7 +196,8 @@ export default function CalendarBooking() {
                 paddingBlock: "1rem",
                 paddingInline: "5rem",
               }}
-              onClick={getRooms}>
+              onClick={getRooms}
+            >
               Explore
             </Button>
           </Box>
@@ -203,8 +211,10 @@ export default function CalendarBooking() {
               borderTopLeftRadius: "7rem",
               padding: "1rem",
               position: "relative",
-              height: "300px",
-            }}>
+              height: "400px",
+              // height: "300px",
+            }}
+          >
             <CalenderImages />
           </Box>
         </Grid>
