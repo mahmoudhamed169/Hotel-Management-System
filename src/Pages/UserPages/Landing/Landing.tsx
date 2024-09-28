@@ -7,10 +7,11 @@ import Hotels from "../../../Components/UserSharedComponents/Hotels/Hotels";
 import Houses from "../../../Components/UserSharedComponents/Houses/Houses";
 import UserAds from "../../../Components/UserSharedComponents/UserAds/UserAds";
 import MostPopularAds from "../../../Components/UserSharedComponents/MostPopularAds/MostPopularAds";
+import { Box } from "@mui/material";
 
 export default function Landing() {
   return (
-    <div>
+    <Box>
       {/* <NavBarFooter /> */}
       <Calendar />
       <MostPopularAds />
@@ -18,6 +19,6 @@ export default function Landing() {
       <Hotels />
       <UserAds />
       <Footer />
-    </div>
+    </Box>
   );
 }

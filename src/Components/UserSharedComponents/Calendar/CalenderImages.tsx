@@ -13,7 +13,7 @@ import "swiper/css/pagination";
 import { EffectCube, Pagination } from "swiper/modules";
 
 export default function CalendarImages() {
-  const imagesData = [img1, img2, img3,img4];
+  const imagesData = [img1, img2, img3, img4];
   return (
     <Box>
       <Box
@@ -50,7 +50,7 @@ export default function CalendarImages() {
                 src={img}
                 style={{
                   width: "100%",
-                  height: "100%",
+                  height: "400px",
                   objectFit: "cover",
                   borderTopLeftRadius: "7rem",
                 }}
