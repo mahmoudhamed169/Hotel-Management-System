@@ -29,6 +29,7 @@ export const PhotoCard = ({
   ad: AdsType;
   eyeIcon?: boolean;
 }) => {
+  console.log(room);
   return (
     <Box
       className="image-box"
@@ -60,7 +61,7 @@ export const PhotoCard = ({
           </Typography>
         </Box>
         {eyeIcon ? (
-          <Link to={`/room-details/${room?._id}`} state={ad?.room}>
+          <Link to={`/room-details/${room?._id}`} state={room}>
             <ButtonBase disabled={isLoading}>
               <VisibilityIcon sx={{ color: "white", marginRight: "15px" }} />
             </ButtonBase>

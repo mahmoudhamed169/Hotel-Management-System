@@ -24,6 +24,7 @@ interface DateRange {
 
 export default function CalendarBooking() {
   const navigate = useNavigate();
+  console.log(navigate);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [dateRange, setDateRange] = useState<DateRange>({});
@@ -62,7 +63,7 @@ export default function CalendarBooking() {
 
       console.log(response.data.data.rooms);
 
-      navigate("/explore");
+      navigate("/explore", { state: { data: response.data.data.rooms } });
     } catch (error) {
       const axiosError = error as AxiosError;
       toast.error(axiosError.message);
