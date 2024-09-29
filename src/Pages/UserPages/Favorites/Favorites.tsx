@@ -1,12 +1,11 @@
-import { Box, Grid2, Skeleton, Typography } from "@mui/material";
-import {Grid } from "@mui/material";
+import { Box, Grid, Pagination, Skeleton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { apiClient, PORTAL_URLS } from "../../../Api/END_POINTS";
 import { PhotoCard } from "../../../Components/AdminSharedComponents/PhotoCard/PhotoCard";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import NoDataFound from "../../../Components/UserSharedComponents/NoDataFound/noDataFound";
 import BasicBreadcrumbs from "../../../Components/UserSharedComponents/BasicBreadcrumbs/BasicBreadcrumbs";
+import NoDataFound from "../../../Components/UserSharedComponents/NoDataFound/NoDataFound";
 
 interface RoomType {
   _id: string;
@@ -16,11 +15,7 @@ interface RoomType {
 }
 
 interface FavRoom {
-  favoriteRooms: [rooms];
-}
-
-interface fav {
-  rooms: RoomType;
+  favoriteRooms: { rooms: RoomType[] }[];
 }
 
 interface IResponse {
@@ -30,36 +25,47 @@ interface IResponse {
 export default function Favorites() {
   const [loading, setLoading] = useState<boolean>(true);
   const [favList, setFavList] = useState<RoomType[]>([]);
-  console.log(favList);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(2);
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [paginatedFavList, setPaginatedFavList] = useState<RoomType[]>([]);
 
   const getFavlist = async () => {
+    setLoading(true);
     try {
-      const response = await apiClient.get<IResponse>(PORTAL_URLS.favoriRoom);
-
-      console.log(response);
-      setFavList(response.data.data.favoriteRooms[0].rooms);
+      const response = await apiClient.get<IResponse>(`${PORTAL_URLS.favoriRoom}?page=${currentPage}&limit=${itemsPerPage}`);
+      const favoriteRooms = response.data.data.favoriteRooms[0];
+      const rooms = favoriteRooms.rooms || [];
+      setFavList(rooms);
+      setTotalCount(rooms.length);
     } catch (error) {
       const axiosError = error as AxiosError;
-      toast.error(axiosError.message);
+      toast.error(axiosError.response?.data?.message || "Failed to load favorite rooms.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const removeFaveList = async (roomId: string) => {
-    console.log(roomId);
-
     try {
-      const response = await apiClient.delete(
-        `${PORTAL_URLS.favoriRoom}/${roomId}`,
-        {
-          data: { roomId },
-        }
-      );
+      const response = await apiClient.delete(`${PORTAL_URLS.favoriRoom}/${roomId}`, {
+        data: { roomId },
+      });
+      toast.success(response.data.data.message || "Favorite room removed");
 
-      getFavlist();
-      toast.success(response.data.data.message || "favourite room removed");
+      // Update the local state immediately
+      setFavList((prev) => {
+        const updatedList = prev.filter(room => room._id !== roomId);
+        // Check if the current page becomes empty after removal
+        if (updatedList.length < (currentPage - 1) * itemsPerPage + 1) {
+          setCurrentPage(prev => Math.max(prev - 1, 1)); // Decrement page if it's empty
+        }
+        return updatedList;
+      });
+      setTotalCount((prev) => prev - 1); // Decrement total count
     } catch (error) {
       const axiosError = error as AxiosError;
-      toast.error(axiosError.message);
+      toast.error(axiosError.response?.data?.message || "Failed to remove favorite room.");
     }
   };
 
@@ -68,103 +74,73 @@ export default function Favorites() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1700);
-
-    return () => clearTimeout(timer);
-  }, []);
+    setPaginatedFavList(favList.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
+  }, [favList, currentPage, itemsPerPage]);
 
   return (
-    <>
-      <Box
-        sx={{
-          width: "85%",
-          margin: "auto",
-          paddingInline: "20px",
-          paddingTop: "50px",
-        }}
-      >
-         <Box>
-          <Grid container alignItems="center">
-            <Grid item xs={12} sm={3}>
-              <BasicBreadcrumbs current="Favorites" />
-            </Grid>
-
-            <Grid item xs={12} sm={6} sx={{ textAlign: "center" }}>
-              <Typography
-                variant="h5"
-                component={"h2"}
-                sx={{
-                  fontWeight: "600",
-                  fontSize: "2.1rem",
-                  lineHeight: "0.5rem",
-                  color: "#152C5B",
-                  marginBlock: { xs: "0.5rem", sm: "1rem" },
-                }}
-              >
-                Your Favorites
-              </Typography>
-           
-            </Grid>
-
-            <Grid item xs={false} sm={3}></Grid>
+    <Box sx={{ width: "85%", margin: "auto", paddingInline: "20px", paddingTop: "50px" }}>
+      <Box>
+        <Grid container alignItems="center">
+          <Grid item xs={12} sm={3}>
+            <BasicBreadcrumbs current="Favorites" />
           </Grid>
-        </Box>
-
-        <Box>
-          {favList.length > 0 && (
-            <Typography
-              variant="h3"
-              sx={{
-                color: "#152C5B",
-                fontSize: "24px",
-                fontWeight: "600",
-                marginTop:'73px'
-              }}
-            >
-              Your Rooms
+          <Grid item xs={12} sm={6} sx={{ textAlign: "center" }}>
+            <Typography variant="h5" component={"h2"} sx={{ fontWeight: "600", fontSize: "2.1rem", lineHeight: "0.5rem", color: "#152C5B", marginBlock: { xs: "0.5rem", sm: "1rem" } }}>
+              Your Favorites
             </Typography>
-          )}
-
-          {loading ? (
-            <Box sx={{ paddingTop: "20px" }}>
-              <Grid2 container spacing={2}>
-                {favList?.map((fav) => (
-                  <Grid2 size={{ xs: 12, lg: 4 }}>
-                    <Skeleton
-                      variant="rectangular"
-                      width="100%"
-                      animation="wave"
-                      height="315px"
-                      sx={{borderRadius:'15px'}}
-                    />
-                  </Grid2>
-                ))}
-              </Grid2>
-            </Box>
-          ) : (
-            <Box sx={{ paddingTop: "20px" }}>
-              {favList.length > 0 ? (
-                <Grid2 container spacing={2}>
-                  {favList?.map((fav) => (
-                    <Grid2 size={{ xs: 12, lg: 4 }}>
-                      <PhotoCard
-                        value={fav}
-                        isFavorite={true}
-                        eyeIcon={true}
-                        onToggleFavorite={() => removeFaveList(fav._id)}
-                      />
-                    </Grid2>
-                  ))}
-                </Grid2>
-              ) : (
-                <NoDataFound />
-              )}
-            </Box>
-          )}
-        </Box>
+          </Grid>
+          <Grid item xs={false} sm={3}></Grid>
+        </Grid>
       </Box>
-    </>
+
+      <Box>
+        {favList.length > 0 && (
+          <Typography variant="h3" sx={{ color: "#152C5B", fontSize: "24px", fontWeight: "600", marginTop: '73px' }}>
+            Your Rooms
+          </Typography>
+        )}
+
+        {loading ? (
+          <Box sx={{ paddingTop: "20px" }}>
+            <Grid container spacing={2}>
+              {[...Array(itemsPerPage)].map((_, index) => (
+                <Grid item key={index} xs={12} sm={6} lg={4}>
+                  <Skeleton variant="rectangular" width="100%" animation="wave" height="315px" sx={{ borderRadius: '15px' }} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        ) : (
+          <Box sx={{ paddingTop: "20px" }}>
+            {paginatedFavList.length > 0 ? (
+              <Grid container spacing={2}>
+                {paginatedFavList.map((fav) => (
+                  <Grid item key={fav._id} xs={12} sm={6} lg={4}>
+                    <PhotoCard
+                      value={fav}
+                      isFavorite={true}
+                      eyeIcon={true}
+                      onToggleFavorite={() => removeFaveList(fav._id)}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              <NoDataFound />
+            )}
+          </Box>
+        )}
+
+        {totalCount > 0 && (
+          <Pagination
+            onChange={(e, value) => setCurrentPage(value)}
+            page={currentPage}
+            count={Math.ceil(totalCount / itemsPerPage)}
+            color="primary"
+            sx={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}
+          />
+        )}
+      </Box>
+    </Box>
   );
 }
