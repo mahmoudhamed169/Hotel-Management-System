@@ -14,10 +14,10 @@ export default function AllReviews({ reviews }) {
       spacing={{ xs: 2, md: 3 }}
       columns={{ xs: 4, sm: 8, md: 12 }}>
       {reviews.map((review, index) => (
-        <Grid key={index} size={{ xs: 2, sm: 4, md: 4 }}>
+        <Grid key={index} size={{ xs: 12, md: 4 }}>
           <Box
             sx={{
-              background: "#efe7e7",
+              background: "#F3F0EA",
               padding: "17px",
               borderRadius: "20px",
               display: "flex",
