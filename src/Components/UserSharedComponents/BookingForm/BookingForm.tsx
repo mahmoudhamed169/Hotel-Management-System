@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import DateRangeSelector from "./../DateRangeSelector/DateRangeSelector";
 import CapacitySelector from "./../CapacitySelector/CapacitySelector";
 import ButtonForm from "../../SharedComponents/ButtonForm/ButtonForm";
+import LoginModal from "../LoginModal/LoginModal";
+import toast from "react-hot-toast";
+import { apiClient } from "../../../Api/END_POINTS";
+import { useNavigate } from "react-router-dom";
 
 interface Room {
   _id: string;
@@ -17,8 +21,23 @@ interface Room {
 interface BookingFormProps {
   room: Room;
 }
+interface BookingResponse {
+  message: string;
+}
 
 function BookingForm({ room }: BookingFormProps) {
+  const [finalPrice, setFinalPrice] = useState(room.price);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   const {
     control,
     handleSubmit,
@@ -30,10 +49,8 @@ function BookingForm({ room }: BookingFormProps) {
       capacity: 1,
     },
   });
-
   const dateRange = watch("dateRange");
   const capacity = watch("capacity");
-  const [finalPrice, setFinalPrice] = useState(room.price);
 
   useEffect(() => {
     const discountFactor = room.discount / 100;
@@ -51,8 +68,31 @@ function BookingForm({ room }: BookingFormProps) {
     };
 
     console.log(bookingDetails);
+    const isLoggedIn = Boolean(localStorage.getItem("token"));
+    const toastId = toast.loading("Processing...");
+    if (!isLoggedIn) {
+      toast.error("Please log in to access this feature..", {
+        id: toastId,
+      });
+      handleOpenModal();
+    } else {
+      try {
+        const response = await apiClient.post<BookingResponse>(
+          "/portal/booking",
+          bookingDetails
+        );
 
-    /// check login and call api
+        toast.success(response.data.message, {
+          id: toastId,
+        });
+        navigate("/stripePayment");
+      } catch (error) {
+        const axiosError = error as AxiosError<{ message: string }>;
+        toast.error(axiosError.response?.data?.message || "An error occurred", {
+          id: toastId,
+        });
+      }
+    }
   };
 
   return (
@@ -64,6 +104,7 @@ function BookingForm({ room }: BookingFormProps) {
         width: "487px",
       }}
     >
+      <LoginModal show={isModalOpen} handleClose={handleCloseModal} />
       <Box sx={{ width: "75%", margin: "auto" }}>
         <Typography
           variant="h6"
