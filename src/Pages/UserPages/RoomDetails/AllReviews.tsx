@@ -12,16 +12,18 @@ export default function AllReviews({ reviews }) {
     <Grid
       container
       spacing={{ xs: 2, md: 3 }}
-      columns={{ xs: 4, sm: 8, md: 12 }}>
+      columns={{ xs: 4, sm: 8, md: 12 }}
+    >
       {reviews.map((review, index) => (
         <Grid key={index} size={{ xs: 12, md: 4 }}>
           <Box
             sx={{
-              background: "#F3F0EA",
+              background: "#f9fafb",
               padding: "17px",
               borderRadius: "20px",
               display: "flex",
-            }}>
+            }}
+          >
             {" "}
             <Box
               sx={{
@@ -30,7 +32,8 @@ export default function AllReviews({ reviews }) {
                 border: "1px solid #3252DF",
                 borderRadius: "9999px",
                 overflow: "hidden",
-              }}>
+              }}
+            >
               <img style={{ width: "100%" }} src={review?.user?.profileImage} />
             </Box>
             <Box
@@ -38,7 +41,8 @@ export default function AllReviews({ reviews }) {
                 display: "flex",
                 flexDirection: "column",
                 marginLeft: "10px",
-              }}>
+              }}
+            >
               <Typography sx={{ fontWeight: "500" }}>
                 {review?.review}
               </Typography>
