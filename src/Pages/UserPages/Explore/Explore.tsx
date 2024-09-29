@@ -1,8 +1,12 @@
 import {
   Box,
   ButtonBase,
+  Chip,
   Grid2 as Grid,
+  InputLabel,
+  MenuItem,
   Pagination,
+  Select,
   Skeleton,
   Stack,
   Tooltip,
@@ -49,7 +53,7 @@ interface AllRoomsResponseType {
 }
 export default function Explore() {
   const location: PickerData = useLocation();
-
+  console.log(location);
   const [favoriteRooms, setFavoriteRooms] = useState<FavoriType[]>([]);
   const [rooms, SetRooms] = useState<roomType[]>(
     location.state?.data?.rooms || []
@@ -58,6 +62,9 @@ export default function Explore() {
     location.state?.data?.totalCount || 1
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedFilter, setSelectedFilter] = useState<
+    "highest" | "lowest" | null
+  >(null);
 
   const getAllRooms = async () => {
     try {
@@ -74,11 +81,7 @@ export default function Explore() {
       );
     }
   };
-  useEffect(() => {
-    if (!location.state?.data?.rooms) {
-      getAllRooms();
-    }
-  }, []);
+
   const getMyFavoriRooms = async () => {
     try {
       const response = await apiClient.get<FavoriResponseType>(
@@ -130,6 +133,20 @@ export default function Explore() {
       room?.rooms.some((room: roomType) => room._id === id)
     );
   };
+  const sortRooms = (value: "highest" | "lowest") => {
+    setSelectedFilter(value);
+    SetRooms(
+      rooms.sort((a, b) =>
+        value === "highest" ? b.price - a.price : a.price - b.price
+      )
+    );
+  };
+  useEffect(() => {
+    if (!location.state?.data?.rooms) {
+      getAllRooms();
+    }
+  }, []);
+
   return (
     <Box sx={{ width: "85%", margin: "auto", padding: "20px 0" }}>
       <Box>
@@ -149,18 +166,37 @@ export default function Explore() {
                 color: "#152C5B",
                 marginBlock: { xs: "0.5rem", sm: "1rem" },
               }}>
-              Explore All Rooms
+              {location.state?.startDate && location.state?.endDate
+                ? `${location.state.startDate.toLocaleDateString()} - ${location.state.endDate.toLocaleDateString()} Available Rooms`
+                : "Explore All Rooms"}
             </Typography>
           </Grid>
 
           <Grid size={{ xs: false, sm: 3 }}></Grid>
         </Grid>
       </Box>
+      <Box sx={{ width: "90px" }}>
+        <Stack direction="row" spacing={1}>
+          <Chip
+            label="lowest"
+            clickable
+            color={selectedFilter === "lowest" ? "primary" : "default"}
+            onClick={() => sortRooms("lowest")}
+          />
+
+          <Chip
+            label="highest"
+            clickable
+            color={selectedFilter === "highest" ? "primary" : "default"}
+            onClick={() => sortRooms("highest")}
+          />
+        </Stack>
+      </Box>
       <Typography
         variant="body1"
         sx={{
-          paddingTop: "73px",
           paddingBottom: "16px",
+          paddingTop: "50px",
           color: "#152C5B",
           fontWeight: "700",
         }}>

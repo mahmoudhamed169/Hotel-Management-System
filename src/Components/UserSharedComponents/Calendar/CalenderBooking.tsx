@@ -60,10 +60,13 @@ export default function CalendarBooking() {
       const response = await apiClient.get(getRoomDetails, {
         params: { startDate, endDate },
       });
+      console.log(dateRange);
 
       console.log(response.data.data.rooms);
 
-      navigate("/explore", { state: { data: response.data.data } });
+      navigate("/explore", {
+        state: { data: response.data.data, startDate, endDate },
+      });
     } catch (error) {
       const axiosError = error as AxiosError;
       toast.error(axiosError.message);
