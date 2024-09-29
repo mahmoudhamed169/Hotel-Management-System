@@ -10,7 +10,11 @@ import RoomDescription from "../../../Components/UserSharedComponents/RoomDescri
 import BookingForm from "../../../Components/UserSharedComponents/BookingForm/BookingForm";
 import RatingComponent from "./Rating";
 import Comment from "./Comment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import AllReviews from "./AllReviews";
+import { AxiosError } from "axios";
+import toast from "react-hot-toast";
+import { apiClient, PORTAL_URLS } from "../../../Api/END_POINTS";
 
 export default function RoomDetails() {
   const location = useLocation();
@@ -20,10 +24,24 @@ export default function RoomDetails() {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token") || null
   );
+  const [reviews, setReviews] = useState([]);
   const staticImages = [pic1, pic2, pic3, pic4];
-
   const displayedImages = images.length > 0 ? images : staticImages;
+  const getAllReviews = async () => {
+    try {
+      const response = await apiClient.get(
+        `${PORTAL_URLS.getAllReviews}/${room._id}`
+      );
 
+      setReviews(response.data.data.roomReviews);
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      toast.error(axiosError.response?.data?.message || "An error occurred");
+    }
+  };
+  useEffect(() => {
+    getAllReviews();
+  }, []);
   return (
     <Box sx={{ width: "80%", margin: "auto", paddingTop: "2rem" }}>
       <Box>
@@ -134,10 +152,13 @@ export default function RoomDetails() {
           </Grid>
         </Box>
       </Box>
+      <Box sx={{ margin: "50px 0" }}>
+        <AllReviews reviews={reviews} />
+      </Box>
       {/* start review and comment box */}
       {token && (
         <Grid container spacing={15}>
-          <RatingComponent roomId={room._id} />
+          <RatingComponent roomId={room._id} getAllReviews={getAllReviews} />
 
           <Comment roomId={room._id} />
         </Grid>

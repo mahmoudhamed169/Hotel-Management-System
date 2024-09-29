@@ -11,7 +11,7 @@ import {
   PORTAL_URLS,
 } from "../../../Api/END_POINTS";
 
-export default function RatingComponent({ roomId }) {
+export default function RatingComponent({ roomId, getAllReviews }) {
   const [rating, setRating] = useState<number | null>(2);
   const [hover, setHover] = useState(-1);
 
@@ -49,6 +49,7 @@ export default function RatingComponent({ roomId }) {
       toast.success(response.data.message, {
         id: toastId,
       });
+      getAllReviews();
     } catch (error) {
       reset();
       const axiosError = error as AxiosError<{ message: string }>;
