@@ -14,12 +14,17 @@ import { motion } from "framer-motion";
 
 import { PhotoCard } from "../../../Components/AdminSharedComponents/PhotoCard/PhotoCard";
 import { AxiosError } from "axios";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import toast from "react-hot-toast";
-import { apiClient, PORTAL_URLS } from "../../../Api/END_POINTS";
+import {
+  apiClient,
+  getRoomDetails,
+  PORTAL_URLS,
+} from "../../../Api/END_POINTS";
+import BasicBreadcrumbs from "../../../Components/UserSharedComponents/BasicBreadcrumbs/BasicBreadcrumbs";
 
 interface FavoriType {
-  rooms: RoomType;
+  rooms: roomType;
 }
 
 interface FavoriResponseType {
@@ -27,12 +32,53 @@ interface FavoriResponseType {
     favoriteRooms: FavoriType[];
   };
 }
+interface roomType {
+  _id: string;
+  roomNumber: string;
+  images: string[];
+  price: number;
+}
+interface PickerData {
+  state: { data: { rooms: roomType[]; totalCount: number } };
+}
+interface AllRoomsResponseType {
+  data: {
+    rooms: roomType[];
+    totalCount: number;
+  };
+}
 export default function Explore() {
-  const location = useLocation();
-  const rooms = location.state.data;
+  const location: PickerData = useLocation();
+
   const [favoriteRooms, setFavoriteRooms] = useState<FavoriType[]>([]);
+  const [rooms, SetRooms] = useState<roomType[]>(
+    location.state?.data?.rooms || []
+  );
+  const [totalCount, setTotalCount] = useState<number>(
+    location.state?.data?.totalCount || 1
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  console.log(rooms);
+
+  const getAllRooms = async () => {
+    try {
+      const response = await apiClient.get<AllRoomsResponseType>(
+        getRoomDetails
+      );
+
+      SetRooms(response.data.data.rooms);
+      setTotalCount(response.data.data.totalCount);
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      toast.error(
+        axiosError.response?.data?.message || "An unexpected error occurred."
+      );
+    }
+  };
+  useEffect(() => {
+    if (!location.state?.data?.rooms) {
+      getAllRooms();
+    }
+  }, []);
   const getMyFavoriRooms = async () => {
     try {
       const response = await apiClient.get<FavoriResponseType>(
@@ -81,13 +127,47 @@ export default function Explore() {
 
   const checkIfRoomInFavori = (id: string) => {
     return favoriteRooms.some((room) =>
-      room?.rooms.some((room: RoomType) => room._id === id)
+      room?.rooms.some((room: roomType) => room._id === id)
     );
   };
   return (
     <Box sx={{ width: "85%", margin: "auto", padding: "20px 0" }}>
+      <Box>
+        <Grid container alignItems="center">
+          <Grid size={{ xs: 12, sm: 3 }}>
+            <BasicBreadcrumbs current="Room Details" />
+          </Grid>
+
+          <Grid size={{ xs: 12, sm: 6 }} sx={{ textAlign: "center" }}>
+            <Typography
+              variant="h5"
+              component={"h2"}
+              sx={{
+                fontWeight: "600",
+                fontSize: "2.1rem",
+                lineHeight: "0.5rem",
+                color: "#152C5B",
+                marginBlock: { xs: "0.5rem", sm: "1rem" },
+              }}>
+              Explore All Rooms
+            </Typography>
+          </Grid>
+
+          <Grid size={{ xs: false, sm: 3 }}></Grid>
+        </Grid>
+      </Box>
+      <Typography
+        variant="body1"
+        sx={{
+          paddingTop: "73px",
+          paddingBottom: "16px",
+          color: "#152C5B",
+          fontWeight: "700",
+        }}>
+        All Rooms
+      </Typography>
       <Grid container spacing={2}>
-        {rooms?.map((room, index) => (
+        {rooms?.map((room: roomType, index) => (
           <Grid size={{ xs: 12, md: 4, lg: 3 }}>
             <OpacityAnimate delay={index / 2}>
               <PhotoCard
