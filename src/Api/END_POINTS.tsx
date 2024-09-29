@@ -27,11 +27,12 @@ export const ADMIN_URLS = {
 export const PORTAL_URLS = {
   ads: `portal/ads`,
   favoriRoom: `portal/favorite-rooms`,
+  addReview: `/portal/room-reviews`,
+  addComment: `/portal/room-comments`,
 };
 
 export const DASHBOARD_URL = `/admin/dashboard`;
 
+// get rooms
 
-// get rooms 
-
-export const getRoomDetails= `/portal/rooms/available/`;
+export const getRoomDetails = `/portal/rooms/available/`;

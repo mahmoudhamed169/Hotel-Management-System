@@ -8,20 +8,25 @@ import pic4 from "../../../assets/images/pic3.png";
 import UserRoomFacilities from "../../../Components/UserSharedComponents/UserRoomFacilities/UserRoomFacilities";
 import RoomDescription from "../../../Components/UserSharedComponents/RoomDescription/RoomDescription";
 import BookingForm from "../../../Components/UserSharedComponents/BookingForm/BookingForm";
+import RatingComponent from "./Rating";
+import Comment from "./Comment";
+import { useState } from "react";
 
 export default function RoomDetails() {
   const location = useLocation();
   const room = location.state || {};
   console.log(room);
   const { roomNumber, images = [] } = room;
-
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token") || null
+  );
   const staticImages = [pic1, pic2, pic3, pic4];
 
   const displayedImages = images.length > 0 ? images : staticImages;
 
   return (
-    <Box>
-      <Box sx={{ width: "80%", margin: "auto", paddingTop: "2rem" }}>
+    <Box sx={{ width: "80%", margin: "auto", paddingTop: "2rem" }}>
+      <Box>
         {/* tiltes  */}
         <Box>
           <Grid container alignItems="center">
@@ -39,8 +44,7 @@ export default function RoomDetails() {
                   lineHeight: "0.5rem",
                   color: "#152C5B",
                   marginBlock: { xs: "0.5rem", sm: "1rem" },
-                }}
-              >
+                }}>
                 {roomNumber}
               </Typography>
               <Typography
@@ -51,8 +55,7 @@ export default function RoomDetails() {
                   fontWeight: "300",
                   fontSize: "18px",
                   lineHeight: "2.1rem",
-                }}
-              >
+                }}>
                 Bogor, Indonesia
               </Typography>
             </Grid>
@@ -72,8 +75,7 @@ export default function RoomDetails() {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
-                }}
-              >
+                }}>
                 <img
                   src={displayedImages[0]}
                   alt="First Room Image"
@@ -95,8 +97,7 @@ export default function RoomDetails() {
                       sx={{
                         width: "100%",
                         height: "245px",
-                      }}
-                    >
+                      }}>
                       <img
                         src={image}
                         alt={`Room image ${index + 2}`}
@@ -133,6 +134,16 @@ export default function RoomDetails() {
           </Grid>
         </Box>
       </Box>
+      {/* start review and comment box */}
+      {token && (
+        <Grid container spacing={15}>
+          <RatingComponent roomId={room._id} />
+
+          <Comment roomId={room._id} />
+        </Grid>
+      )}
+
+      {/* end review and comment box */}
     </Box>
   );
 }
