@@ -61,15 +61,20 @@ export default function Explore() {
   const [totalCount, setTotalCount] = useState<number>(
     location.state?.data?.totalCount || 1
   );
+  const [page,setPage] = useState<number>(1);
+  const [size,setSize] = useState<number>(5);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedFilter, setSelectedFilter] = useState<
     "highest" | "lowest" | null
   >(null);
 
-  const getAllRooms = async () => {
+  const getAllRooms = async (page:number , size:number) => {
     try {
       const response = await apiClient.get<AllRoomsResponseType>(
-        getRoomDetails
+        getRoomDetails,{
+          params:{page:page , size: size}
+        }
       );
 
       SetRooms(response.data.data.rooms);
@@ -143,9 +148,9 @@ export default function Explore() {
   };
   useEffect(() => {
     if (!location.state?.data?.rooms) {
-      getAllRooms();
+      getAllRooms(page,size);
     }
-  }, []);
+  }, [page,size]);
 
   return (
     <Box sx={{ width: "85%", margin: "auto", padding: "20px 0" }}>
@@ -221,9 +226,15 @@ export default function Explore() {
           </Grid>
         ))}
       </Grid>
-      <Stack sx={{ marginTop: "20px", alignItems: "flex-end" }} spacing={2}>
-        <Pagination count={10} variant="outlined" shape="rounded" />
-      </Stack>
+      {totalCount > 0 && (
+          <Pagination
+            onChange={(e, value) => setPage(value)}
+            page={page}
+            count={Math.ceil(totalCount / size)}
+            color="primary"
+            sx={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}
+          />
+        )}
     </Box>
   );
 }
