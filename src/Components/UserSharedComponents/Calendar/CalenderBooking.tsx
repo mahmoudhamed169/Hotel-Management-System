@@ -17,6 +17,7 @@ import { apiClient, getRoomDetails } from "../../../Api/END_POINTS";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import img from "../../../assets/images/image 3.png"
 
 interface DateRange {
   startDate?: string | null;
@@ -221,7 +222,7 @@ export default function CalendarBooking() {
           </Box>
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Box
+          {/* <Box
             sx={{
               mt: "5rem",
               border: "2px solid #E5E5E5",
@@ -233,7 +234,30 @@ export default function CalendarBooking() {
             }}
           >
             <CalenderImages />
-          </Box>
+          </Box> */}
+                  <Box
+                  sx={{
+                    width: { xs: "80%", sm: "360px" },
+                    height: { xs: "auto", sm: "490px" },
+                    border: "2px solid #E5E5E5",
+                    borderRadius: "15px",
+                    position: "relative",
+                    marginTop:'2.5rem'
+                  }}
+                >
+                  <img
+                    src={img}
+
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      position: "absolute",
+                      bottom: "40px",
+                      right: "40px",
+                      borderRadius: "105px 20px 20px 20px",
+                    }}
+                  />
+                </Box>
         </Grid>
       </Grid>
     </Box>

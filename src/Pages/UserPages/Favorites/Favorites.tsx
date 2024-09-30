@@ -26,7 +26,7 @@ export default function Favorites() {
   const [loading, setLoading] = useState<boolean>(true);
   const [favList, setFavList] = useState<RoomType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(4);
+  const [itemsPerPage] = useState<number>(8);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [paginatedFavList, setPaginatedFavList] = useState<RoomType[]>([]);
 
