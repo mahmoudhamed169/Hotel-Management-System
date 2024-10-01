@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BasicBreadcrumbs from "../../../Components/UserSharedComponents/BasicBreadcrumbs/BasicBreadcrumbs";
 import { Box, Typography, Grid } from "@mui/material";
 import pic1 from "../../../assets/images/pic.png";
@@ -20,6 +20,7 @@ import Footer from "../navbar&&footer/Footer";
 export default function RoomDetails() {
   const location = useLocation();
   const room = location.state || {};
+  const navigate = useNavigate();
   console.log(room);
   const { roomNumber, images = [] } = room;
   const [token, setToken] = useState<string | null>(
@@ -41,7 +42,9 @@ export default function RoomDetails() {
     }
   };
   useEffect(() => {
-    getAllReviews();
+    if (token) {
+      getAllReviews();
+    }
   }, []);
   return (
     <>
@@ -51,8 +54,7 @@ export default function RoomDetails() {
           margin: "auto",
           paddingTop: "2rem",
           paddingBottom: "2rem",
-        }}
-      >
+        }}>
         <Box>
           {/* tiltes  */}
           <Box>
@@ -71,8 +73,7 @@ export default function RoomDetails() {
                     lineHeight: "0.5rem",
                     color: "#152C5B",
                     marginBlock: { xs: "0.5rem", sm: "1rem" },
-                  }}
-                >
+                  }}>
                   {roomNumber}
                 </Typography>
                 <Typography
@@ -83,8 +84,7 @@ export default function RoomDetails() {
                     fontWeight: "300",
                     fontSize: "18px",
                     lineHeight: "2.1rem",
-                  }}
-                >
+                  }}>
                   Bogor, Indonesia
                 </Typography>
               </Grid>
@@ -104,8 +104,7 @@ export default function RoomDetails() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                  }}
-                >
+                  }}>
                   <img
                     src={displayedImages[0]}
                     alt="First Room Image"
@@ -127,8 +126,7 @@ export default function RoomDetails() {
                         sx={{
                           width: "100%",
                           height: "245px",
-                        }}
-                      >
+                        }}>
                         <img
                           src={image}
                           alt={`Room image ${index + 2}`}
@@ -165,16 +163,75 @@ export default function RoomDetails() {
             </Grid>
           </Box>
         </Box>
-        <Box sx={{ margin: "50px 0" }}>
-          <AllReviews reviews={reviews} />
-        </Box>
-        {/* start review and comment box */}
         {token && (
-          <Grid container spacing={15}>
+          <Box sx={{ margin: "50px 0" }}>
+            <AllReviews reviews={reviews} />
+          </Box>
+        )}
+
+        {/* start review and comment box */}
+        {token ? (
+          <Grid
+            container
+            spacing={15}
+            sx={{
+              position: "relative",
+              marginTop: "13px",
+              paddingBottom: "30px",
+            }}>
             <RatingComponent roomId={room._id} getAllReviews={getAllReviews} />
 
             <Comment roomId={room._id} />
           </Grid>
+        ) : (
+          <Box
+            sx={{
+              marginTop: "2rem",
+              padding: "1.5rem",
+              border: "1px solid",
+              borderColor: (theme) => theme.palette.divider,
+              borderRadius: "10px",
+              backgroundColor: (theme) => theme.palette.background.paper,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+            }}>
+            <Typography
+              variant="h6"
+              component="p"
+              sx={{ color: "#555", fontWeight: "500", marginBottom: "1rem" }}>
+              You must be logged in to leave a comment or review.
+            </Typography>
+            <Box sx={{ display: "flex", gap: "10px" }}>
+              <Typography variant="body1" component="p">
+                Please{" "}
+                <Box
+                  component="span"
+                  sx={{
+                    color: "primary.main",
+                    cursor: "pointer",
+                    fontWeight: "600",
+                  }}
+                  onClick={() => navigate("auth/login")}>
+                  Log in
+                </Box>{" "}
+                or{" "}
+                <Box
+                  component="span"
+                  sx={{
+                    color: "primary.main",
+                    cursor: "pointer",
+                    fontWeight: "600",
+                  }}
+                  onClick={() => navigate("auth/register")}>
+                  Register
+                </Box>{" "}
+                to add your review.
+              </Typography>
+            </Box>
+          </Box>
         )}
 
         {/* end review and comment box */}

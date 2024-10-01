@@ -42,8 +42,6 @@ export default function Navabr() {
         return "three";
       case "/favorite-rooms":
         return "four";
-      default:
-        return "one";
     }
   };
   const { pathname } = useLocation();
@@ -52,6 +50,9 @@ export default function Navabr() {
   const [value, setValue] = useState(getTabValueFromPathname(pathname));
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [DropdownEl, setDropdownEl] = useState<null | HTMLElement>(null);
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token") || null
+  );
   const open = Boolean(anchorEl);
   const openDropdown = Boolean(DropdownEl);
   const loginData = JSON.parse(localStorage.getItem("loginData") || "{}");
@@ -120,7 +121,7 @@ export default function Navabr() {
                     color: "black",
                   },
                   "& .Mui-selected": {
-                    color: "#3252DF",
+                    color: "#3252DF !important",
                   },
                   "& .MuiTabs-indicator": {
                     background: "#3252DF",
@@ -140,7 +141,7 @@ export default function Navabr() {
                   value="three"
                   label="Reviews"
                   sx={{
-                    display: localStorage.getItem("token") ? "flex" : "none",
+                    display: token ? "flex" : "none",
                   }}
                 />
                 <Tab
@@ -149,7 +150,7 @@ export default function Navabr() {
                   value="four"
                   label="Favorites"
                   sx={{
-                    display: localStorage.getItem("token") ? "flex" : "none",
+                    display: token ? "flex" : "none",
                   }}
                 />
               </Tabs>
@@ -158,7 +159,7 @@ export default function Navabr() {
             ""
           )}
         </Box>
-        {localStorage.getItem("token") ? (
+        {token ? (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Avatar alt="Travis Howard" src={loginData?.profileImage} />
             <Typography variant="h6" sx={{ ml: 1 }}>
@@ -235,7 +236,7 @@ export default function Navabr() {
                 }>
                 Explore
               </MenuItem>
-              {localStorage.getItem("token") ? (
+              {token ? (
                 <>
                   <MenuItem
                     onClick={() => handleDropdownClick("/reviews")}

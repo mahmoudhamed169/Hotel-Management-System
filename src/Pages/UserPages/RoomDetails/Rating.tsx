@@ -2,7 +2,7 @@ import { Grid, Box, Typography, TextField, Rating } from "@mui/material";
 import React, { useState } from "react";
 import ButtonForm from "../../../Components/SharedComponents/ButtonForm/ButtonForm";
 import { useForm, SubmitHandler } from "react-hook-form";
-import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import {
@@ -84,7 +84,10 @@ export default function RatingComponent({ roomId, getAllReviews }) {
               setHover(newHover);
             }}
             emptyIcon={
-              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+              <StarBorderIcon
+                sx={{ opacity: 0.9, color: "#9f9f9f !important" }}
+                fontSize="inherit"
+              />
             }
           />
 
