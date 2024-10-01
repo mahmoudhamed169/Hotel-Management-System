@@ -30,6 +30,7 @@ export const PORTAL_URLS = {
   addReview: `/portal/room-reviews`,
   getAllReviews: `/portal/room-reviews`,
   addComment: `/portal/room-comments`,
+  payBooking: `/portal/booking`,
 };
 
 export const DASHBOARD_URL = `/admin/dashboard`;
