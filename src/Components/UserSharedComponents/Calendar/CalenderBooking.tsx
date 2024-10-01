@@ -17,7 +17,7 @@ import { apiClient, getRoomDetails } from "../../../Api/END_POINTS";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import img from "../../../assets/images/image 3.png"
+import img from "../../../assets/images/image 3.png";
 
 interface DateRange {
   startDate?: string | null;
@@ -42,7 +42,7 @@ export default function CalendarBooking() {
 
   const handleDateChange = (range: DateRange) => {
     setDateRange(range);
-    setError(""); 
+    setError("");
     handlePopoverClose();
   };
 
@@ -61,7 +61,6 @@ export default function CalendarBooking() {
       setError("Please pick a start and end date.");
       return;
     }
-
 
     try {
       const { startDate, endDate } = dateRange;
@@ -158,18 +157,21 @@ export default function CalendarBooking() {
               />
             </Popover>
             <TextField
-            onClick={handleButtonClick}
+              onClick={handleButtonClick}
               label="Pick a Date"
               value={
                 dateRange.startDate && dateRange.endDate
-                  ? `${dayjs(dateRange.startDate).format("YYYY-MM-DD")} - ${dayjs(dateRange.endDate).format("YYYY-MM-DD")}`
+                  ? `${dayjs(dateRange.startDate).format(
+                      "YYYY-MM-DD"
+                    )} - ${dayjs(dateRange.endDate).format("YYYY-MM-DD")}`
                   : "Pick a Start & End Date"
               }
               error={Boolean(error)}
-               
             />
             {error && (
-              <FormHelperText error sx={{ ml: '5rem'}}>{error}</FormHelperText>
+              <FormHelperText error sx={{ ml: "5rem" }}>
+                {error}
+              </FormHelperText>
             )}
             <Box sx={{ mt: "1.5rem", display: "flex", alignItems: "center" }}>
               <IconButton
@@ -235,29 +237,28 @@ export default function CalendarBooking() {
           >
             <CalenderImages />
           </Box> */}
-                  <Box
-                  sx={{
-                    width: { xs: "80%", sm: "360px" },
-                    height: { xs: "auto", sm: "490px" },
-                    border: "2px solid #E5E5E5",
-                    borderRadius: "15px",
-                    position: "relative",
-                    marginTop:'2.5rem'
-                  }}
-                >
-                  <img
-                    src={img}
-
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      position: "absolute",
-                      bottom: "40px",
-                      right: "40px",
-                      borderRadius: "105px 20px 20px 20px",
-                    }}
-                  />
-                </Box>
+          <Box
+            sx={{
+              width: { xs: "80%", sm: "90%" },
+              height: { xs: "auto", sm: "490px" },
+              border: "2px solid #E5E5E5",
+              borderRadius: "15px",
+              position: "relative",
+              marginTop: "2.5rem",
+            }}
+          >
+            <img
+              src={img}
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                bottom: "40px",
+                right: "40px",
+                borderRadius: "105px 20px 20px 20px",
+              }}
+            />
+          </Box>
         </Grid>
       </Grid>
     </Box>
