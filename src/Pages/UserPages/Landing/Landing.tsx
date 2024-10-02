@@ -2,6 +2,9 @@ import Calendar from "../../../Components/UserSharedComponents/Calendar/Calender
 import Hotels from "../../../Components/UserSharedComponents/Hotels/Hotels";
 import Houses from "../../../Components/UserSharedComponents/Houses/Houses";
 import UserAds from "../../../Components/UserSharedComponents/UserAds/UserAds";
+import MostPopularAds from "../../../Components/UserSharedComponents/MostPopularAds/MostPopularAds";
+import { Box } from "@mui/material";
+import HappyFamily from "../../../Components/UserSharedComponents/HappyFamily/HappyFamily";
 
 export default function Landing() {
   return (
@@ -10,6 +13,8 @@ export default function Landing() {
       <Houses />
       <Hotels />
       <UserAds />
-    </div>
+      <HappyFamily />
+      <Footer />
+    </Box>
   );
 }

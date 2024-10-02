@@ -6,6 +6,7 @@ import {
   Popover,
   TextField,
   Typography,
+  FormHelperText,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
@@ -15,7 +16,8 @@ import CalenderImages from "./CalenderImages";
 import { apiClient, getRoomDetails } from "../../../Api/END_POINTS";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import img from "../../../assets/images/image 3.png";
 
 interface DateRange {
   startDate?: string | null;
@@ -28,6 +30,7 @@ export default function CalendarBooking() {
   const open = Boolean(anchorEl);
   const [dateRange, setDateRange] = useState<DateRange>({});
   const [count, setCount] = useState(1);
+  const [error, setError] = useState<string>("");
 
   const handleButtonClick = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
@@ -39,6 +42,7 @@ export default function CalendarBooking() {
 
   const handleDateChange = (range: DateRange) => {
     setDateRange(range);
+    setError("");
     handlePopoverClose();
   };
 
@@ -53,6 +57,11 @@ export default function CalendarBooking() {
   };
 
   const getRooms = async () => {
+    if (!dateRange.startDate || !dateRange.endDate) {
+      setError("Please pick a start and end date.");
+      return;
+    }
+
     try {
       const { startDate, endDate } = dateRange;
 
@@ -60,7 +69,8 @@ export default function CalendarBooking() {
         params: { startDate, endDate },
       });
 
-      console.log(response.data.rooms);
+      console.log(dateRange);
+      console.log(response.data.data.rooms);
 
       navigate("/explore");
     } catch (error) {
@@ -143,14 +153,26 @@ export default function CalendarBooking() {
                 open={open}
                 toggle={() => setAnchorEl(null)}
                 onChange={handleDateChange}
+                minDate={dayjs()}
               />
             </Popover>
             <TextField
+              onClick={handleButtonClick}
               label="Pick a Date"
-              value={`${
-                dayjs(dateRange.startDate).format("YYYY-MM-DD") || ""
-              } - ${dayjs(dateRange.endDate).format("YYYY-MM-DD") || ""}`}
+              value={
+                dateRange.startDate && dateRange.endDate
+                  ? `${dayjs(dateRange.startDate).format(
+                      "YYYY-MM-DD"
+                    )} - ${dayjs(dateRange.endDate).format("YYYY-MM-DD")}`
+                  : "Pick a Start & End Date"
+              }
+              error={Boolean(error)}
             />
+            {error && (
+              <FormHelperText error sx={{ ml: "5rem" }}>
+                {error}
+              </FormHelperText>
+            )}
             <Box sx={{ mt: "1.5rem", display: "flex", alignItems: "center" }}>
               <IconButton
                 onClick={handleDecrease}
@@ -170,6 +192,7 @@ export default function CalendarBooking() {
                 sx={{ color: "#152C5B" }}
                 label="Capacity"
                 value={`${count} person`}
+                readOnly
               />
               <IconButton
                 onClick={handleIncrease}
@@ -188,8 +211,6 @@ export default function CalendarBooking() {
             </Box>
             <Button
               sx={{
-                // width: "50%",
-                // margin:'auto',
                 mt: "2rem",
                 backgroundColor: "#3252DF",
                 color: "white",
@@ -203,7 +224,7 @@ export default function CalendarBooking() {
           </Box>
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Box
+          {/* <Box
             sx={{
               mt: "5rem",
               border: "2px solid #E5E5E5",
@@ -211,10 +232,32 @@ export default function CalendarBooking() {
               borderTopLeftRadius: "7rem",
               padding: "1rem",
               position: "relative",
-              height: "300px",
+              height: "400px",
             }}
           >
             <CalenderImages />
+          </Box> */}
+          <Box
+            sx={{
+              width: { xs: "80%", sm: "90%" },
+              height: { xs: "auto", sm: "490px" },
+              border: "2px solid #E5E5E5",
+              borderRadius: "15px",
+              position: "relative",
+              marginTop: "2.5rem",
+            }}
+          >
+            <img
+              src={img}
+              style={{
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                bottom: "40px",
+                right: "40px",
+                borderRadius: "105px 20px 20px 20px",
+              }}
+            />
           </Box>
         </Grid>
       </Grid>
