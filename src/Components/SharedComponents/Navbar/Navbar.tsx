@@ -104,7 +104,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 export default function Navbar() {
   const { loginData } = useContext(AuthContext);
-  console.log(loginData , "this is login");
+  console.log(loginData, "this is login");
 
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -117,7 +117,6 @@ export default function Navbar() {
     setOpen(false);
   };
 
-
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -126,8 +125,7 @@ export default function Navbar() {
         <AppBar
           position="fixed"
           open={open}
-          sx={{ backgroundColor: " #F8F9FB", color: "#2F313F" }}
-        >
+          sx={{ backgroundColor: " #F8F9FB", color: "#2F313F" }}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -140,8 +138,7 @@ export default function Navbar() {
                   color: "#203FC7",
                 },
                 open && { display: "none" },
-              ]}
-            >
+              ]}>
               <MenuIcon />
             </IconButton>
             <Box sx={{ flexGrow: 1 }} />
@@ -155,8 +152,7 @@ export default function Navbar() {
             <IconButton
               size="large"
               aria-label="Arrow Drop Down"
-              color="inherit"
-            >
+              color="inherit">
               <Badge color="error">
                 <ArrowDropDownIcon />
               </Badge>
@@ -164,8 +160,7 @@ export default function Navbar() {
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
-              color="inherit"
-            >
+              color="inherit">
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>

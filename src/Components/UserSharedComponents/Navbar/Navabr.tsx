@@ -16,7 +16,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import MainTitle from "../../SharedComponents/MainTitle/MainTitle";
 import Tab from "@mui/material/Tab";
@@ -28,6 +28,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import { motion } from "framer-motion";
 import ThemeToggleButton from "../../SharedComponents/ThemeToggleButton/ThemeToggleButton";
 import theme from "../../../Context/ThemeContext/theme";
+import { AuthContext } from "../../../Context/AuthContext";
 
 export default function Navabr() {
   const getTabValueFromPathname = (path: string) => {
@@ -50,12 +51,14 @@ export default function Navabr() {
   const [value, setValue] = useState(getTabValueFromPathname(pathname));
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [DropdownEl, setDropdownEl] = useState<null | HTMLElement>(null);
+  const { loginData } = useContext(AuthContext);
+  console.log(loginData);
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token") || null
   );
   const open = Boolean(anchorEl);
   const openDropdown = Boolean(DropdownEl);
-  const loginData = JSON.parse(localStorage.getItem("loginData") || "{}");
+  // const loginData = JSON.parse(localStorage.getItem("loginData") || "{}");
   const isLg = useMediaQuery(theme.breakpoints.down("lg"));
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -135,22 +138,14 @@ export default function Navabr() {
                   value="two"
                   label="Explore"
                 />
-                <Tab
-                  component={Link}
-                  to="/reviews"
-                  value="three"
-                  label="Reviews"
-                  sx={{
-                    display: token ? "flex" : "none",
-                  }}
-                />
+
                 <Tab
                   component={Link}
                   to="/favorite-rooms"
                   value="four"
                   label="Favorites"
                   sx={{
-                    display: token ? "flex" : "none",
+                    display: loginData ? "flex" : "none",
                   }}
                 />
               </Tabs>
@@ -159,7 +154,7 @@ export default function Navabr() {
             ""
           )}
         </Box>
-        {token ? (
+        {loginData ? (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Avatar alt="Travis Howard" src={loginData?.profileImage} />
             <Typography variant="h6" sx={{ ml: 1 }}>
@@ -236,7 +231,7 @@ export default function Navabr() {
                 }>
                 Explore
               </MenuItem>
-              {token ? (
+              {loginData ? (
                 <>
                   <MenuItem
                     onClick={() => handleDropdownClick("/reviews")}

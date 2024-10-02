@@ -42,7 +42,7 @@ export default function AuthContextProvider(props) {
   }, [userId]);
 
   return (
-    <AuthContext.Provider value={{ setUserId, loginData }}>
+    <AuthContext.Provider value={{ setUserId, loginData, userId }}>
       {props.children}
     </AuthContext.Provider>
   );
