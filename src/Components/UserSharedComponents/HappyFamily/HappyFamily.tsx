@@ -1,7 +1,9 @@
 import { Box, Rating, Typography } from "@mui/material";
 import React from "react";
 import Slider from "react-slick";
-import img from "../../../assets/images/picture.png";
+import img from "../../../assets/images/person1.jpg";
+import img1 from "../../../assets/images/person2.jpg";
+import img2 from "../../../assets/images/person3.jpg";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 
@@ -82,7 +84,7 @@ export default function HappyFamily() {
       author: "Angga, Product Designer",
     },
     {
-      img: img,
+      img: img1,
       title: "Wonderful Experience",
       rating: 4.5,
       description:
@@ -90,7 +92,7 @@ export default function HappyFamily() {
       author: "Sarah, Marketing Manager",
     },
     {
-      img: img,
+      img: img2,
       title: "Amazing Journey",
       rating: 5,
       description:
