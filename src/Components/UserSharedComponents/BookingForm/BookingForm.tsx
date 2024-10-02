@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import axios, { AxiosError } from "axios";
@@ -68,7 +68,8 @@ function BookingForm({ room }: BookingFormProps) {
     };
 
     console.log(bookingDetails);
-    const isLoggedIn = Boolean(localStorage.getItem("token"));
+    const [isLoggedIn] = React.useState(() => localStorage.getItem("token"));
+
     const toastId = toast.loading("Processing...");
     if (!isLoggedIn) {
       toast.error("Please log in to access this feature..", {
@@ -105,7 +106,8 @@ function BookingForm({ room }: BookingFormProps) {
         border: "1px solid #E0E0E0",
         borderRadius: "8px",
         width: "487px",
-      }}>
+      }}
+    >
       <LoginModal show={isModalOpen} handleClose={handleCloseModal} />
       <Box sx={{ width: "75%", margin: "auto" }}>
         <Typography
@@ -116,7 +118,8 @@ function BookingForm({ room }: BookingFormProps) {
             fontSize: "20px",
             lineHeight: "1rem",
             color: "#152C5B",
-          }}>
+          }}
+        >
           Start Booking
         </Typography>
 
@@ -128,10 +131,12 @@ function BookingForm({ room }: BookingFormProps) {
             fontSize: "2.5rem",
             lineHeight: "1rem",
             color: "#B0B0B0",
-          }}>
+          }}
+        >
           <Typography
             component={"span"}
-            sx={{ fontSize: "2.5rem", color: "#1ABC9C", mr: "0.5rem" }}>
+            sx={{ fontSize: "2.5rem", color: "#1ABC9C", mr: "0.5rem" }}
+          >
             ${room.price}
           </Typography>
           per night
@@ -145,14 +150,16 @@ function BookingForm({ room }: BookingFormProps) {
             fontSize: "1rem",
             lineHeight: "1.rem",
             color: "#FF1612",
-          }}>
+          }}
+        >
           Discount {room.discount}% Off
         </Typography>
 
         <Box
           sx={{ marginTop: "6.5rem" }}
           component={"form"}
-          onSubmit={handleSubmit(handleConfirmBooking)}>
+          onSubmit={handleSubmit(handleConfirmBooking)}
+        >
           <Typography sx={{ color: "#152C5B", fontWeight: "600" }}>
             Pick a Date
           </Typography>
@@ -178,7 +185,8 @@ function BookingForm({ room }: BookingFormProps) {
           />
 
           <Typography
-            sx={{ color: "#152C5B", fontWeight: "600", marginTop: "1.5rem" }}>
+            sx={{ color: "#152C5B", fontWeight: "600", marginTop: "1.5rem" }}
+          >
             Capacity
           </Typography>
           <Controller
@@ -214,7 +222,8 @@ function BookingForm({ room }: BookingFormProps) {
                 fontWeight: "400",
                 fontSize: "1rem",
                 color: "#B0B0B0",
-              }}>
+              }}
+            >
               You will pay{" "}
               <Typography
                 component={"span"}
@@ -222,7 +231,8 @@ function BookingForm({ room }: BookingFormProps) {
                   fontWeight: "600",
                   fontSize: "1.2rem",
                   color: "#152C5B",
-                }}>
+                }}
+              >
                 ${finalPrice.toFixed(2)} USD
               </Typography>{" "}
               for{" "}
@@ -232,7 +242,8 @@ function BookingForm({ room }: BookingFormProps) {
                   fontWeight: "600",
                   fontSize: "1.2rem",
                   color: "#152C5B",
-                }}>
+                }}
+              >
                 {capacity} person{capacity !== 1 ? "s" : ""}
               </Typography>{" "}
             </Typography>
@@ -243,7 +254,8 @@ function BookingForm({ room }: BookingFormProps) {
               marginBlock: "1.5rem",
               width: "13rem",
               marginInline: "auto",
-            }}>
+            }}
+          >
             <ButtonForm name="Confirm Booking" />
           </Box>
         </Box>
