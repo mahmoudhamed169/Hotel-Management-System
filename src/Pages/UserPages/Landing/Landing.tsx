@@ -13,7 +13,6 @@ import HappyFamily from "../../../Components/UserSharedComponents/HappyFamily/Ha
 export default function Landing() {
   return (
     <Box>
-      {/* <NavBarFooter /> */}
       <Calendar />
       <MostPopularAds />
       <Houses />
