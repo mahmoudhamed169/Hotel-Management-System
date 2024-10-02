@@ -47,11 +47,10 @@ const imageData = [
 export default function Houses() {
   const [loading, setLoading] = React.useState<boolean>(true);
 
-  // Simulate data fetching
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1700); // Simulate a loading delay of 2 seconds
+    }, 1700);
 
     return () => clearTimeout(timer);
   }, []);
@@ -61,8 +60,8 @@ export default function Houses() {
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-    speed: 2000,
-    autoplaySpeed: 2000,
+    speed: 4000,
+    autoplaySpeed: 1000,
     cssEase: "linear",
     responsive: [
       {

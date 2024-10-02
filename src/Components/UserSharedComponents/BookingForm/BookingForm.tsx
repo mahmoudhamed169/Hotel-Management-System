@@ -70,7 +70,6 @@ function BookingForm({ room }: BookingFormProps) {
 
     console.log(bookingDetails);
 
-
     const toastId = toast.loading("Processing...");
     if (!isLoggedIn) {
       toast.error("Please log in to access this feature..", {

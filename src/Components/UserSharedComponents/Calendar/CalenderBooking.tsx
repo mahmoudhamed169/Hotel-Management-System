@@ -80,7 +80,7 @@ export default function CalendarBooking() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, width: "85%", margin: "auto", padding: "20px 0" }}>
+    <Box sx={{ width: "85%", margin: "auto", padding: "20px 0" }}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={8}>
           <Typography

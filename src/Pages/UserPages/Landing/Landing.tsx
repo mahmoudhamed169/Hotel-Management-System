@@ -1,4 +1,8 @@
 import Calendar from "../../../Components/UserSharedComponents/Calendar/CalenderBooking";
+
+import Footer from "../navbar&&footer/Footer";
+import NavBarFooter from "../navbar&&footer/NavBarFooter";
+
 import Hotels from "../../../Components/UserSharedComponents/Hotels/Hotels";
 import Houses from "../../../Components/UserSharedComponents/Houses/Houses";
 import UserAds from "../../../Components/UserSharedComponents/UserAds/UserAds";
@@ -8,8 +12,9 @@ import HappyFamily from "../../../Components/UserSharedComponents/HappyFamily/Ha
 
 export default function Landing() {
   return (
-    <div>
-      <Calendar/>
+    <Box>
+      <Calendar />
+      <MostPopularAds />
       <Houses />
       <Hotels />
       <UserAds />
