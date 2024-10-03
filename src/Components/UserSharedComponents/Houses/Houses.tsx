@@ -113,7 +113,10 @@ export default function Houses() {
         </Typography>
       )}
 
-      <Box className="slider-container" sx={{ overflow: "hidden" }}>
+      <Box
+        className="slider-container"
+        sx={{ overflow: "hidden", bgcolor: "#09c" }}
+      >
         {loading ? (
           <Slider {...settings}>
             {Array.from(new Array(4)).map((_, index) => (
