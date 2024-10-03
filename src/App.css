@@ -1,0 +1,16 @@
+body,
+html {
+    overflow: hidden;
+    /* Prevent scrolling */
+    margin: 0;
+    /* Remove default margin */
+    padding: 0;
+    /* Remove default padding */
+}
+
+.slider-container {
+    height: 300px;
+    /* Adjust to fit your design */
+    overflow: hidden;
+    /* Prevent internal overflow */
+}
