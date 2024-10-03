@@ -4,6 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import { Typography, List, ListItem } from "@mui/material";
 import Link from "@mui/material/Link";
+import MainTitle from "../../../Components/SharedComponents/MainTitle/MainTitle";
 
 function Footer() {
   const footerSections = [
@@ -24,14 +25,6 @@ function Footer() {
       ],
     },
     {
-      title: "Explore Us",
-      links: [
-        { text: "Our Careers" },
-        { text: "Privacy" },
-        { text: "Terms & Conditions" },
-      ],
-    },
-    {
       title: "Connect Us",
       contactInfo: [
         { text: "support@staycation.id" },
@@ -39,11 +32,20 @@ function Footer() {
         { text: "Staycation, Jakarta" },
       ],
     },
+    {
+      title: "Explore Us",
+      links: [
+        { text: "Our Careers" },
+        { text: "Privacy" },
+        { text: "Terms & Conditions" },
+      ],
+    },
   ];
 
   return (
     <ScopedCssBaseline
-      sx={{ py: 4, backgroundColor: "#f5f5f5", marginTop: "auto" }}>
+      sx={{ py: 4, backgroundColor: "#f5f5f5", marginTop: "auto" }}
+    >
       <Box component="footer">
         <Grid
           container
@@ -52,25 +54,29 @@ function Footer() {
           alignItems="center"
           sx={{
             pl: { xs: "2rem", md: "8rem" },
-          }}>
+          }}
+        >
           {footerSections.map((section, index) => (
-            <Grid key={index} item xs={6} sm={6} md={3}>
+            <Grid key={index} item xs={12} sm={6} md={3}>
               <Typography
                 fontSize={"15px"}
                 variant="h5"
                 component="p"
-                gutterBottom>
+                gutterBottom
+              >
                 {index === 0 ? (
                   <>
-                    <span style={{ color: "#007BFF" }}>Stay</span>
-                    <span style={{ color: "black" }}>cation.</span>
+                    {/* <span style={{ color: "#007BFF" }}>Stay</span>
+                    <span style={{ color: "black" }}>cation.</span> */}
+                    <MainTitle />
                   </>
                 ) : (
                   <Typography
                     style={{ color: "rgba(21, 44, 91, 1)" }}
                     fontSize={"18px"}
                     fontWeight={"600"}
-                    textAlign={"left"}>
+                    textAlign={"left"}
+                  >
                     {section.title}
                   </Typography>
                 )}
@@ -81,9 +87,9 @@ function Footer() {
                     <ListItem
                       key={linkIndex}
                       sx={{
-                        fontWeight: "bold",
                         color: "rgba(176, 176, 176, 1)",
-                      }}>
+                      }}
+                    >
                       {link.text}
                     </ListItem>
                   ))}
@@ -95,9 +101,10 @@ function Footer() {
                     <ListItem
                       key={infoIndex}
                       sx={{
-                        fontWeight: "bold",
+                        // fontWeight: "bold",
                         color: "rgba(176, 176, 176, 1)",
-                      }}>
+                      }}
+                    >
                       {info.text}
                     </ListItem>
                   ))}
@@ -114,7 +121,8 @@ function Footer() {
             marginTop: "2.5rem",
           }}
           variant="h6"
-          textAlign={"center"}>
+          textAlign={"center"}
+        >
           Copyright 2019 • All rights reserved • Staycation
         </Typography>
       </Box>
