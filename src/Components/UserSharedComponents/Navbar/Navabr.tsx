@@ -181,13 +181,13 @@ export default function Navabr() {
             {" "}
             <Button
               variant="contained"
-              href="/auth/register"
+              href="/#/auth/register"
               sx={{ background: "#3252DF", marginRight: "25px" }}>
               Register
             </Button>
             <Button
               variant="contained"
-              href="/auth/login"
+              href="/#/auth/login"
               sx={{ background: "#3252DF", marginRight: "25px" }}>
               Login
             </Button>

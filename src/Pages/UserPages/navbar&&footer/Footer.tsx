@@ -56,7 +56,7 @@ function Footer() {
           {footerSections.map((section, index) => (
             <Grid key={index} item xs={6} sm={6} md={3}>
               <Typography
-                fontSize={"26px"}
+                fontSize={"15px"}
                 variant="h5"
                 component="p"
                 gutterBottom>
