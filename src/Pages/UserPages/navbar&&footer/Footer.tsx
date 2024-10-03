@@ -51,7 +51,7 @@ function Footer() {
           justifyContent="space-between"
           alignItems="center"
           sx={{
-            pl: 8,
+            pl: { xs: "2rem", md: "8rem" },
           }}>
           {footerSections.map((section, index) => (
             <Grid key={index} item xs={6} sm={6} md={3}>
