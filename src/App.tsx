@@ -1,6 +1,7 @@
 import "./App.css";
 import {
   createBrowserRouter,
+  createHashRouter,
   // createHashRouter,
   RouterProvider,
 } from "react-router-dom";
@@ -30,7 +31,7 @@ import { FetchProvider } from "./Context/FetchContext";
 import ProtectedRoute from "./Components/SharedComponents/ProtectedRoute/ProtectedRoute";
 
 export default function App() {
-  const routes = createBrowserRouter([
+  const routes = createHashRouter([
     {
       path: "/",
       element: <UserLayout />,

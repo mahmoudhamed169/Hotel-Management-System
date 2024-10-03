@@ -19,6 +19,7 @@ export default function AuthContextProvider(props) {
   const [loginData, setLoginData] = useState<IUser | null>(
     () => JSON.parse(localStorage.getItem("loginData") as string) || null
   );
+
   const [userId, setUserId] = useState<string | undefined>();
 
   console.log("User ID:", userId);

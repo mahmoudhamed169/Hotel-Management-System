@@ -28,7 +28,7 @@ interface BookingResponse {
 function BookingForm({ room }: BookingFormProps) {
   const [finalPrice, setFinalPrice] = useState(room.price);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoggedIn] = React.useState(() => localStorage.getItem("token"));
+  // const [isLoggedIn] = React.useState(() => localStorage.getItem("token"));
 
   const navigate = useNavigate();
 
@@ -71,6 +71,7 @@ function BookingForm({ room }: BookingFormProps) {
     console.log(bookingDetails);
 
     const toastId = toast.loading("Processing...");
+    const isLoggedIn = localStorage.getItem("token");
     if (!isLoggedIn) {
       toast.error("Please log in to access this feature..", {
         id: toastId,
