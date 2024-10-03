@@ -15,8 +15,8 @@ export default function Landing() {
     <Box sx={{ overflow: "hidden" }}>
       <Calendar />
       <MostPopularAds />
-      {/* <Houses />
-      <Hotels />
+      <Houses />
+      {/* <Hotels />
       <UserAds />
       <HappyFamily /> */}
       <Footer />
