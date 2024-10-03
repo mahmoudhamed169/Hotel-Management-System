@@ -102,7 +102,8 @@ export default function BookingList() {
           fontSize="23px"
           fontWeight="500"
           variant="body2"
-          component="span">
+          component="span"
+        >
           Users Table Details
         </Typography>
         <Typography fontSize="14px" variant="body2" component="span">
@@ -127,7 +128,8 @@ export default function BookingList() {
               display: "flex",
               justifyContent: "end",
               margin: "2rem",
-            }}>
+            }}
+          >
             <MyTablePagination
               rowsPerPageOptions={[5, 10, 25]}
               count={totalCount}

@@ -54,12 +54,12 @@ export default function LoginModal({ show, handleClose }: LoginModalProps) {
         id: toastId,
       });
       handleClose();
-      console.log(user._id);
-      console.log(userId);
+
       // window.location.reload();
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
-      toast.error(axiosError.response?.data?.message || "An error occurred", {
+      console.log(axiosError);
+      toast.error(axiosError.response?.data?.message, {
         id: toastId,
       });
     }
@@ -71,7 +71,8 @@ export default function LoginModal({ show, handleClose }: LoginModalProps) {
         <Stack
           direction="row"
           justifyContent="space-between"
-          alignItems="center">
+          alignItems="center"
+        >
           <Typography variant="h6">Sign in</Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon />
@@ -91,7 +92,8 @@ export default function LoginModal({ show, handleClose }: LoginModalProps) {
                 color: "#eb5148",
                 textDecoration: "none",
                 fontWeight: "bold",
-              }}>
+              }}
+            >
               Register here!
             </Link>
           </Typography>
@@ -103,7 +105,8 @@ export default function LoginModal({ show, handleClose }: LoginModalProps) {
                 fontWeight: "normal",
                 fontSize: "base",
                 width: "100%",
-              }}>
+              }}
+            >
               <Stack spacing={3}>
                 <Box>
                   <Typography variant="body1" component="label" htmlFor="email">
@@ -130,7 +133,8 @@ export default function LoginModal({ show, handleClose }: LoginModalProps) {
                   <Typography
                     variant="body1"
                     component="label"
-                    htmlFor="password">
+                    htmlFor="password"
+                  >
                     Password
                   </Typography>
                   <PasswordTextField
@@ -146,7 +150,8 @@ export default function LoginModal({ show, handleClose }: LoginModalProps) {
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                   <Link
                     to="/auth/forget-password"
-                    style={{ color: "#4D4D4D", textDecoration: "none" }}>
+                    style={{ color: "#4D4D4D", textDecoration: "none" }}
+                  >
                     Forgot Password?
                   </Link>
                 </Box>

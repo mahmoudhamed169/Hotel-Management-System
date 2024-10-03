@@ -10,7 +10,7 @@ import RoomDescription from "../../../Components/UserSharedComponents/RoomDescri
 import BookingForm from "../../../Components/UserSharedComponents/BookingForm/BookingForm";
 import RatingComponent from "./Rating";
 import Comment from "./Comment";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AllReviews from "./AllReviews";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
@@ -18,11 +18,14 @@ import { apiClient, PORTAL_URLS } from "../../../Api/END_POINTS";
 import Footer from "../navbar&&footer/Footer";
 import LoginModal from "./../../../Components/UserSharedComponents/LoginModal/LoginModal";
 
+import { AuthContext } from "./../../../Context/AuthContext";
+
 export default function RoomDetails() {
   const location = useLocation();
   const room = location.state || {};
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { loginData } = useContext(AuthContext);
   console.log(room);
   const { roomNumber, images = [] } = room;
   const [token, setToken] = useState<string | null>(
@@ -40,7 +43,7 @@ export default function RoomDetails() {
       setReviews(response.data.data.roomReviews);
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
-      toast.error(axiosError.response?.data?.message || "An error occurred");
+      // toast.error(axiosError.response?.data?.message || "An error occurred");
     }
   };
   useEffect(() => {
@@ -55,6 +58,7 @@ export default function RoomDetails() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
   return (
     <>
       <Box
@@ -177,14 +181,14 @@ export default function RoomDetails() {
             </Grid>
           </Box>
         </Box>
-        {token && (
+        {loginData && (
           <Box sx={{ margin: "50px 0" }}>
             <AllReviews reviews={reviews} />
           </Box>
         )}
 
         {/* start review and comment box */}
-        {token ? (
+        {loginData ? (
           <Grid
             container
             spacing={15}
