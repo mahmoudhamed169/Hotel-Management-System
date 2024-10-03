@@ -17,3 +17,6 @@ html {
 .slick-next {
   display: none !important;
 }
+.slick-dots {
+  position: relative !important;
+}
