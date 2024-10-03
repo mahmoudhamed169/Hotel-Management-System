@@ -254,10 +254,10 @@ export default function Navabr() {
                 </>
               ) : (
                 <>
-                  <MenuItem component={Link} to="/#/auth/login">
+                  <MenuItem component={Link} to="/auth/login">
                     Login
                   </MenuItem>
-                  <MenuItem component={Link} to="/#/auth/register">
+                  <MenuItem component={Link} to="/auth/register">
                     Register
                   </MenuItem>
                 </>
