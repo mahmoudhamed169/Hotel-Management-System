@@ -16,8 +16,8 @@ export default function Landing() {
       <MostPopularAds />
       <Houses />
       <Hotels />
-      <UserAds />
-      <HappyFamily />
+      {/* <UserAds />
+      <HappyFamily /> */}
       <Footer />
     </Box>
   );
