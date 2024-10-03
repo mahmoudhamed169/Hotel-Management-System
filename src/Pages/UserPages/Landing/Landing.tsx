@@ -17,7 +17,7 @@ export default function Landing() {
       <Houses />
       <Hotels />
       <UserAds />
-      {/* <HappyFamily /> */}
+      <HappyFamily />
       <Footer />
     </Box>
   );
