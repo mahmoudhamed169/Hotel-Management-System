@@ -1,7 +1,6 @@
 import Calendar from "../../../Components/UserSharedComponents/Calendar/CalenderBooking";
 
 import Footer from "../navbar&&footer/Footer";
-import NavBarFooter from "../navbar&&footer/NavBarFooter";
 
 import Hotels from "../../../Components/UserSharedComponents/Hotels/Hotels";
 import Houses from "../../../Components/UserSharedComponents/Houses/Houses";
@@ -16,9 +15,9 @@ export default function Landing() {
       <Calendar />
       <MostPopularAds />
       <Houses />
-      {/* <Hotels />
+      <Hotels />
       <UserAds />
-      <HappyFamily /> */}
+      <HappyFamily />
       <Footer />
     </Box>
   );
