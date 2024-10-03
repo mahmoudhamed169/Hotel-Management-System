@@ -43,9 +43,8 @@ function Footer() {
 
   return (
     <ScopedCssBaseline
-      sx={{ py: 4, backgroundColor: "#f5f5f5", marginTop: "auto" }}
-    >
-      <Box component="footer" sx={{ paddingInline: "10rem" }}>
+      sx={{ py: 4, backgroundColor: "#f5f5f5", marginTop: "auto" }}>
+      <Box component="footer">
         <Grid
           container
           spacing={4}
@@ -53,16 +52,14 @@ function Footer() {
           alignItems="center"
           sx={{
             pl: 8,
-          }}
-        >
+          }}>
           {footerSections.map((section, index) => (
-            <Grid key={index} item xs={12} sm={6} md={3}>
+            <Grid key={index} item xs={6} sm={6} md={3}>
               <Typography
                 fontSize={"26px"}
                 variant="h5"
                 component="p"
-                gutterBottom
-              >
+                gutterBottom>
                 {index === 0 ? (
                   <>
                     <span style={{ color: "#007BFF" }}>Stay</span>
@@ -73,8 +70,7 @@ function Footer() {
                     style={{ color: "rgba(21, 44, 91, 1)" }}
                     fontSize={"18px"}
                     fontWeight={"600"}
-                    textAlign={"left"}
-                  >
+                    textAlign={"left"}>
                     {section.title}
                   </Typography>
                 )}
@@ -87,8 +83,7 @@ function Footer() {
                       sx={{
                         fontWeight: "bold",
                         color: "rgba(176, 176, 176, 1)",
-                      }}
-                    >
+                      }}>
                       {link.text}
                     </ListItem>
                   ))}
@@ -102,8 +97,7 @@ function Footer() {
                       sx={{
                         fontWeight: "bold",
                         color: "rgba(176, 176, 176, 1)",
-                      }}
-                    >
+                      }}>
                       {info.text}
                     </ListItem>
                   ))}
@@ -120,8 +114,7 @@ function Footer() {
             marginTop: "2.5rem",
           }}
           variant="h6"
-          textAlign={"center"}
-        >
+          textAlign={"center"}>
           Copyright 2019 • All rights reserved • Staycation
         </Typography>
       </Box>

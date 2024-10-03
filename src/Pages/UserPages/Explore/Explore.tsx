@@ -61,19 +61,20 @@ export default function Explore() {
   const [totalCount, setTotalCount] = useState<number>(
     location.state?.data?.totalCount || 1
   );
-  const [page,setPage] = useState<number>(1);
-  const [size,setSize] = useState<number>(8);
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(8);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedFilter, setSelectedFilter] = useState<
     "highest" | "lowest" | null
   >(null);
 
-  const getAllRooms = async (page:number , size:number) => {
+  const getAllRooms = async (page: number, size: number) => {
     try {
       const response = await apiClient.get<AllRoomsResponseType>(
-        getRoomDetails,{
-          params:{page:page , size: size}
+        getRoomDetails,
+        {
+          params: { page: page, size: size },
         }
       );
 
@@ -148,9 +149,9 @@ export default function Explore() {
   };
   useEffect(() => {
     if (!location.state?.data?.rooms) {
-      getAllRooms(page,size);
+      getAllRooms(page, size);
     }
-  }, [page,size]);
+  }, [page, size]);
 
   return (
     <Box sx={{ width: "85%", margin: "auto", padding: "20px 0" }}>
@@ -180,7 +181,7 @@ export default function Explore() {
           <Grid size={{ xs: false, sm: 3 }}></Grid>
         </Grid>
       </Box>
-      <Box sx={{ width: "90px" }}>
+      <Box sx={{ width: "90px", marginBlock: "1.5rem" }}>
         <Stack direction="row" spacing={1}>
           <Chip
             label="lowest"
@@ -227,14 +228,14 @@ export default function Explore() {
         ))}
       </Grid>
       {totalCount > 0 && (
-          <Pagination
-            onChange={(e, value) => setPage(value)}
-            page={page}
-            count={Math.ceil(totalCount / size)}
-            color="primary"
-            sx={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}
-          />
-        )}
+        <Pagination
+          onChange={(e, value) => setPage(value)}
+          page={page}
+          count={Math.ceil(totalCount / size)}
+          color="primary"
+          sx={{ marginTop: "20px", display: "flex", justifyContent: "center" }}
+        />
+      )}
     </Box>
   );
 }

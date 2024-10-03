@@ -24,7 +24,7 @@ export default function UserRoomFacilities() {
     <Box sx={{ marginTop: "2rem" }}>
       <Grid container spacing={2}>
         {facilities.map((facility, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
+          <Grid item xs={6} sm={6} md={3} key={index}>
             <Box
               sx={{
                 display: "flex",
@@ -32,8 +32,7 @@ export default function UserRoomFacilities() {
                 padding: "1rem",
                 borderRadius: "8px",
                 width: "100%",
-              }}
-            >
+              }}>
               <img
                 src={facility.icon}
                 alt={facility.name}
@@ -44,12 +43,10 @@ export default function UserRoomFacilities() {
                   display: "flex",
                   alignItems: "baseline",
                   marginTop: "0.5rem",
-                }}
-              >
+                }}>
                 <Typography
                   variant="h6"
-                  sx={{ fontWeight: "bold", marginRight: "0.5rem" }}
-                >
+                  sx={{ fontWeight: "bold", marginRight: "0.5rem" }}>
                   {facility.number}
                 </Typography>
                 <Typography variant="body1" sx={{ color: "#757575" }}>

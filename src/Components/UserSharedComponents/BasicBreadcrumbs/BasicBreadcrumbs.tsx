@@ -17,20 +17,17 @@ export default function BasicBreadcrumbs({ current }: BreadcrumbProps) {
   return (
     <Breadcrumbs
       aria-label="breadcrumb"
-      sx={{ fontWeight: "300", fontSize: "18px" }}
-    >
+      sx={{ fontWeight: "300", fontSize: "18px", marginBlock: "1.5rem" }}>
       <Link
         underline="hover"
         color="inherit"
         onClick={handleClick}
         style={{ cursor: "pointer" }}
-        sx={{ marginRight: "0.5rem" }}
-      >
+        sx={{ marginRight: "0.5rem" }}>
         Home
       </Link>
       <Typography
-        sx={{ marginLeft: "0.5rem", color: "#152C5B", fontWeight: "bold" }}
-      >
+        sx={{ marginLeft: "0.5rem", color: "#152C5B", fontWeight: "bold" }}>
         {current}
       </Typography>
     </Breadcrumbs>

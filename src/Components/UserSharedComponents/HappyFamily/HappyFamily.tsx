@@ -7,62 +7,6 @@ import img2 from "../../../assets/images/person3.jpg";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 
-// function NextArrow(props) {
-//   const { onClick } = props;
-//   return (
-//     <Box
-//       sx={{
-//         position: "absolute",
-//         top: "70%",
-//         left: "52%",
-//         transform: "translateY(-50%)",
-//         zIndex: 1,
-//         cursor: "pointer",
-//       }}
-//       onClick={onClick}
-//     >
-//       <ArrowForwardRoundedIcon
-//         sx={{
-//           color: "#203FC7",
-//           width: "45px",
-//           height: "45px",
-//           padding: "0.3rem",
-//           border: "3px solid #203FC7",
-//           borderRadius: "50%",
-//         }}
-//       />
-//     </Box>
-//   );
-// }
-
-// function PrevArrow(props) {
-//   const { onClick } = props;
-//   return (
-//     <Box
-//       sx={{
-//         position: "absolute",
-//         top: "70%",
-//         left: "45%",
-//         transform: "translateY(-50%)",
-//         zIndex: 1,
-//         cursor: "pointer",
-//       }}
-//       onClick={onClick}
-//     >
-//       <ArrowBackRoundedIcon
-//         sx={{
-//           color: "#203FC7",
-//           width: "45px",
-//           height: "45px",
-//           padding: "0.3rem",
-//           border: "3px solid #203FC7",
-//           borderRadius: "50%",
-//         }}
-//       />
-//     </Box>
-//   );
-// }
-
 export default function HappyFamily() {
   const settings = {
     dots: true,
@@ -106,8 +50,7 @@ export default function HappyFamily() {
         width: { xs: "95%", sm: "90%", md: "80%" },
         margin: "auto",
         paddingBottom: "4rem",
-      }}
-    >
+      }}>
       <Slider {...settings}>
         {slidesData.map((slide, index) => (
           <Box key={index}>
@@ -116,37 +59,48 @@ export default function HappyFamily() {
                 display: "flex",
                 flexDirection: { xs: "column", md: "row" },
                 paddingBlock: { xs: "1rem", sm: "2rem", md: "3rem" },
-              }}
-            >
+                alignItems: "center",
+                gap: { xs: "1.5rem", md: "2rem" },
+              }}>
               <Box
                 sx={{
                   width: { xs: "100%", md: "45%" },
                   display: "flex",
                   justifyContent: { xs: "center", md: "flex-end" },
                   marginBottom: { xs: "1rem", md: 0 },
-                }}
-              >
+                  height: "600px",
+                }}>
                 <Box
                   sx={{
                     width: { xs: "80%", sm: "360px" },
-                    height: { xs: "auto", sm: "490px" },
+                    maxWidth: "100%",
+
                     border: "2px solid #E5E5E5",
                     borderRadius: "15px",
+
                     position: "relative",
-                  }}
-                >
-                  <img
-                    src={slide.img}
-                    alt={slide.title}
-                    style={{
+                    height: "500px",
+                  }}>
+                  <Box
+                    sx={{
                       width: "100%",
                       height: "auto",
                       position: "absolute",
+                      right: "-40px",
                       top: "40px",
-                      left: "40px",
-                      borderRadius: "20px 20px 105px 20px",
-                    }}
-                  />
+                      maxHeight: "600px",
+                      minHeight: "100%",
+                    }}>
+                    <img
+                      src={slide.img}
+                      alt={slide.title}
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        borderRadius: "20px 20px 105px 20px",
+                      }}
+                    />
+                  </Box>
                 </Box>
               </Box>
               <Box sx={{ marginTop: { xs: "1rem", md: "4rem" } }}>
@@ -157,11 +111,10 @@ export default function HappyFamily() {
                     sx={{
                       color: "#152C5B",
                       fontWeight: "600",
-                      fontSize: { xs: "1.25rem", sm: "1.5rem" },
+                      fontSize: { xs: "1.25rem", sm: "1.5rem", md: "1.75rem" },
                       marginBlock: "1rem",
                       textAlign: { xs: "center", md: "left" },
-                    }}
-                  >
+                    }}>
                     {slide.title}
                   </Typography>
                   <Rating
@@ -169,30 +122,32 @@ export default function HappyFamily() {
                     defaultValue={slide.rating}
                     precision={0.5}
                     readOnly
-                    sx={{ textAlign: { xs: "center", md: "left" } }}
+                    sx={{
+                      textAlign: "center",
+                      width: "100%",
+                      justifyContent: { xs: "center", md: "start" },
+                    }}
                   />
                   <Typography
-                    variant="h3"
-                    component={"h3"}
+                    variant="h6"
+                    component={"p"}
                     sx={{
                       color: "#152C5B",
                       fontWeight: "400",
-                      fontSize: { xs: "1.5rem", sm: "2rem" },
-                      lineHeight: "48px",
+                      fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" },
+                      lineHeight: "1.5",
                       marginBlock: "1rem",
                       textAlign: { xs: "center", md: "left" },
-                    }}
-                  >
+                    }}>
                     {slide.description}
                   </Typography>
                   <Typography
-                    variant="body1"
+                    variant="body2"
                     component={"p"}
                     sx={{
                       color: "#B0B0B0",
                       textAlign: { xs: "center", md: "left" },
-                    }}
-                  >
+                    }}>
                     {slide.author}
                   </Typography>
                 </Box>

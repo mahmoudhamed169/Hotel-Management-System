@@ -67,8 +67,7 @@ export default function RoomDetails() {
           margin: "auto",
           paddingTop: "2rem",
           paddingBottom: "2rem",
-        }}
-      >
+        }}>
         <Box>
           {/* tiltes  */}
           <Box>
@@ -87,8 +86,7 @@ export default function RoomDetails() {
                     lineHeight: "0.5rem",
                     color: "#152C5B",
                     marginBlock: { xs: "0.5rem", sm: "1rem" },
-                  }}
-                >
+                  }}>
                   {roomNumber}
                 </Typography>
                 <Typography
@@ -99,8 +97,7 @@ export default function RoomDetails() {
                     fontWeight: "300",
                     fontSize: "18px",
                     lineHeight: "2.1rem",
-                  }}
-                >
+                  }}>
                   Bogor, Indonesia
                 </Typography>
               </Grid>
@@ -120,8 +117,7 @@ export default function RoomDetails() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                  }}
-                >
+                  }}>
                   <img
                     src={displayedImages[0]}
                     alt="First Room Image"
@@ -143,8 +139,7 @@ export default function RoomDetails() {
                         sx={{
                           width: "100%",
                           height: "245px",
-                        }}
-                      >
+                        }}>
                         <img
                           src={image}
                           alt={`Room image ${index + 2}`}
@@ -174,7 +169,7 @@ export default function RoomDetails() {
               </Grid>
 
               <Grid item xs={12} md={5}>
-                <Box sx={{ marginLeft: { xs: "0.5rem", sm: "3rem" } }}>
+                <Box sx={{ marginLeft: "10px", width: "100%" }}>
                   <BookingForm room={room} />
                 </Box>
               </Grid>
@@ -196,8 +191,7 @@ export default function RoomDetails() {
               position: "relative",
               marginTop: "13px",
               paddingBottom: "30px",
-            }}
-          >
+            }}>
             <RatingComponent roomId={room._id} getAllReviews={getAllReviews} />
 
             <Comment roomId={room._id} />
@@ -216,13 +210,11 @@ export default function RoomDetails() {
               alignItems: "center",
               justifyContent: "center",
               textAlign: "center",
-            }}
-          >
+            }}>
             <Typography
               variant="h6"
               component="p"
-              sx={{ color: "#555", fontWeight: "500", marginBottom: "1rem" }}
-            >
+              sx={{ color: "#555", fontWeight: "500", marginBottom: "1rem" }}>
               You must be logged in to leave a comment or review.
             </Typography>
             <Box sx={{ display: "flex", gap: "10px" }}>
@@ -236,8 +228,7 @@ export default function RoomDetails() {
                     fontWeight: "600",
                     mx: "0.5rem",
                   }}
-                  onClick={() => handleOpenModal()}
-                >
+                  onClick={() => handleOpenModal()}>
                   Log in
                 </Box>
                 or
@@ -249,8 +240,7 @@ export default function RoomDetails() {
                     fontWeight: "600",
                     mx: "0.5rem",
                   }}
-                  onClick={() => navigate("/auth/register")}
-                >
+                  onClick={() => navigate("/auth/register")}>
                   Register
                 </Box>{" "}
                 to add your review.

@@ -78,7 +78,7 @@ export default function Navabr() {
 
   const handleDropdownClick = (path: string) => {
     setAnchorEl(null);
-    window.location.href = path;
+    window.location.href = `/#${path}`;
   };
   const handleLogOut = () => {
     localStorage.removeItem("token");
@@ -254,9 +254,6 @@ export default function Navabr() {
                 </>
               ) : (
                 <>
-                  <MenuItem component={Link} to="/auth-register">
-                    Register
-                  </MenuItem>
                   <MenuItem component={Link} to="/auth-login">
                     Login
                   </MenuItem>
