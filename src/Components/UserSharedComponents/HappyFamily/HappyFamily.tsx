@@ -7,71 +7,70 @@ import img2 from "../../../assets/images/person3.jpg";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 
-function NextArrow(props) {
-  const { onClick } = props;
-  return (
-    <Box
-      sx={{
-        position: "absolute",
-        top: "70%",
-        left: "52%",
-        transform: "translateY(-50%)",
-        zIndex: 1,
-        cursor: "pointer",
-      }}
-      onClick={onClick}
-    >
-      <ArrowForwardRoundedIcon
-        sx={{
-          color: "#203FC7",
-          width: "45px",
-          height: "45px",
-          padding: "0.3rem",
-          border: "3px solid #203FC7",
-          borderRadius: "50%",
-        }}
-      />
-    </Box>
-  );
-}
+// function NextArrow(props) {
+//   const { onClick } = props;
+//   return (
+//     <Box
+//       sx={{
+//         position: "absolute",
+//         top: "70%",
+//         left: "52%",
+//         transform: "translateY(-50%)",
+//         zIndex: 1,
+//         cursor: "pointer",
+//       }}
+//       onClick={onClick}
+//     >
+//       <ArrowForwardRoundedIcon
+//         sx={{
+//           color: "#203FC7",
+//           width: "45px",
+//           height: "45px",
+//           padding: "0.3rem",
+//           border: "3px solid #203FC7",
+//           borderRadius: "50%",
+//         }}
+//       />
+//     </Box>
+//   );
+// }
 
-function PrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <Box
-      sx={{
-        position: "absolute",
-        top: "70%",
-        left: "45%",
-        transform: "translateY(-50%)",
-        zIndex: 1,
-        cursor: "pointer",
-      }}
-      onClick={onClick}
-    >
-      <ArrowBackRoundedIcon
-        sx={{
-          color: "#203FC7",
-          width: "45px",
-          height: "45px",
-          padding: "0.3rem",
-          border: "3px solid #203FC7",
-          borderRadius: "50%",
-        }}
-      />
-    </Box>
-  );
-}
+// function PrevArrow(props) {
+//   const { onClick } = props;
+//   return (
+//     <Box
+//       sx={{
+//         position: "absolute",
+//         top: "70%",
+//         left: "45%",
+//         transform: "translateY(-50%)",
+//         zIndex: 1,
+//         cursor: "pointer",
+//       }}
+//       onClick={onClick}
+//     >
+//       <ArrowBackRoundedIcon
+//         sx={{
+//           color: "#203FC7",
+//           width: "45px",
+//           height: "45px",
+//           padding: "0.3rem",
+//           border: "3px solid #203FC7",
+//           borderRadius: "50%",
+//         }}
+//       />
+//     </Box>
+//   );
+// }
 
 export default function HappyFamily() {
   const settings = {
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     adaptiveHeight: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
   };
 
   const slidesData = [
