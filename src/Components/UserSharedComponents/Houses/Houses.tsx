@@ -57,6 +57,7 @@ export default function Houses() {
 
   const settings = {
     infinite: true,
+
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
@@ -112,9 +113,7 @@ export default function Houses() {
         </Typography>
       )}
 
-      <Box
-        className="slider-container"
-        sx={{ overflow: "hidden", bgcolor: "#09c" }}>
+      <Box className="slider-container" sx={{ overflow: "hidden" }}>
         {loading ? (
           <Slider {...settings}>
             {Array.from(new Array(4)).map((_, index) => (
