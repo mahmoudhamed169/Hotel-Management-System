@@ -12,7 +12,7 @@ import HappyFamily from "../../../Components/UserSharedComponents/HappyFamily/Ha
 
 export default function Landing() {
   return (
-    <Box>
+    <Box sx={{ overflow: "hidden" }}>
       <Calendar />
       <MostPopularAds />
       <Houses />
