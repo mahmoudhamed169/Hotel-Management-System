@@ -56,6 +56,8 @@ export default function Houses() {
   }, []);
 
   const settings = {
+    vertical: true,
+    verticalSwiping: true,
     infinite: true,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -107,16 +109,14 @@ export default function Houses() {
             fontSize: "1.5rem",
             marginBottom: "20px",
             color: "#152C5B",
-          }}
-        >
+          }}>
           Houses with beauty backyard
         </Typography>
       )}
 
       <Box
         className="slider-container"
-        sx={{ overflow: "hidden", bgcolor: "#09c" }}
-      >
+        sx={{ overflow: "hidden", bgcolor: "#09c" }}>
         {loading ? (
           <Slider {...settings}>
             {Array.from(new Array(4)).map((_, index) => (
