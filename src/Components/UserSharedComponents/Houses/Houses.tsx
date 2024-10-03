@@ -56,8 +56,6 @@ export default function Houses() {
   }, []);
 
   const settings = {
-    vertical: true,
-    verticalSwiping: true,
     infinite: true,
     slidesToShow: 4,
     slidesToScroll: 1,
