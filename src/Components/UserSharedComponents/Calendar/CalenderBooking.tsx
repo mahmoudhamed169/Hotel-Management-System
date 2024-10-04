@@ -241,13 +241,15 @@ export default function CalendarBooking() {
                 width: "100%",
                 height: "100%",
                 borderRadius: "105px 20px 20px 20px",
-                position: "relative",
+                position: "absolute",
+                bottom: "40px",
+                right: "40px",
 
-                ...(window.innerWidth >= 600 && {
-                  position: "absolute",
-                  bottom: "40px",
-                  right: "40px",
-                }),
+                // ...(window.innerWidth >= 600 && {
+                //   position: "absolute",
+                //   bottom: "40px",
+                //   right: "40px",
+                // }),
               }}
             />
           </Box>
