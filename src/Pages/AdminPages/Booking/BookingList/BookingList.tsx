@@ -104,7 +104,7 @@ export default function BookingList() {
           variant="body2"
           component="span"
         >
-          Users Table Details
+          Booking Table Details
         </Typography>
         <Typography fontSize="14px" variant="body2" component="span">
           You can check all details

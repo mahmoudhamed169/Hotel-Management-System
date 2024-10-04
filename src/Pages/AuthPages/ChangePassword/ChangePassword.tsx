@@ -9,6 +9,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  MenuItem,
   Modal,
   Stack,
   Typography,
@@ -30,7 +31,7 @@ interface IResponse {
   message: string;
 }
 
-export default function ChangePassword() {
+export default function ChangePassword({ navBar }) {
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -80,14 +81,18 @@ export default function ChangePassword() {
 
   return (
     <>
-      <ListItem disablePadding>
-        <ListItemButton onClick={handleOpen}>
-          <ListItemIcon sx={{ color: "#ffff" }}>
-            <LockOpenIcon />
-          </ListItemIcon>
-          <ListItemText primary="Change password" />
-        </ListItemButton>
-      </ListItem>
+      {!navBar ? (
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleOpen}>
+            <ListItemIcon sx={{ color: "#ffff" }}>
+              <LockOpenIcon />
+            </ListItemIcon>
+            <ListItemText primary="Change password" />
+          </ListItemButton>
+        </ListItem>
+      ) : (
+        <MenuItem onClick={handleOpen}>Change Password</MenuItem>
+      )}
 
       <Modal
         open={open}
@@ -95,87 +100,128 @@ export default function ChangePassword() {
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
-        <Box sx={style}>
-          <Typography id="modal-title" variant="h6" component="h2">
-            Change Password
-          </Typography>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+            width: {
+              xs: "90%",
+              sm: "30%",
+              md: "30%",
+            },
+          }}
+        >
+          {/* Header Section */}
           <Box
-            onClick={() => handleClose()}
             sx={{
               display: "flex",
-              justifyContent: "flex-end",
-              color: "red",
-              cursor: "pointer",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            <CloseIcon />
+            <Typography id="modal-title" variant="h6" component="h2">
+              Change Password
+            </Typography>
+            <Box
+              onClick={handleClose}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "red",
+                cursor: "pointer",
+                "&:hover": { opacity: 0.8 },
+              }}
+            >
+              <CloseIcon />
+            </Box>
           </Box>
+
+          {/* Form Section */}
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl
               sx={{
-                mt: "2.5rem",
+                mt: 4,
                 color: theme.palette.primary.main,
-                fontWeight: "normal",
-                fontSize: "base",
-                width: {
-                  xs: "100%",
-                  md: "90%",
-                },
+                width: "100%",
               }}
             >
-              <Stack spacing={1.7}>
+              <Stack spacing={3}>
+                {/* Old Password */}
                 <Box>
                   <Typography
                     variant="body1"
                     component="label"
                     htmlFor="oldPassword"
+                    sx={{
+                      fontWeight: "bold",
+                      color: theme.palette.text.primary,
+                    }}
                   >
                     Old Password
                   </Typography>
                   <PasswordTextField
-                    placeholder="Please write oldPassword"
+                    placeholder="Enter your old password"
                     errors={errors.oldPassword}
                     name="oldPassword"
                     register={register}
-                    rules={{
-                      required: "oldPassword is required",
-                    }}
+                    rules={{ required: "Old password is required" }}
+                    sx={{ mt: 1 }}
                   />
                 </Box>
 
+                {/* New Password */}
                 <Box>
                   <Typography
                     variant="body1"
                     component="label"
                     htmlFor="newPassword"
+                    sx={{
+                      fontWeight: "bold",
+                      color: theme.palette.text.primary,
+                    }}
                   >
                     New Password
                   </Typography>
                   <PasswordTextField
-                    placeholder="Please write newPassword"
+                    placeholder="Enter your new password"
                     errors={errors.newPassword}
                     name="newPassword"
                     register={register}
                     rules={{
-                      required: "newPassword is required",
+                      required: "New password is required",
                       pattern: {
-                        value:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                        value:
+                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                         message:
                           "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character",
                       },
                     }}
+                    sx={{ mt: 1 }}
                   />
                 </Box>
+
+                {/* Confirm Password */}
                 <Box>
                   <Typography
                     variant="body1"
                     component="label"
                     htmlFor="confirmPassword"
+                    sx={{
+                      fontWeight: "bold",
+                      color: theme.palette.text.primary,
+                    }}
                   >
                     Confirm New Password
                   </Typography>
                   <PasswordTextField
-                    placeholder="Please write confirmPassword"
+                    placeholder="Re-enter your new password"
                     errors={errors.confirmPassword}
                     name="confirmPassword"
                     register={register}
@@ -183,14 +229,23 @@ export default function ChangePassword() {
                       required: "Confirm password is required",
                       validate: (value) =>
                         value === watch("newPassword") ||
-                        "Passwords does not match",
+                        "Passwords do not match",
                     }}
+                    sx={{ mt: 1 }}
                   />
                 </Box>
 
+                {/* Submit Button */}
                 <ButtonForm
                   name="Change password"
                   isSubmitting={isSubmitting}
+                  sx={{
+                    backgroundColor: theme.palette.primary.main,
+                    "&:hover": {
+                      backgroundColor: theme.palette.primary.dark,
+                    },
+                    mt: 3,
+                  }}
                 />
               </Stack>
             </FormControl>

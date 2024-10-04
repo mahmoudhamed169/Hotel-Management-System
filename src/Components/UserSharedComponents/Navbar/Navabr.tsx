@@ -29,6 +29,7 @@ import { motion } from "framer-motion";
 import ThemeToggleButton from "../../SharedComponents/ThemeToggleButton/ThemeToggleButton";
 import theme from "../../../Context/ThemeContext/theme";
 import { AuthContext } from "../../../Context/AuthContext";
+import ChangePassword from "../../../Pages/AuthPages/ChangePassword/ChangePassword";
 
 export default function Navabr() {
   const getTabValueFromPathname = (path: string) => {
@@ -92,7 +93,8 @@ export default function Navabr() {
   return (
     <AppBar
       position="sticky"
-      sx={{ backgroundColor: "#F8F9FB", color: "#2F313F" }}>
+      sx={{ backgroundColor: "#F8F9FB", color: "#2F313F" }}
+    >
       <Box
         sx={{
           flexGrow: 1,
@@ -103,7 +105,8 @@ export default function Navabr() {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-        }}>
+        }}
+      >
         <Box sx={{ flex: "1" }}>
           <OpacityAnimate delay={1}>
             <MainTitle />
@@ -130,7 +133,8 @@ export default function Navabr() {
                     background: "#3252DF",
                   },
                 }}
-                aria-label="secondary tabs example">
+                aria-label="secondary tabs example"
+              >
                 <Tab component={Link} to="/home" value="one" label="Home" />
                 <Tab
                   component={Link}
@@ -164,7 +168,8 @@ export default function Navabr() {
               size="large"
               aria-label="Arrow Drop Down"
               onClick={handelClickDropdown}
-              color="inherit">
+              color="inherit"
+            >
               <Badge color="error">
                 <ArrowDropDownIcon />
               </Badge>
@@ -172,8 +177,11 @@ export default function Navabr() {
             <Menu
               anchorEl={DropdownEl}
               open={openDropdown}
-              onClose={handelCloseDropdown}>
+              onClose={handelCloseDropdown}
+            >
               <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+
+              <ChangePassword navBar={true} />
             </Menu>
           </Box>
         ) : !isLg ? (
@@ -182,13 +190,15 @@ export default function Navabr() {
             <Button
               variant="contained"
               href="/#/auth/register"
-              sx={{ background: "#3252DF", marginRight: "25px" }}>
+              sx={{ background: "#3252DF", marginRight: "25px" }}
+            >
               Register
             </Button>
             <Button
               variant="contained"
               href="/#/auth/login"
-              sx={{ background: "#3252DF", marginRight: "25px" }}>
+              sx={{ background: "#3252DF", marginRight: "25px" }}
+            >
               Login
             </Button>
           </>
@@ -202,7 +212,8 @@ export default function Navabr() {
               aria-controls={open ? "basic-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
-              onClick={handleClick}>
+              onClick={handleClick}
+            >
               <MenuIcon sx={{ color: "black" }} />
             </IconButton>
             <Menu
@@ -212,14 +223,16 @@ export default function Navabr() {
               onClose={handleClose}
               MenuListProps={{
                 "aria-labelledby": "basic-button",
-              }}>
+              }}
+            >
               <MenuItem
                 sx={
                   pathname === "/" || pathname === "/home"
                     ? { background: "rgba(0, 0, 0, 0.04) !important" }
                     : { background: "inherit" }
                 }
-                onClick={() => handleDropdownClick("/home")}>
+                onClick={() => handleDropdownClick("/home")}
+              >
                 Home
               </MenuItem>
               <MenuItem
@@ -228,7 +241,8 @@ export default function Navabr() {
                   pathname === "/explore"
                     ? { background: "rgba(0, 0, 0, 0.04) !important" }
                     : { background: "inherit" }
-                }>
+                }
+              >
                 Explore
               </MenuItem>
               {loginData ? (
@@ -239,7 +253,8 @@ export default function Navabr() {
                       pathname === "/reviews"
                         ? { background: "rgba(0, 0, 0, 0.04) !important" }
                         : { background: "inherit" }
-                    }>
+                    }
+                  >
                     Reviews
                   </MenuItem>
                   <MenuItem
@@ -248,7 +263,8 @@ export default function Navabr() {
                       pathname === "/favorite-rooms"
                         ? { background: "rgba(0, 0, 0, 0.04) !important" }
                         : { background: "inherit" }
-                    }>
+                    }
+                  >
                     Favorites
                   </MenuItem>
                 </>
@@ -292,7 +308,8 @@ const OpacityAnimate = ({
         damping: 20,
         duration: 0.5,
         delay: delay,
-      }}>
+      }}
+    >
       {children}
     </motion.div>
   );

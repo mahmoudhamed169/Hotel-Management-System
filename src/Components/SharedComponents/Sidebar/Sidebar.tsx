@@ -15,16 +15,16 @@ import ChangePassword from "../../../Pages/AuthPages/ChangePassword/ChangePasswo
 
 export default function Sidebar() {
   const navigate = useNavigate();
-  const location = useLocation(); 
-  const [activeLink, setActiveLink] = useState<string>(location.pathname); 
+  const location = useLocation();
+  const [activeLink, setActiveLink] = useState<string>(location.pathname);
 
   const handleNavigation = (path: string) => {
-    setActiveLink(path); 
-    navigate(path); 
+    setActiveLink(path);
+    navigate(path);
   };
 
   useEffect(() => {
-    setActiveLink(location.pathname); 
+    setActiveLink(location.pathname);
   }, [location.pathname]);
 
   return (
@@ -34,7 +34,8 @@ export default function Sidebar() {
           <ListItemButton
             onClick={() => handleNavigation("/dashboard")}
             sx={{
-              backgroundColor: activeLink === "/dashboard" ? "#1a2d7a" : "transparent",
+              backgroundColor:
+                activeLink === "/dashboard" ? "#1a2d7a" : "transparent",
             }}
           >
             <ListItemIcon sx={{ fontWeight: "600", fontSize: "13px" }}>
@@ -48,7 +49,8 @@ export default function Sidebar() {
           <ListItemButton
             onClick={() => handleNavigation("/dashboard/users")}
             sx={{
-              backgroundColor: activeLink === "/dashboard/users" ? "#1a2d7a" : "transparent",
+              backgroundColor:
+                activeLink === "/dashboard/users" ? "#1a2d7a" : "transparent",
             }}
           >
             <ListItemIcon>
@@ -62,7 +64,8 @@ export default function Sidebar() {
           <ListItemButton
             onClick={() => handleNavigation("/dashboard/rooms")}
             sx={{
-              backgroundColor: activeLink === "/dashboard/rooms" ? "#1a2d7a" : "transparent",
+              backgroundColor:
+                activeLink === "/dashboard/rooms" ? "#1a2d7a" : "transparent",
             }}
           >
             <ListItemIcon sx={{ color: "#ffff" }}>
@@ -76,7 +79,8 @@ export default function Sidebar() {
           <ListItemButton
             onClick={() => handleNavigation("/dashboard/ads")}
             sx={{
-              backgroundColor: activeLink === "/dashboard/ads" ? "#1a2d7a" : "transparent",
+              backgroundColor:
+                activeLink === "/dashboard/ads" ? "#1a2d7a" : "transparent",
             }}
           >
             <ListItemIcon sx={{ color: "#ffff" }}>
@@ -90,7 +94,8 @@ export default function Sidebar() {
           <ListItemButton
             onClick={() => handleNavigation("/dashboard/booking")}
             sx={{
-              backgroundColor: activeLink === "/dashboard/booking" ? "#1a2d7a" : "transparent",
+              backgroundColor:
+                activeLink === "/dashboard/booking" ? "#1a2d7a" : "transparent",
             }}
           >
             <ListItemIcon sx={{ color: "#ffff" }}>
@@ -104,7 +109,10 @@ export default function Sidebar() {
           <ListItemButton
             onClick={() => handleNavigation("/dashboard/room-facilities")}
             sx={{
-              backgroundColor: activeLink === "/dashboard/room-facilities" ? "#1a2d7a" : "transparent",
+              backgroundColor:
+                activeLink === "/dashboard/room-facilities"
+                  ? "#1a2d7a"
+                  : "transparent",
             }}
           >
             <ListItemIcon sx={{ color: "#ffff" }}>
@@ -120,7 +128,8 @@ export default function Sidebar() {
           disablePadding
           onClick={() => {
             localStorage.removeItem("token");
-            handleNavigation("/auth");
+            localStorage.removeItem("loginData");
+            navigate("/auth/login");
           }}
         >
           <ListItemButton>

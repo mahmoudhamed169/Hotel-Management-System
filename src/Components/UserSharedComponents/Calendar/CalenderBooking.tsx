@@ -232,7 +232,7 @@ export default function CalendarBooking() {
               borderRadius: "15px",
               position: "relative",
               marginTop: { xs: "6rem", sm: "2.5rem" },
-              marginInline: { xs: "auto" },
+              marginInline: { xs: "2.5rem" },
             }}
           >
             <img
