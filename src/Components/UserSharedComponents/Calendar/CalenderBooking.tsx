@@ -226,12 +226,12 @@ export default function CalendarBooking() {
         <Grid item xs={12} sm={4}>
           <Box
             sx={{
-              width: { xs: "75%", sm: "80%" },
+              width: { xs: "90%", sm: "80%" },
               height: { xs: "490px", sm: "490px" },
               border: "2px solid #E5E5E5",
               borderRadius: "15px",
               position: "relative",
-              marginTop: "2.5rem",
+              marginTop: { xs: "6rem", sm: "2.5rem" },
               marginInline: { xs: "auto" },
             }}
           >
