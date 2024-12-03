@@ -4,6 +4,34 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Currently, two official plugins are available:
 
+
+# Hotel Management Application
+
+## Overview
+
+This is a Hotel Management Application built using **React**, **TypeScript**, and **Material-UI**. The app is designed to allow hotel staff to manage room reservations and view available rooms with ease. It features modern UI components like tables, modals, and date pickers to streamline the user experience.
+
+## Features
+
+- **Responsive UI:** Utilizes Material-UI components for a clean, modern, and responsive design.
+- **Room Management:** Display hotel rooms in a table with their respective details such as type and price.
+- **Reservation System:** Users can select a date to make a reservation via an interactive date picker.
+- **Modal Forms:** Easily manage reservations through modal dialogs.
+
+## Technologies Used
+
+- **React** - JavaScript library for building user interfaces.
+- **TypeScript** - Typed superset of JavaScript for better code quality and development experience.
+- **Material-UI** - A popular React UI framework with pre-designed components.
+- **CSS** - For basic styling and layout.
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   
+
+
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
