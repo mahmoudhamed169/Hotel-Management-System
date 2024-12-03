@@ -29,6 +29,7 @@ This is a Hotel Management Application built using **React**, **TypeScript**, an
 
 1. Clone the repository:
    ```bash
+   https://github.com/mahmoudhamed169/Hotel-Management-System
    
 
 
