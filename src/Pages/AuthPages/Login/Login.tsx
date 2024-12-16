@@ -1,8 +1,18 @@
 import { AlternateEmail } from "@mui/icons-material";
-import { Box, FormControl, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import axios, { AxiosError } from "axios";
-import { useContext, useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useContext, useEffect, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AUTHENTICATION_URLS } from "../../../Api/END_POINTS";
@@ -33,17 +43,40 @@ export default function Login() {
     register,
     handleSubmit,
     setFocus,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm();
   useEffect(() => {
     setFocus("email");
   }, [setFocus]);
-
+  const [accountType, setAccountType] = useState({
+    admin: {
+      selected: false,
+      email: "mahmoudshenawy640@gmail.com",
+      password: "@123Mahmoud",
+    },
+    user: {
+      selected: false,
+      email: "gewofe4571@pokeline.com",
+      password: "Pass@123",
+    },
+  });
+  console.log(accountType);
   const handleNavigate = (role: string) => {
     if (role === "admin") {
       navigate("/dashboard");
     } else {
       navigate("/home");
+    }
+  };
+  const accountTypeSumbit = (e: FormDataEvent) => {
+    e.preventDefault();
+    if (accountType.admin.selected) {
+      setValue("email", accountType.admin.email);
+      setValue("password", accountType.admin.password);
+    } else {
+      setValue("email", accountType.user.email);
+      setValue("password", accountType.user.password);
     }
   };
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -78,14 +111,12 @@ export default function Login() {
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}
-          >
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "22px" }}>
             If you don’t have an account register
           </Typography>
           <Typography
             variant="h3"
-            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}
-          >
+            sx={{ fontSize: "16px", fontWeight: "400", marginTop: "8px" }}>
             You Can
             <Link
               to={"/auth/register"}
@@ -95,8 +126,7 @@ export default function Login() {
                 textDecoration: "none",
                 fontWeight: "bold",
                 fontSize: "1rem",
-              }}
-            >
+              }}>
               Register here !
             </Link>
           </Typography>
@@ -114,8 +144,7 @@ export default function Login() {
               xs: "100%",
               md: "90%",
             },
-          }}
-        >
+          }}>
           <Stack spacing={3}>
             <Box>
               <Typography variant="body1" component="label" htmlFor="email">
@@ -155,18 +184,74 @@ export default function Login() {
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
-              }}
-            >
+              }}>
               <Link
                 to={"/auth/forget-password"}
-                style={{ color: "#4D4D4D", textDecoration: "none" }}
-              >
+                style={{ color: "#4D4D4D", textDecoration: "none" }}>
                 Forgot Password ?
               </Link>
             </Box>
             <ButtonForm name="Login" isSubmitting={isSubmitting} />
           </Stack>
         </FormControl>
+      </form>
+      <form onSubmit={accountTypeSumbit}>
+        <Stack
+          sx={{
+            width: {
+              xs: "100%",
+              md: "90%",
+            },
+          }}
+          flexDirection={"row"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          marginTop={"20px"}>
+          <Typography marginRight={"10px"}>Account type:</Typography>
+          <RadioGroup
+            sx={{ flexDirection: "row" }}
+            aria-labelledby="demo-radio-buttons-group-label"
+            onChange={(e) => {
+              const selectedValue = e.target.value;
+              setAccountType((prev) => ({
+                admin: {
+                  ...prev.admin,
+                  selected: selectedValue === "Admin",
+                },
+                user: {
+                  ...prev.user,
+                  selected: selectedValue === "User",
+                },
+              }));
+            }}
+            name="radio-buttons-group">
+            <FormControlLabel value="Admin" control={<Radio />} label="Admin" />
+            <FormControlLabel value="User" control={<Radio />} label="User" />
+          </RadioGroup>
+          <Stack width={"fit-content"} marginLeft={"30px"}>
+            <Button
+              variant="contained"
+              fullWidth
+              type="submit"
+              disabled={isSubmitting}
+              sx={{
+                backgroundColor: "#3252DF",
+                color: "#ffff",
+                textTransform: "none",
+                boxShadow: "0px 8px 15px 0px #3252DF4D",
+                height: "50px",
+                "&:hover": {
+                  backgroundColor: "#0039CB",
+                },
+                "&:disabled": {
+                  backgroundColor: "#0039CB",
+                  color: "#ffff",
+                },
+              }}>
+              Submit
+            </Button>
+          </Stack>
+        </Stack>
       </form>
     </>
   );

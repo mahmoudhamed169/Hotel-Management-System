@@ -10,6 +10,7 @@ interface FormTextFieldType {
   icon?: ReactNode;
   type?: string;
   label?: string;
+  defaultValue?: string;
 }
 export const FormTextField = ({
   placeholder,
@@ -20,12 +21,14 @@ export const FormTextField = ({
   label,
   icon = null,
   type = "text",
+  defaultValue,
 }: FormTextFieldType) => {
   return (
     <TextField
       placeholder={placeholder}
       type={type}
       error={!!errors}
+      defaultValue={defaultValue}
       helperText={errors ? errors.message : ""}
       label={label}
       InputProps={{
@@ -39,8 +42,7 @@ export const FormTextField = ({
             sx={{ cursor: "pointer" }}
             onMouseUp={(e) => e.preventDefault()}
             onMouseDown={(e) => e.preventDefault()}
-            position="end"
-          >
+            position="end">
             {icon}
           </InputAdornment>
         ) : null,
